@@ -50,13 +50,13 @@ export default function ArchitecturePage() {
               <span>5. Data Science &amp; Core Banking Architecture</span>
             </div>
             
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.25]">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.45] sm:leading-[1.4] pb-1">
               Enterprise AI Architecture: <br className="hidden sm:block" />
               <span className="text-gradient-kplus">Kafka, Feast &amp; Triton</span>{' '}
               <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">(&lt; 80ms SLA)</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
               สถาปัตยกรรมระดับ Core Banking: ผสาน <strong>Relational Graph Convolutional Networks (R-GCN)</strong> สกัดบัญชีม้าผ่าน Topology และความเร็วการโอน ควบคู่ <strong>LightGBM</strong> คาดการณ์กระแสเงินสด 30 วัน ส่งมอบผลลัพธ์ผ่าน <strong>Triton ONNX</strong> ภายใน SLA &lt; 80ms (P99: 11.62ms)
             </p>
 
@@ -91,7 +91,7 @@ export default function ArchitecturePage() {
                 <Activity className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Production Scalability Benchmark</span>
               </div>
-              <h3 className="text-base sm:text-xl font-bold text-white tracking-tight">
+              <h3 className="text-base sm:text-xl font-bold text-white leading-[1.4]">
                 ทดสอบความทนทานต่อโหลด (Scalability &amp; Stress Test)
               </h3>
             </div>
@@ -173,9 +173,9 @@ export default function ArchitecturePage() {
       {/* 4. Navigation CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
-          <div className="space-y-1">
-            <h3 className="text-base sm:text-lg font-bold text-white">ศึกษาผลกระทบที่มีต่อกลุ่มเป้าหมาย First Jobber</h3>
-            <p className="text-xs text-slate-400">สำรวจกลุ่มผู้ใช้งานเป้าหมาย 2 กลุ่มหลักและความคุ้มค่าทางธุรกิจ (Business Value)</p>
+          <div className="space-y-1.5">
+            <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">ศึกษาผลกระทบที่มีต่อกลุ่มเป้าหมาย First Jobber</h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-[1.7]">สำรวจกลุ่มผู้ใช้งานเป้าหมาย 2 กลุ่มหลักและความคุ้มค่าทางธุรกิจ (Business Value)</p>
           </div>
           <Link
             to="/personas"

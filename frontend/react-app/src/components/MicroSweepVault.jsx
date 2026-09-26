@@ -39,7 +39,7 @@ export default function MicroSweepVault() {
                 1.50% P.A. CASA
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-1 font-normal">
+            <p className="text-xs text-slate-400 mt-1 font-normal leading-[1.7]">
               บัญชีย่อยดอกเบี้ยสูง แยกเงินออมอัตโนมัติเมื่อกระแสเงินสดเอื้ออำนวย
             </p>
           </div>
@@ -75,7 +75,7 @@ export default function MicroSweepVault() {
         </div>
 
         {recentActionMsg && (
-          <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono leading-relaxed flex items-center gap-2">
+          <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-sans leading-[1.8] flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>{recentActionMsg}</span>
           </div>
@@ -92,7 +92,7 @@ export default function MicroSweepVault() {
                 K PLUS ENGINE
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5 font-normal">
+            <p className="text-xs text-slate-400 mt-0.5 font-normal leading-[1.7]">
               กวาดเงินส่วนเกินขนาดเล็กอัตโนมัติเฉพาะเมื่อสภาพคล่องเพียงพอ
             </p>
           </div>

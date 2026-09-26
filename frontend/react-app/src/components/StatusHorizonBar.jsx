@@ -34,7 +34,7 @@ export default function StatusHorizonBar() {
               30D RUNWAY
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-0.5 font-normal">
+          <p className="text-xs text-slate-400 mt-0.5 font-normal leading-[1.7]">
             คาดการณ์สภาพคล่องสุทธิถึงวันเงินเดือนออก โดยหักภาระคงที่ล่วงหน้า
           </p>
         </div>
@@ -175,10 +175,10 @@ export default function StatusHorizonBar() {
       </div>
 
       {/* AI Reasoning Disclosure */}
-      <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/25 flex items-start gap-2 text-xs text-slate-300 leading-relaxed font-mono">
+      <div className="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/25 flex items-start gap-2.5 text-xs text-slate-300 leading-[1.8] font-sans">
         <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
         <div>
-          <strong className="text-emerald-300">LightGBM Alert Suppression: </strong>
+          <strong className="text-emerald-300 font-semibold">LightGBM Alert Suppression: </strong>
           เรียนรู้พฤติกรรมใช้จ่ายช่วงสุดสัปดาห์ และระงับการแจ้งเตือนพร่ำเพรื่อเพื่อตัด Alert Fatigue เตือนเฉพาะเมื่อเสี่ยงกระทบค่าเช่า ฿9,500
         </div>
       </div>

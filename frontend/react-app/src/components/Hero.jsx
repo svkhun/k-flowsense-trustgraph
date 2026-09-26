@@ -105,13 +105,13 @@ export default function Hero({ onOpenScamModal }) {
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-white leading-[1.18]">
+          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-white leading-[1.38] sm:leading-[1.32] pb-1">
             Autonomous Cashflow <br className="hidden sm:block" />
             <span className="text-gradient-kplus">&amp; Graph-Based Fraud Defense</span>
           </h1>
 
           {/* Subtitle - Crisp, Punchy, Zero Fluff */}
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto font-normal">
+          <p className="text-sm sm:text-base text-slate-300 leading-[1.85] max-w-2xl mx-auto font-normal pt-1">
             สถาปัตยกรรม AI จัดการสภาพคล่อง (<strong className="text-white">FlowSense</strong>) และสกัดบัญชีม้าแบบเรียลไทม์ (<strong className="text-emerald-400">TrustGraph</strong>) บน K PLUS ตัดปัญหา Alert Fatigue และการล็อคบัญชี 15 นาที ด้วย SLA &lt; 80ms
           </p>
 
@@ -159,7 +159,7 @@ export default function Hero({ onOpenScamModal }) {
                   Interactive Scenario Console
                 </h3>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-400 leading-[1.7]">
                 ทดสอบการตอบสนองของระบบ Triton, R-GCN และ LightGBM ตามสถานการณ์จำลอง
               </p>
             </div>
@@ -210,7 +210,7 @@ export default function Hero({ onOpenScamModal }) {
                 </span>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-200 leading-[1.8] font-normal">
                 {currentScenario.description}
               </p>
 

@@ -25,10 +25,10 @@ export default function HomePage({ onOpenScamModal }) {
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               <span>Interactive Sandbox</span>
             </div>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.4] pb-1">
               ทดลองใช้งานระบบจริง (Live Playground)
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               ทดสอบการทำงานของ FlowSense, TrustGraph หรือเปิดมุมมองแอปจำลอง K PLUS
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function HomePage({ onOpenScamModal }) {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
             <span>SYSTEM OVERVIEW</span>
           </div>
-          <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.4] pb-1">
             โครงสร้างโมดูลหลักของระบบ
           </h2>
         </div>
@@ -145,10 +145,10 @@ export default function HomePage({ onOpenScamModal }) {
                 <span className="tech-label text-emerald-300 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">MODULE A</span>
                 <span className="font-mono text-xs text-slate-400">LightGBM 30-Day</span>
               </div>
-              <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors">
+              <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors leading-[1.4] pb-0.5">
                 FlowSense: Liquidity &amp; Autonomous Saving
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
                 Status Horizon Bar คาดการณ์สภาพคล่องสิ้นเดือน หักภาระคงที่ล่วงหน้า พร้อมระบบ Micro-Sweep และ 1-Tap Undo คืนเงินเข้าบัญชีหลัก 100% ทันที
               </p>
             </div>
@@ -168,10 +168,10 @@ export default function HomePage({ onOpenScamModal }) {
                 <span className="tech-label text-rose-300 bg-rose-500/15 px-2 py-0.5 rounded border border-rose-500/30">MODULE B</span>
                 <span className="font-mono text-xs text-emerald-400">SLA &lt; 80ms</span>
               </div>
-              <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-rose-300 transition-colors">
+              <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-rose-300 transition-colors leading-[1.4] pb-0.5">
                 TrustGraph: Real-Time Fraud Defense
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
                 Zero-Delay Baseline ปล่อยผ่านรายการปกติใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเมื่อพบม้าวิกฤต โดยไม่ต้องหน่วงเวลา 15 นาที
               </p>
             </div>
@@ -191,10 +191,10 @@ export default function HomePage({ onOpenScamModal }) {
                 <span className="tech-label text-slate-300 bg-white/5 px-2 py-0.5 rounded border border-white/10">DATA SCIENCE</span>
                 <span className="font-mono text-xs text-emerald-400">P99: 11.6ms</span>
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
+              <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors leading-[1.4] pb-0.5">
                 Production ML Pipeline (Kafka, Feast, Triton)
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
                 Kafka Inbound Stream -&gt; Feast Redis O(1) Embeddings -&gt; R-GCN &amp; LightGBM -&gt; Triton Serving ผ่านเกณฑ์ Core Banking
               </p>
             </div>
@@ -214,10 +214,10 @@ export default function HomePage({ onOpenScamModal }) {
                 <span className="tech-label text-slate-300 bg-white/5 px-2 py-0.5 rounded border border-white/10">STRATEGIC VALUE</span>
                 <span className="font-mono text-xs text-slate-400">First Jobbers 18k–35k</span>
               </div>
-              <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
+              <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors leading-[1.4] pb-0.5">
                 Strategic Impact &amp; User Retention
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
                 แก้ปัญหา Budget Burnout ลดการทิ้งแอป 88% ขยายฐานเงินฝาก CASA สู่ธนาคาร +฿1.42B และขจัดข้อจำกัดแบบ Parenting App
               </p>
             </div>
@@ -239,7 +239,7 @@ export default function HomePage({ onOpenScamModal }) {
                 <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Executive Summary</span>
               </div>
-              <h3 className="text-base sm:text-xl font-bold text-white tracking-tight">
+              <h3 className="text-base sm:text-xl font-bold text-white leading-[1.4] pb-0.5">
                 คุณค่าเชิงยุทธศาสตร์ต่อ K PLUS และธนาคารกสิกรไทย
               </h3>
             </div>
@@ -265,7 +265,7 @@ export default function HomePage({ onOpenScamModal }) {
               <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 tabular-nums">
                 11.62 ms
               </div>
-              <p className="text-[11px] text-slate-400 font-sans">เร็วกว่าเกณฑ์ SLA 80ms ถึง 7 เท่า</p>
+              <p className="text-[11px] text-slate-300 font-sans leading-[1.7]">เร็วกว่าเกณฑ์ SLA 80ms ถึง 7 เท่า</p>
             </div>
 
             <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
@@ -273,7 +273,7 @@ export default function HomePage({ onOpenScamModal }) {
               <div className="text-xl sm:text-2xl font-extrabold text-white tabular-nums">
                 +฿1.42B
               </div>
-              <p className="text-[11px] text-slate-400 font-sans">เงินฝากต้นทุนต่ำจากการกวาดเงินออม</p>
+              <p className="text-[11px] text-slate-300 font-sans leading-[1.7]">เงินฝากต้นทุนต่ำจากการกวาดเงินออม</p>
             </div>
 
             <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
@@ -281,7 +281,7 @@ export default function HomePage({ onOpenScamModal }) {
               <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 tabular-nums">
                 -88%
               </div>
-              <p className="text-[11px] text-slate-400 font-sans">ลดการทิ้งแอปจากการหน่วงเวลา 15 นาที</p>
+              <p className="text-[11px] text-slate-300 font-sans leading-[1.7]">ลดการทิ้งแอปจากการหน่วงเวลา 15 นาที</p>
             </div>
 
             <div className="p-4 rounded-xl bg-black/40 border border-white/5 space-y-1">
@@ -289,7 +289,7 @@ export default function HomePage({ onOpenScamModal }) {
               <div className="text-xl sm:text-2xl font-extrabold text-cyan-400 tabular-nums">
                 99.4%
               </div>
-              <p className="text-[11px] text-slate-400 font-sans">คัดแยกบัญชีม้าด้วย Relational GCN</p>
+              <p className="text-[11px] text-slate-300 font-sans leading-[1.7]">คัดแยกบัญชีม้าด้วย Relational GCN</p>
             </div>
           </div>
         </div>

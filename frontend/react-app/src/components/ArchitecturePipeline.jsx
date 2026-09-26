@@ -80,10 +80,10 @@ export default function ArchitecturePipeline({ showHeader = true }) {
             <Cpu className="w-3.5 h-3.5 text-emerald-400" />
             <span>5. Data Science &amp; Implementation Architecture</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-[1.4] pb-1">
             Pipeline ประมวลผลแบบเรียลไทม์ความเร็วสูง (&lt; 80ms SLA)
           </h2>
-          <p className="text-sm text-slate-300 leading-relaxed font-normal">
+          <p className="text-sm text-slate-300 leading-[1.85] font-normal pt-1">
             สถาปัตยกรรมระดับ Core Banking ที่ผสาน Kafka Event Stream, Feast Feature Store, R-GCN, LightGBM, และ Triton Serving
           </p>
         </div>
@@ -124,7 +124,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">{step.desc}</p>
+                <p className="text-xs text-slate-300 leading-[1.8] font-normal">{step.desc}</p>
               </div>
 
               {/* Spec Pills */}
@@ -202,7 +202,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
                 <td className="py-3.5 px-4 text-emerald-400 font-mono text-xs">
                   LightGBM with rolling-window lag features &amp; transaction seasonality
                 </td>
-                <td className="py-3.5 px-4 text-slate-300 leading-relaxed font-normal">
+                <td className="py-3.5 px-4 text-slate-300 leading-[1.8] font-normal">
                   Forecasts safe liquidity margins 30 days ahead; suppresses alerts during normal dips.
                 </td>
               </tr>
@@ -211,7 +211,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
                 <td className="py-3.5 px-4 text-cyan-300 font-mono text-xs">
                   Relational Graph Convolutional Networks (R-GCN)
                 </td>
-                <td className="py-3.5 px-4 text-slate-300 leading-relaxed font-normal">
+                <td className="py-3.5 px-4 text-slate-300 leading-[1.8] font-normal">
                   Detects mule accounts through topology and transaction velocity, even without prior blacklisting.
                 </td>
               </tr>
@@ -220,7 +220,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
                 <td className="py-3.5 px-4 text-emerald-400 font-mono text-xs">
                   Kafka event stream, Feast Feature Store, Triton Inference Server
                 </td>
-                <td className="py-3.5 px-4 text-slate-300 leading-relaxed font-normal">
+                <td className="py-3.5 px-4 text-slate-300 leading-[1.8] font-normal">
                   Delivers complete inference and scoring in under 80ms to match core banking requirements.
                 </td>
               </tr>

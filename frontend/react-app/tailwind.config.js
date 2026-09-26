@@ -43,6 +43,18 @@ export default {
         thai: ['"IBM Plex Sans Thai"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace']
       },
+      lineHeight: {
+        'tight': '1.38',
+        'snug': '1.5',
+        'normal': '1.68',
+        'relaxed': '1.82',
+        'loose': '2.05',
+      },
+      letterSpacing: {
+        'tight': '-0.01em',
+        'normal': '0.01em',
+        'wide': '0.025em',
+      },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glow-pulse': 'glow 2s ease-in-out infinite alternate',

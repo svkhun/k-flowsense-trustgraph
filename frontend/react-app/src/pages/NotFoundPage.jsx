@@ -13,7 +13,7 @@ export default function NotFoundPage() {
         <div className="space-y-2">
           <h1 className="text-4xl font-extrabold text-white">404</h1>
           <h2 className="text-lg font-bold text-slate-200">ไม่พบหน้าที่คุณต้องการ</h2>
-          <p className="text-xs text-slate-400 leading-relaxed">
+          <p className="text-xs text-slate-400 leading-[1.8] font-normal">
             เส้นทาง URL นี้ไม่มีอยู่ในระบบ FlowSense &amp; TrustGraph กรุณาตรวจสอบลิงก์หรือกลับสู่หน้า Overview
           </p>
         </div>

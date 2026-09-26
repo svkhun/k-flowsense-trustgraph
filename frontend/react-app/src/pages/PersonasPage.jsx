@@ -19,11 +19,11 @@ export default function PersonasPage() {
               <span>Target Personas &amp; Business Value</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.42] sm:leading-[1.38] pb-1">
               Target Users &amp; <span className="text-gradient-kplus">Business Impact</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
               วิเคราะห์พฤติกรรมกลุ่ม First Jobbers (อายุ 22–30 ปี) บน K PLUS เพื่อสร้างผลิตภัณฑ์ทางการเงินที่เข้าใจชีวิตจริง ยกเลิกคำเตือนแบบผู้ปกครอง และขจัดแรงเสียดทานด้านความปลอดภัยที่ผลักดันลูกค้าไปใช้แอปคู่แข่ง
             </p>
           </div>
@@ -37,8 +37,8 @@ export default function PersonasPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
           <div className="space-y-1">
-            <h3 className="text-base sm:text-lg font-bold text-white">กลับไปยังหน้า Overview เพื่อดูภาพรวมทั้งระบบ</h3>
-            <p className="text-xs text-slate-400">สัมผัสประสบการณ์ FlowSense และ TrustGraph ที่ออกแบบมาเพื่อคนรุ่นใหม่อย่างแท้จริง</p>
+            <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">กลับไปยังหน้า Overview เพื่อดูภาพรวมทั้งระบบ</h3>
+            <p className="text-xs text-slate-400 leading-[1.7]">สัมผัสประสบการณ์ FlowSense และ TrustGraph ที่ออกแบบมาเพื่อคนรุ่นใหม่อย่างแท้จริง</p>
           </div>
           <Link
             to="/"

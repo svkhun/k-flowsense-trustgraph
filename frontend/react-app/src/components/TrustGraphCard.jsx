@@ -12,10 +12,10 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
             <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
             <span>Target-Specific Fraud Defense</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.4] pb-1">
             TrustGraph: สกัดบัญชีม้าตรงจุด ไร้ขั้นตอนซ้ำซ้อน
           </h2>
-          <p className="text-sm text-slate-300 leading-relaxed font-normal">
+          <p className="text-sm text-slate-300 leading-[1.8] font-normal pt-1">
             แยกแยะรายการปกติด้วย <strong>Zero-Delay Baseline</strong> ผ่านทันทีใน 3.8ms ไร้ Pop-up รบกวน และใช้ <strong>Micro-Auth 5 วินาที</strong> พร้อมระบุเหตุผลตรงจุดเฉพาะเมื่อพบความผิดปกติวิกฤต
           </p>
         </div>
@@ -150,15 +150,15 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
             </div>
 
             {/* Explanation box */}
-            <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-xs text-slate-300 leading-relaxed font-mono">
+            <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 text-xs text-slate-300 leading-[1.8] font-sans">
               {selectedRecipient === 'routine' ? (
                 <div>
-                  <span className="text-emerald-400 font-bold">[Zero-Delay Baseline] </span>
+                  <span className="text-emerald-400 font-bold font-mono">[Zero-Delay Baseline] </span>
                   รายการปกติประมวลผลผ่านทันทีใน 3.8ms โดยไม่มี Pop-up หรือขั้นตอนยืนยันใดๆ มาขัดจังหวะ
                 </div>
               ) : (
                 <div>
-                  <span className="text-rose-400 font-bold">[Micro-Auth for Critical Anomaly] </span>
+                  <span className="text-rose-400 font-bold font-mono">[Micro-Auth for Critical Anomaly] </span>
                   ตรวจจับความเร็วการหมุนเงินออกภายใน 24 วินาที กระตุ้นสแกนหน้า 5 วินาที พร้อมชี้แจงเหตุผลตรงจุด
                 </div>
               )}
@@ -175,26 +175,26 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
               <div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-rose-400" />
-                  <h3 className="text-base font-bold text-white">Direct Risk Reasoning</h3>
+                  <h3 className="text-base font-bold text-white leading-[1.4]">Direct Risk Reasoning</h3>
                   <span className="tech-label text-[10px] bg-white/5 text-slate-300 border border-white/10 px-1.5 py-0.5 rounded font-mono">
                     EXPLAINABLE AI
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5 font-normal">ชี้แจงเหตุผลภาษาคนตรงไปตรงมา และให้ผู้ใช้ตัดสินใจเอง</p>
+                <p className="text-xs text-slate-400 mt-1 leading-[1.65] font-normal">ชี้แจงเหตุผลภาษาคนตรงไปตรงมา และให้ผู้ใช้ตัดสินใจเอง</p>
               </div>
               <span className="tech-label text-xs font-mono text-emerald-400">NO 15-MIN LOCK</span>
             </div>
 
             {/* Risk Reasoning Callout */}
-            <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-2">
+            <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-2.5">
               <div className="font-semibold text-rose-300 text-xs flex items-center gap-1.5">
                 <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                 <span>ตัวอย่างการชี้แจงเหตุผลความเสี่ยง (Direct Risk Reasoning):</span>
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed font-mono bg-black/60 p-3 rounded-lg border border-white/10">
+              <p className="text-xs text-slate-200 leading-[1.85] font-sans bg-black/60 p-3.5 rounded-lg border border-white/10">
                 &ldquo;Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีปลายทางเพิ่งเปิดได้เพียง 48 ชม. พร้อมพฤติกรรมเงินเข้าแล้วหมุนเวียนโอนออกทันทีภายใน 24 วินาที)&rdquo;
               </p>
-              <div className="text-[11px] text-slate-400 font-mono pt-0.5">
+              <div className="text-[11px] text-slate-400 font-sans pt-1 leading-[1.75]">
                 ไม่กีดกันการโอนเงินเร่งด่วนที่แท้จริงของผู้ใช้ แต่ให้ข้อมูลประกอบการตัดสินใจอย่างตรงไปตรงมา
               </div>
             </div>

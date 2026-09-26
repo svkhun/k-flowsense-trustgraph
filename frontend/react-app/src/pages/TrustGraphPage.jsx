@@ -20,13 +20,13 @@ export default function TrustGraphPage({ onOpenScamModal }) {
             </div>
             
             {/* Fixed Thai Word Wrap: prevents 'ไร้ขั้น' / 'ตอนซ้ำซ้อน' breaking */}
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.25]">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.45] sm:leading-[1.4] pb-1">
               TrustGraph: สกัดบัญชีม้าตรงจุด <br className="hidden sm:block" />
               <span className="text-gradient-kplus whitespace-nowrap">ไร้ขั้นตอนซ้ำซ้อน</span>{' '}
               <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">(&lt; 80ms SLA)</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
               สกัดขบวนการหลอกลวง (Task Scams &amp; Investment Scams) ด้วยสถาปัตยกรรม R-GCN ระดับ Sub-millisecond: รายการปกติผ่านฉลุยใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเฉพาะเมื่อพบม้าวิกฤต โดยไม่ต้องหน่วงเวลา 15 นาทีตามอำเภอใจ
             </p>
 
@@ -59,47 +59,47 @@ export default function TrustGraphPage({ onOpenScamModal }) {
             <Zap className="w-3.5 h-3.5 text-emerald-400" />
             <span>3 Pillars of Security Architecture</span>
           </div>
-          <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.4]">
             สถาปัตยกรรมความปลอดภัยที่รักษาประสบการณ์ผู้ใช้งาน
           </h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-400 leading-[1.75]">
             แก้ปัญหาการล็อคบัญชี 15 นาทีตามอำเภอใจ ด้วยการตรวจจับความเสี่ยงเฉพาะเจาะจง
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pillar 1 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Zap className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Zero-Delay Baseline</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Zero-Delay Baseline</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               การโอนเงินในชีวิตประจำวันไปยังบัญชีที่รู้จักหรือบัญชีความเสี่ยงต่ำ จะดำเนินการทันทีในเวลาเฉลี่ย 3.8ms โดยไม่มีขั้นตอนเพิ่มเติมแม้แต่ขั้นตอนเดียว (Zero Added Steps)
             </p>
           </div>
 
           {/* Pillar 2 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3 border border-rose-500/30 bg-rose-950/15">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-rose-500/30 bg-rose-950/15">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-rose-300 font-bold uppercase">PILLAR 02</span>
               <ScanFace className="w-5 h-5 text-rose-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Micro-Auth for Critical Anomaly</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Micro-Auth for Critical Anomaly</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               ยกเลิกการหน่วงเวลา 15 นาทีหรือการล็อคบัญชีที่น่าหงุดหงิด หากตรวจพบความผิดปกติวิกฤต ระบบจะกระตุ้นการสแกนใบหน้าเพียง 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง พร้อมแสดงหน้าต่างยืนยันเพียงครั้งเดียว
             </p>
           </div>
 
           {/* Pillar 3 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <AlertTriangle className="w-5 h-5 text-slate-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Direct Risk Reasoning</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Direct Risk Reasoning</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               บอกเหตุผลภาษาคนอย่างตรงไปตรงมาว่าทำไมบัญชีปลายทางถึงน่าสงสัย เช่น &ldquo;บัญชีปลายทางเพิ่งเปิดได้เพียง 48 ชม. พร้อมพฤติกรรมเงินเข้าแล้วหมุนเวียนโอนออกทันที&rdquo; และปล่อยให้ผู้ใช้เป็นผู้ตัดสินใจขั้นสุดท้าย
             </p>
           </div>

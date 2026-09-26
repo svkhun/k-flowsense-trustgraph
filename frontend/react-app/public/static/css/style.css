@@ -34,10 +34,21 @@ body {
   background-color: #090A0F;
   color: #F4F4F5;
   overflow-x: hidden;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
   background-image: 
     linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 48px 48px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+p {
+  line-height: 1.8;
 }
 
 /* Tabular numbers for all financial figures */

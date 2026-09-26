@@ -20,11 +20,11 @@ export default function FlowSensePage() {
               <span>Module A: Flexible Liquidity &amp; Autonomous Saving</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.45] sm:leading-[1.4] pb-1">
               FlowSense: <span className="text-gradient-kplus">สภาพคล่องยืดหยุ่นและระบบออมเงินอัตโนมัติ</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
               ตอบโจทย์คนเริ่มทำงาน (First Jobbers รายได้ 18k–35k บาท) ที่ใช้ชีวิตเดือนชนเดือนและต้องการออมเงินแบบ Autopilot โดยไม่ต้องจดบัญชีรายรับรายจ่าย พร้อมคืนความอิสระด้วยฟังก์ชัน <strong className="text-emerald-400">1-Tap Undo</strong> เรียกเงินคืนเข้าบัญชีหลักได้ 100% ทันทีไร้ค่าปรับเมื่อถึงกำหนดจ่ายบิล
             </p>
           </div>
@@ -50,10 +50,10 @@ export default function FlowSensePage() {
             <Compass className="w-3.5 h-3.5 text-emerald-400" />
             <span>3 Core FlowSense Innovations</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.4]">
             สถาปัตยกรรมจัดการสภาพคล่องที่ไม่ทำตัวเป็นผู้ปกครอง
           </h2>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-slate-300 leading-[1.75]">
             ออกแบบบนพฤติกรรมจริงของ First Jobbers เพื่อแก้ปัญหา Budget Burnout และรักษาเงินฝาก CASA ให้กับธนาคาร
           </p>
         </div>
@@ -65,8 +65,8 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Compass className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Status Horizon Bar</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Status Horizon Bar</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               แถบแสดงสถานะเส้นขอบฟ้าตัวเดียวบนหน้าจอหลักของบัญชี คาดการณ์สภาพคล่องสิ้นเดือนโดยคำนวณจากภาระผูกพันประจำ (ค่าเช่า, บัตรเครดิต, ค่าน้ำไฟ) ช่วยตัดความจำเป็นในการจดงบประมาณรายวันแบบเดิมๆ
             </p>
           </div>
@@ -77,8 +77,8 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 02</span>
               <RotateCcw className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Micro-Sweep with 1-Tap Undo</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Micro-Sweep with 1-Tap Undo</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               กวาดเงินส่วนเกินขนาดเล็กเข้าบัญชีย่อยดอกเบี้ยสูงเฉพาะเมื่อกระแสเงินสดเอื้ออำนวย หากยอดเงินในบัญชีหลักเหลือน้อย ระบบ 1-Tap Recall จะดึงเงินคืนเข้าบัญชีหลัก 100% ทันทีโดยไม่มีค่าธรรมเนียมหรือการรอคอย
             </p>
           </div>
@@ -89,8 +89,8 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <BellOff className="w-5 h-5 text-slate-400" />
             </div>
-            <h3 className="text-base font-bold text-white">Commitment Warnings</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+            <h3 className="text-base font-bold text-white leading-[1.4]">Commitment Warnings</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               ระงับการแจ้งเตือนช่วงยอดเงินลดลงตามวงจรปกติ (Normal Dips) เพื่อป้องกัน Alert Fatigue และจะส่งสัญญาณเตือนเฉพาะเมื่อภาระผูกพันคงที่ตกอยู่ในความเสี่ยงโดยตรงจากอัตราการใช้จ่ายปัจจุบัน
             </p>
           </div>

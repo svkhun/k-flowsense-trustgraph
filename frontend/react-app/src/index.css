@@ -13,6 +13,8 @@
     font-family: 'IBM Plex Sans Thai', 'Plus Jakarta Sans', -apple-system, sans-serif;
     background-color: #050814;
     color: #F1F5F9;
+    line-height: 1.75;
+    letter-spacing: 0.005em;
     background-image: 
       radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 169, 80, 0.16), transparent 70%),
       radial-gradient(circle at 100% 40%, rgba(14, 165, 233, 0.08), transparent 50%),
@@ -21,6 +23,20 @@
     background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Spacious, comfortable line-height for headings to give Thai tone marks clearance */
+  h1 {
+    line-height: 1.42;
+  }
+  h2 {
+    line-height: 1.4;
+  }
+  h3, h4, h5, h6 {
+    line-height: 1.38;
+  }
+  p {
+    line-height: 1.8;
   }
 
   /* Explicitly prioritize IBM Plex Sans Thai for all standard elements */

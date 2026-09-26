@@ -70,7 +70,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
                   CRITICAL ANOMALY
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">ตรวจพบลักษณะผิดปกติวิกฤตบน Relational GCN (&lt;80ms)</p>
+              <p className="text-xs text-slate-400 mt-0.5 leading-[1.7]">ตรวจพบลักษณะผิดปกติวิกฤตบน Relational GCN (&lt;80ms)</p>
             </div>
           </div>
           <button
@@ -87,7 +87,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
             <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
             <span>Direct Risk Reasoning (เหตุผลความเสี่ยงตรงจุด):</span>
           </div>
-          <p className="text-xs text-slate-200 leading-relaxed font-mono bg-[#060A14] p-3 rounded-lg border border-white/10">
+          <p className="text-xs text-slate-200 leading-[1.85] font-sans bg-[#060A14] p-3.5 rounded-lg border border-white/10">
             &ldquo;Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีปลายทางเพิ่งเปิดได้เพียง 48 ชม. พร้อมพฤติกรรมเงินเข้าแล้วหมุนเวียนโอนออกทันทีภายใน 24 วินาที)&rdquo;
           </p>
           <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400 pt-0.5">
@@ -115,7 +115,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-[11px] text-slate-300 mt-0.5 leading-[1.7]">
                 {scanStep === 'passed'
                   ? 'ยืนยันตัวตนสำเร็จ ไร้การหน่วงเวลา 15 นาทีตามอำเภอใจ'
                   : 'สแกนใบหน้า 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง'}
