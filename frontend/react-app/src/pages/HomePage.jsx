@@ -25,7 +25,7 @@ export default function HomePage({ onOpenScamModal }) {
               <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               <span>Interactive Sandbox</span>
             </div>
-            <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.4] pb-1">
+            <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.5] pb-1">
               ทดลองใช้งานระบบจริง (Live Playground)
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
@@ -127,7 +127,7 @@ export default function HomePage({ onOpenScamModal }) {
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
             <span>SYSTEM OVERVIEW</span>
           </div>
-          <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.4] pb-1">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-[1.5] pb-1">
             โครงสร้างโมดูลหลักของระบบ
           </h2>
         </div>

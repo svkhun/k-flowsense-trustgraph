@@ -20,7 +20,7 @@ export default function FlowSensePage() {
               <span>Module A: Flexible Liquidity &amp; Autonomous Saving</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.45] sm:leading-[1.4] pb-1">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
               FlowSense: <span className="text-gradient-kplus">สภาพคล่องยืดหยุ่นและระบบออมเงินอัตโนมัติ</span>
             </h1>
 
@@ -50,7 +50,7 @@ export default function FlowSensePage() {
             <Compass className="w-3.5 h-3.5 text-emerald-400" />
             <span>3 Core FlowSense Innovations</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.4]">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.5]">
             สถาปัตยกรรมจัดการสภาพคล่องที่ไม่ทำตัวเป็นผู้ปกครอง
           </h2>
           <p className="text-sm text-slate-300 leading-[1.75]">
@@ -65,7 +65,7 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Compass className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-base font-bold text-white leading-[1.4]">Status Horizon Bar</h3>
+            <h3 className="text-base font-bold text-white leading-[1.5]">Status Horizon Bar</h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               แถบแสดงสถานะเส้นขอบฟ้าตัวเดียวบนหน้าจอหลักของบัญชี คาดการณ์สภาพคล่องสิ้นเดือนโดยคำนวณจากภาระผูกพันประจำ (ค่าเช่า, บัตรเครดิต, ค่าน้ำไฟ) ช่วยตัดความจำเป็นในการจดงบประมาณรายวันแบบเดิมๆ
             </p>
@@ -77,7 +77,7 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 02</span>
               <RotateCcw className="w-5 h-5 text-emerald-400" />
             </div>
-            <h3 className="text-base font-bold text-white leading-[1.4]">Micro-Sweep with 1-Tap Undo</h3>
+            <h3 className="text-base font-bold text-white leading-[1.5]">Micro-Sweep with 1-Tap Undo</h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               กวาดเงินส่วนเกินขนาดเล็กเข้าบัญชีย่อยดอกเบี้ยสูงเฉพาะเมื่อกระแสเงินสดเอื้ออำนวย หากยอดเงินในบัญชีหลักเหลือน้อย ระบบ 1-Tap Recall จะดึงเงินคืนเข้าบัญชีหลัก 100% ทันทีโดยไม่มีค่าธรรมเนียมหรือการรอคอย
             </p>
@@ -89,7 +89,7 @@ export default function FlowSensePage() {
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <BellOff className="w-5 h-5 text-slate-400" />
             </div>
-            <h3 className="text-base font-bold text-white leading-[1.4]">Commitment Warnings</h3>
+            <h3 className="text-base font-bold text-white leading-[1.5]">Commitment Warnings</h3>
             <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
               ระงับการแจ้งเตือนช่วงยอดเงินลดลงตามวงจรปกติ (Normal Dips) เพื่อป้องกัน Alert Fatigue และจะส่งสัญญาณเตือนเฉพาะเมื่อภาระผูกพันคงที่ตกอยู่ในความเสี่ยงโดยตรงจากอัตราการใช้จ่ายปัจจุบัน
             </p>

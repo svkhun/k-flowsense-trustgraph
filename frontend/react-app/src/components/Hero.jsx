@@ -105,9 +105,9 @@ export default function Hero({ onOpenScamModal }) {
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-white leading-[1.38] sm:leading-[1.32] pb-1">
-            Autonomous Cashflow <br className="hidden sm:block" />
-            <span className="text-gradient-kplus">&amp; Graph-Based Fraud Defense</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-extrabold text-white leading-[1.5] sm:leading-[1.45] pb-1">
+            <span className="block">Autonomous Cashflow</span>
+            <span className="block mt-1 sm:mt-1.5 text-gradient-kplus">&amp; Graph-Based Fraud Defense</span>
           </h1>
 
           {/* Subtitle - Crisp, Punchy, Zero Fluff */}

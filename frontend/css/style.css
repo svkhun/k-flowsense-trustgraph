@@ -42,13 +42,23 @@ body {
   background-size: 48px 48px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1.4;
+h1 {
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
+
+h2 {
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+
+h3, h4, h5, h6 {
+  line-height: 1.45;
   letter-spacing: -0.005em;
 }
 
 p {
-  line-height: 1.8;
+  line-height: 1.85;
 }
 
 /* Tabular numbers for all financial figures */

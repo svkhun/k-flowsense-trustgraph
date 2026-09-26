@@ -148,10 +148,12 @@ export default function DatasetAnalyticsPage() {
               <span>K-Sentinel Ground Truth Dataset &amp; Model Audit</span>
             </div>
             
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.4] pb-1">
-              Dataset Inspection: <br className="hidden sm:block" />
-              <span className="text-gradient-kplus">ใครปกติ ใครบัญชีม้า</span>{' '}
-              <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Hackathon Judge Audit</span>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
+              <span className="block">Dataset Inspection:</span>
+              <span className="block mt-1.5 sm:mt-2.5">
+                <span className="text-gradient-kplus">ใครปกติ ใครบัญชีม้า</span>{' '}
+                <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Hackathon Judge Audit</span>
+              </span>
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">

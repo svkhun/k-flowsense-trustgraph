@@ -50,10 +50,12 @@ export default function ArchitecturePage() {
               <span>5. Data Science &amp; Core Banking Architecture</span>
             </div>
             
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.45] sm:leading-[1.4] pb-1">
-              Enterprise AI Architecture: <br className="hidden sm:block" />
-              <span className="text-gradient-kplus">Kafka, Feast &amp; Triton</span>{' '}
-              <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">(&lt; 80ms SLA)</span>
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
+              <span className="block">Enterprise AI Architecture:</span>
+              <span className="block mt-1.5 sm:mt-2.5">
+                <span className="text-gradient-kplus">Kafka, Feast &amp; Triton</span>{' '}
+                <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">(&lt; 80ms SLA)</span>
+              </span>
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">

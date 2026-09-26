@@ -19,7 +19,7 @@ export default function PersonasPage() {
               <span>Target Personas &amp; Business Value</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.42] sm:leading-[1.38] pb-1">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
               Target Users &amp; <span className="text-gradient-kplus">Business Impact</span>
             </h1>
 
