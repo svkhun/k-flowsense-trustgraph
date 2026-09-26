@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -16,9 +16,11 @@ import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   const [isMicroAuthOpen, setIsMicroAuthOpen] = useState(false);
+  const location = useLocation();
+  const isSimulatorRoute = location.pathname === '/app' || location.pathname === '/simulator';
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white">
+    <div className={`min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white ${isSimulatorRoute ? 'h-screen overflow-hidden' : ''}`}>
       {/* Auto scroll to top on route change */}
       <ScrollToTop />
 
@@ -77,8 +79,8 @@ export default function App() {
         onClose={() => setIsMicroAuthOpen(false)}
       />
 
-      {/* Global Enterprise Footer */}
-      <Footer />
+      {/* Global Enterprise Footer (Omitted on Simulator Studio route for clean full-frame experience) */}
+      {!isSimulatorRoute && <Footer />}
     </div>
   );
 }

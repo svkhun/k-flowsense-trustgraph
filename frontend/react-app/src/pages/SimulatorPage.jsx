@@ -12,30 +12,25 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="py-4 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto space-y-3">
-      {/* Top Toolbar */}
-      <div className="bento-card rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl">
+    <div className="h-[calc(100vh-64px)] w-full flex flex-col overflow-hidden bg-[#070B14]">
+      {/* Sleek Minimal Studio Bar */}
+      <div className="h-10 px-4 sm:px-6 flex items-center justify-between border-b border-white/10 bg-[#0B132B]/90 backdrop-blur-xl shrink-0 text-xs z-20">
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
             title="กลับสู่หน้า Overview"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Overview</span>
           </Link>
-          <div>
-            <div className="flex items-center gap-2">
-              <Smartphone className="w-4 h-4 text-emerald-400" />
-              <h1 className="text-sm sm:text-base font-bold text-white tracking-tight">
-                FlowSense &amp; TrustGraph Interactive Simulator (K PLUS)
-              </h1>
-              <span className="text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded">
-                LIVE RUNTIME
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 hidden sm:block">
-              ระบบจำลอง K PLUS: Status Horizon Bar, Micro-Sweep 1-Tap Undo, Zero-Delay Baseline, และ Micro-Auth 5s
-            </p>
+          <span className="text-white/20">|</span>
+          <div className="flex items-center gap-2">
+            <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="font-bold text-white tracking-tight">K PLUS Simulator Studio</span>
+            <span className="text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-1.5 py-0.5 rounded">
+              LIVE RUNTIME
+            </span>
           </div>
         </div>
 
@@ -43,30 +38,32 @@ export default function SimulatorPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleRefresh}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold border border-white/10 transition-colors"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-medium border border-white/10 transition-colors"
+            title="รีเฟรชหน้าจำลอง"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+            <RefreshCw className="w-3 h-3 text-slate-400" />
             <span>รีเฟรช</span>
           </button>
           <a
             href="/simulator.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-kplus inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold"
+            className="btn-kplus inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-semibold"
+            title="เปิดในแท็บใหม่แบบเต็มหน้าต่าง"
           >
-            <Maximize2 className="w-3.5 h-3.5" />
-            <span>เปิดเต็มหน้าต่างใหม่</span>
+            <Maximize2 className="w-3 h-3" />
+            <span className="hidden sm:inline">เปิดแท็บใหม่</span>
           </a>
         </div>
       </div>
 
-      {/* Simulator Viewport Container */}
-      <div className="w-full h-[calc(100vh-120px)] min-h-[900px] rounded-2xl overflow-hidden border border-white/10 bg-[#070B14] relative shadow-2xl">
+      {/* Simulator Viewport Container fills 100% of the remaining height */}
+      <div className="flex-1 w-full h-full overflow-hidden relative">
         <iframe
           ref={iframeRef}
           src="/simulator.html"
           title="FlowSense & TrustGraph Simulator"
-          className="w-full h-full border-0"
+          className="w-full h-full border-0 block"
         />
       </div>
     </div>

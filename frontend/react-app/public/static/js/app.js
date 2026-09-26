@@ -521,6 +521,7 @@ function switchMobileTab(tabName) {
 // ==============================================================================
 function initUserSelector() {
   const selector = document.getElementById("user-selector");
+  if (!selector) return;
   selector.innerHTML = "";
 
   const presets = [
@@ -535,6 +536,9 @@ function initUserSelector() {
     const opt = document.createElement("option");
     opt.value = p.id;
     opt.textContent = p.label;
+    opt.className = "bg-[#0E1524] text-white py-1 px-2";
+    opt.style.backgroundColor = "#0E1524";
+    opt.style.color = "#FFFFFF";
     selector.appendChild(opt);
   });
 }

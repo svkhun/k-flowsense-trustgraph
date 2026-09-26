@@ -52,18 +52,18 @@
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body class="bg-[#080C14] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
+<body class="bg-[#080C14] text-slate-100 h-screen max-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white overflow-hidden">
 
   <!-- ============================================================================== -->
   <!-- [NAV] TOP NAVIGATION TOOLBAR (Horizontal, Sleek & Modern K PLUS FinTech Nav)  -->
   <!-- ============================================================================== -->
-  <header id="top-navbar" class="w-full bg-[#0A0F1D]/95 backdrop-blur-2xl border-b border-white/[0.08] sticky top-0 z-40 px-3 sm:px-5 py-2.5 shrink-0 shadow-lg shadow-black/40">
-    <div class="max-w-[1700px] mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+  <header id="top-navbar" class="w-full bg-[#0A0F1D]/95 backdrop-blur-2xl border-b border-white/[0.08] sticky top-0 z-40 px-3 sm:px-4 py-1.5 shrink-0 shadow-md">
+    <div class="max-w-[1700px] mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-2.5">
       
       <!-- Brand Header -->
-      <a href="/" title="กลับสู่หน้าหลัก (Home Overview)" class="flex items-center gap-2.5 min-w-0 hover:opacity-90 transition-opacity">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#006837] via-[#00A950] to-[#22C55E] flex items-center justify-center text-white shadow-md shadow-emerald-500/30 border border-white/20 shrink-0 relative overflow-hidden group">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
+      <a href="/" title="กลับสู่หน้าหลัก (Home Overview)" class="flex items-center gap-2 min-w-0 hover:opacity-90 transition-opacity">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#006837] via-[#00A950] to-[#22C55E] flex items-center justify-center text-white shadow-md shadow-emerald-500/30 border border-white/20 shrink-0 relative overflow-hidden group">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
             <path d="M12 2L4 5V11C4 16.52 7.41 21.61 12 23C16.59 21.61 20 16.52 20 11V5L12 2Z" fill="url(#brand-shield-glow-nav)" stroke="#A7F3D0" stroke-width="1.5" stroke-linejoin="round"/>
             <path d="M9 11.5L11 13.5L15.5 9" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="12" cy="18" r="1.2" fill="#34D399"/>
@@ -80,14 +80,13 @@
             <span class="font-extrabold text-xs sm:text-sm text-white tracking-tight">FlowSense</span>
             <span class="text-xs text-slate-400 font-light">&amp;</span>
             <span class="font-extrabold text-xs sm:text-sm text-emerald-400 tracking-tight">TrustGraph</span>
-            <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-1.5 py-0.5 rounded font-bold">K+</span>
+            <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-1.5 py-0.2 rounded font-bold">K+</span>
           </div>
-          <p class="text-[10px] text-slate-400 truncate hidden sm:block">K PLUS Copilot for First Jobbers</p>
         </div>
       </a>
 
       <!-- 1. Center Navigation Tabs (Horizontal Segmented Control) -->
-      <nav class="flex items-center gap-1 bg-[#090E1A] p-1 rounded-xl border border-white/[0.08] shadow-inner overflow-x-auto max-w-full">
+      <nav class="flex items-center gap-1 bg-[#090E1A] p-0.5 rounded-xl border border-white/[0.08] shadow-inner overflow-x-auto max-w-full">
         <button onclick="switchView('mobile')" id="nav-btn-mobile" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 bg-emerald-600 text-white shadow-sm shadow-emerald-600/25 shrink-0">
           <i data-lucide="smartphone" class="w-3.5 h-3.5 shrink-0"></i>
           <span>1. หน้าแอป (K PLUS)</span>
@@ -100,18 +99,18 @@
           <i data-lucide="trending-up" class="w-3.5 h-3.5 shrink-0"></i>
           <span>3. ธุรกิจ &amp; SLA</span>
         </button>
-        <a href="/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all flex items-center gap-1.5 border border-transparent hover:border-white/10 group shrink-0" title="กลับสู่หน้าหลัก Overview">
+        <a href="/" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all flex items-center gap-1.5 border border-transparent hover:border-white/10 group shrink-0" title="กลับสู่หน้าหลัก Overview">
           <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform"></i>
           <span>หน้าหลัก (Home)</span>
         </a>
       </nav>
 
       <!-- 2. Right Utilities: Persona, Reset & Status -->
-      <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+      <div class="flex items-center gap-2 shrink-0">
         <!-- Persona Selector -->
-        <div class="flex items-center gap-2 bg-[#141E33] border border-white/[0.1] rounded-xl px-2.5 py-1">
+        <div class="flex items-center gap-1.5 bg-[#141E33] border border-white/[0.12] rounded-xl px-2.5 py-1">
           <div id="persona-indicator" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></div>
-          <select id="user-selector" onchange="onUserSelectChange(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer pr-1">
+          <select id="user-selector" onchange="onUserSelectChange(this.value)" class="bg-[#141E33] text-white text-xs font-medium focus:outline-none cursor-pointer pr-1 border-0">
             <!-- Dynamic via JS -->
           </select>
         </div>
@@ -146,50 +145,46 @@
   <!-- ============================================================================== -->
   <!-- [MAIN] MAIN CONTENT WORKSPACE (Full Width & Proportional Grid)                 -->
   <!-- ============================================================================== -->
-  <main class="flex-1 min-w-0 p-3 sm:p-5 lg:p-6 space-y-6">
+  <main class="flex-1 min-w-0 p-2 sm:p-2.5 lg:p-3 overflow-hidden flex flex-col">
 
     <!-- ============================================================================ -->
     <!-- VIEW 1: K PLUS CUSTOMER EXPERIENCE                                           -->
     <!-- ============================================================================ -->
-    <section id="view-mobile" class="transition-opacity duration-300 w-full max-w-[1700px] mx-auto pb-12">
+    <section id="view-mobile" class="transition-opacity duration-300 w-full max-w-[1700px] mx-auto h-full flex flex-col overflow-hidden">
       
-      <!-- Top Overview Banner -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0E1524]/70 p-3.5 sm:px-5 rounded-2xl border border-white/[0.06] mb-6">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
-            <i data-lucide="smartphone" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h2 class="text-sm sm:text-base font-bold text-white">ระบบจำลองการใช้งานแอป K PLUS และ AI Copilot สำหรับ First Jobbers</h2>
-            <p class="text-xs text-slate-400">ทดลองโอนเงินหรือทดสอบระบบ FlowSense เพื่อดูการทำงานของ AI แบบเรียลไทม์</p>
-          </div>
+      <!-- Slim Overview Bar (Saves vertical space so phone fits 100% on screen) -->
+      <div class="hidden sm:flex items-center justify-between gap-2 bg-[#0E1524]/60 px-3.5 py-1.5 rounded-xl border border-white/[0.06] mb-2 shrink-0">
+        <div class="flex items-center gap-2 min-w-0">
+          <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+          <span class="text-xs font-bold text-white">ระบบจำลองการใช้งานแอป K PLUS (First Jobbers)</span>
+          <span class="text-[11px] text-slate-400 truncate">• ทดสอบ FlowSense (Horizon Bar) และ TrustGraph (Micro-Auth 5s) แบบเรียลไทม์</span>
         </div>
-        <div class="flex items-center gap-2 text-xs text-slate-300 shrink-0">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span class="font-mono text-emerald-400 text-xs">Sub-80ms Engine Ready</span>
+        <div class="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>SLA &lt; 80ms Engine Ready</span>
         </div>
       </div>
 
       <!-- 2-Column Responsive Workspace: Left = Realistic Phone, Right = Telemetry & Scenarios -->
-      <div class="grid grid-cols-1 lg:grid-cols-[400px_1fr] xl:grid-cols-[420px_1fr] gap-6 xl:gap-8 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-[365px_1fr] xl:grid-cols-[375px_1fr] gap-3 xl:gap-5 items-stretch flex-1 min-h-0 overflow-hidden">
         
         <!-- ============================================================ -->
-        <!-- LEFT COLUMN: Realistic Smartphone Mockup (Sticky on Desktop) -->
+        <!-- LEFT COLUMN: Realistic Smartphone Mockup (Fits in Single Frame) -->
         <!-- ============================================================ -->
-        <div class="flex flex-col items-center lg:sticky lg:top-20">
+        <div class="flex flex-col items-center justify-center h-full min-h-0 overflow-hidden shrink-0 py-0.5">
           
-          <div class="w-full max-w-[392px] mb-2.5 flex items-center justify-between px-2">
-            <span class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-              <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <div class="w-full max-w-[355px] mb-1 flex items-center justify-between px-2 shrink-0">
+            <span class="text-[11px] text-slate-400 font-medium flex items-center gap-1.5">
+              <i data-lucide="smartphone" class="w-3 h-3 text-emerald-400"></i>
               <span>หน้าจอจำลองแอป K PLUS</span>
             </span>
-            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+            <span class="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
               iPhone 16 Pro Frame
             </span>
           </div>
 
           <!-- Realistic Phone Chassis Wrapper with Hardware Side Buttons -->
-          <div class="phone-chassis w-full max-w-[392px]">
+          <div class="phone-chassis w-full max-w-[355px] flex-1 flex items-center justify-center min-h-0">
             <div class="iphone-frame relative">
               
               <!-- Real-Time Radar Screen Sweep (Shown during pre-screening) -->
@@ -539,7 +534,7 @@
         <!-- ============================================================ -->
         <!-- RIGHT COLUMN: Story Cards, Cashflow Chart, Shield Telemetry  -->
         <!-- ============================================================ -->
-        <div class="min-w-0 space-y-6">
+        <div class="min-w-0 h-full overflow-y-auto pr-1.5 space-y-3.5 custom-scrollbar">
           
           <!-- QUICK SCENARIOS ACTION TRIGGER BAR -->
           <div class="fintech-panel p-4 sm:p-5 space-y-3 bg-gradient-to-r from-[#0F172A] to-[#111C33] border-emerald-500/25">
@@ -835,7 +830,7 @@
     <!-- ============================================================================ -->
     <!-- VIEW 2: BANK SECOPS & FRAUD INTELLIGENCE                                     -->
     <!-- ============================================================================ -->
-    <section id="view-secops" class="hidden transition-opacity duration-300 space-y-6">
+    <section id="view-secops" class="hidden transition-opacity duration-300 space-y-6 h-full overflow-y-auto pr-1.5 custom-scrollbar">
       
       <!-- Top Banner -->
       <div class="fintech-panel p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -1001,7 +996,7 @@
     <!-- ============================================================================ -->
     <!-- VIEW 3: BUSINESS IMPACT & SLA BENCHMARK                                      -->
     <!-- ============================================================================ -->
-    <section id="view-casa" class="hidden transition-opacity duration-300 space-y-6">
+    <section id="view-casa" class="hidden transition-opacity duration-300 space-y-6 h-full overflow-y-auto pr-1.5 custom-scrollbar">
       
       <div class="fintech-panel p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>

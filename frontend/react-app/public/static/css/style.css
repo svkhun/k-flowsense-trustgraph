@@ -81,6 +81,43 @@ p {
   background: var(--kplus-green);
 }
 
+/* Custom Studio Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--kplus-green);
+}
+
+/* ============================================================================== */
+/* DARK FORM CONTROLS & SELECT DROPDOWN FIX                                      */
+/* ============================================================================== */
+select {
+  background-color: #141E33 !important;
+  color: #F8FAFC !important;
+  color-scheme: dark;
+}
+
+select option {
+  background-color: #0E1524 !important;
+  color: #F8FAFC !important;
+  padding: 8px 12px;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #1A2640 !important;
+  color: #00A950 !important;
+}
+
 /* ============================================================================== */
 /* LUXURY FINTECH BENTO PANEL SYSTEM                                              */
 /* ============================================================================== */
@@ -104,53 +141,66 @@ p {
 .phone-chassis {
   position: relative;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Hardware Side Buttons (Volume Rocker + Action Button on Left, Power on Right) */
 .phone-chassis::before {
   content: "";
   position: absolute;
-  left: -8px;
-  top: 110px;
-  width: 4px;
-  height: 28px;
+  left: -6px;
+  top: 80px;
+  width: 3.5px;
+  height: 22px;
   background: #252D3F;
   border-radius: 3px 0 0 3px;
   box-shadow: 
-    0 44px 0 #252D3F, /* Volume Up */
-    0 98px 0 #252D3F; /* Volume Down */
+    0 34px 0 #252D3F, /* Volume Up */
+    0 76px 0 #252D3F; /* Volume Down */
   z-index: 10;
 }
 .phone-chassis::after {
   content: "";
   position: absolute;
-  right: -8px;
-  top: 140px;
-  width: 4px;
-  height: 60px;
+  right: -6px;
+  top: 100px;
+  width: 3.5px;
+  height: 46px;
   background: #252D3F;
   border-radius: 0 3px 3px 0;
   z-index: 10;
 }
 
 .iphone-frame {
-  width: 390px;
+  width: min(355px, 92vw);
   max-width: 100%;
-  height: 814px;
+  height: min(705px, calc(100vh - 65px));
+  max-height: 100%;
   background: #0B0F19;
-  border: 11px solid #1A2234;
-  border-radius: 52px;
+  border: 9px solid #1A2234;
+  border-radius: 44px;
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.12),
     0 0 0 3px #0d1322,
-    0 25px 60px -12px rgba(0, 0, 0, 0.95),
-    0 0 80px -20px rgba(0, 169, 80, 0.22);
+    0 20px 50px -10px rgba(0, 0, 0, 0.95),
+    0 0 60px -15px rgba(0, 169, 80, 0.22);
   position: relative;
   overflow: hidden;
   margin: 0 auto;
   user-select: none;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-height: 780px) {
+  .iphone-frame {
+    height: min(615px, calc(100vh - 55px));
+    width: min(325px, 92vw);
+    border-width: 8px;
+    border-radius: 38px;
+  }
 }
 
 /* Device Side Reflections (Matte Titanium Aesthetic) */
