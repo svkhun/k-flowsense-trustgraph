@@ -406,6 +406,18 @@ document.addEventListener("DOMContentLoaded", () => {
   } catch (e) {
     console.warn("Error parsing URL params:", e);
   }
+
+  // Initialize Navbar Drawer State: Default to collapsed
+  try {
+    const savedDrawerState = localStorage.getItem("simulator_drawer_state");
+    if (savedDrawerState === "expanded") {
+      toggleNavbarDrawer(true, true);
+    } else {
+      toggleNavbarDrawer(false, true);
+    }
+  } catch (e) {
+    toggleNavbarDrawer(false, true);
+  }
 });
 
 // Update Clock
@@ -468,7 +480,7 @@ function toggleSidebar(forceState = null) {
 // ==============================================================================
 // TOP DRAWER NAVBAR CONTROLLER (Smooth Hardware-Accelerated Sliding Animation)
 // ==============================================================================
-function toggleNavbarDrawer(forceState) {
+function toggleNavbarDrawer(forceState, isSilent = false) {
   const navbar = document.getElementById("top-navbar");
   const spacer = document.getElementById("navbar-spacer");
   const triggerContainer = document.getElementById("drawer-collapsed-trigger-container");
@@ -482,14 +494,14 @@ function toggleNavbarDrawer(forceState) {
     navbar.classList.add("drawer-expanded");
     if (spacer) spacer.classList.remove("drawer-collapsed");
     if (triggerContainer) triggerContainer.classList.remove("visible");
-    if (typeof playSound === "function") playSound("tap");
+    if (!isSilent && typeof playSound === "function") playSound("tap");
     try { localStorage.setItem("simulator_drawer_state", "expanded"); } catch(e) {}
   } else {
     navbar.classList.remove("drawer-expanded");
     navbar.classList.add("drawer-collapsed");
     if (spacer) spacer.classList.add("drawer-collapsed");
     if (triggerContainer) triggerContainer.classList.add("visible");
-    if (typeof playSound === "function") playSound("tap");
+    if (!isSilent && typeof playSound === "function") playSound("tap");
     try { localStorage.setItem("simulator_drawer_state", "collapsed"); } catch(e) {}
   }
 

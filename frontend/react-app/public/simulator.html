@@ -58,7 +58,7 @@
   <!-- ============================================================================== -->
   <!-- [NAV] TOP NAVIGATION DRAWER (Smooth Slide-In/Out Drawer with Spring Easing)   -->
   <!-- ============================================================================== -->
-  <header id="top-navbar" class="drawer-navbar drawer-expanded w-full bg-[#0A0F1D]/95 backdrop-blur-2xl border-b border-white/[0.1] px-3 sm:px-4 py-1.5 shadow-2xl">
+  <header id="top-navbar" class="drawer-navbar drawer-collapsed w-full bg-[#0A0F1D]/95 backdrop-blur-2xl border-b border-white/[0.1] px-3 sm:px-4 py-1.5 shadow-2xl">
     <div class="max-w-[1700px] mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-2.5">
       
       <!-- Brand Header -->
@@ -149,8 +149,8 @@
     </div>
   </header>
 
-  <!-- Floating Dynamic Island Drawer Trigger (Shown only when navbar is collapsed) -->
-  <div id="drawer-collapsed-trigger-container">
+  <!-- Floating Dynamic Island Drawer Trigger (Shown only when navbar is collapsed - Default Collapsed) -->
+  <div id="drawer-collapsed-trigger-container" class="visible">
     <button onclick="toggleNavbarDrawer(true)" class="drawer-pill-btn" title="คลิกเพื่อเปิดลิ้นชักแถบเครื่องมือ">
       <span class="drawer-pill-pulse"></span>
       <span class="text-xs font-semibold text-slate-200">เมนู &amp; แผงควบคุม</span>
@@ -158,8 +158,8 @@
     </button>
   </div>
 
-  <!-- Dynamic Spacer for Drawer -->
-  <div id="navbar-spacer"></div>
+  <!-- Dynamic Spacer for Drawer (Default Collapsed) -->
+  <div id="navbar-spacer" class="drawer-collapsed"></div>
 
   <!-- ============================================================================== -->
   <!-- [MAIN] MAIN CONTENT WORKSPACE (Full Width & Proportional Grid)                 -->
