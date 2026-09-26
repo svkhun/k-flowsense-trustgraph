@@ -837,10 +837,10 @@ function updateSafeToSpendUI(sts) {
   const badge = document.getElementById("sts-status-badge");
   if (badge) {
     const isAtRisk = sts.commitment_at_risk || sts.horizon_state === "COMMITMENT_AT_RISK" || sts.status === "OVERSPENT";
-    badge.textContent = isAtRisk ? "DEFICIT RISK" : "HEALTHY RUNWAY";
+    badge.textContent = isAtRisk ? "DEFICIT RISK" : "HEALTHY";
     badge.className = isAtRisk
-      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider"
-      : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider";
+      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider whitespace-nowrap"
+      : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider whitespace-nowrap";
   }
 
   // Breakdown
