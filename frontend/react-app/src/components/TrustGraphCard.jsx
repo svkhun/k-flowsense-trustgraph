@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, AlertTriangle, CheckCircle2, ScanFace, Zap, ShieldCheck, ArrowRight, Network } from 'lucide-react';
+import { User, AlertTriangle, CheckCircle2, ScanFace, Zap, ShieldCheck, ArrowRight, Network, ArrowUpRight } from 'lucide-react';
 
 export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
   const [selectedRecipient, setSelectedRecipient] = useState('routine'); // 'routine' | 'mule'
@@ -13,7 +13,7 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
             <span>Target-Specific Fraud Defense</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            TrustGraph: ตรวจจับบัญชีม้าตรงจุด ไร้ขั้นตอนซ้ำซ้อน
+            TrustGraph: สกัดบัญชีม้าตรงจุด ไร้ขั้นตอนซ้ำซ้อน
           </h2>
           <p className="text-sm text-slate-300 leading-relaxed font-normal">
             แยกแยะรายการปกติด้วย <strong>Zero-Delay Baseline</strong> ผ่านทันทีใน 3.8ms ไร้ Pop-up รบกวน และใช้ <strong>Micro-Auth 5 วินาที</strong> พร้อมระบุเหตุผลตรงจุดเฉพาะเมื่อพบความผิดปกติวิกฤต
@@ -22,9 +22,12 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
         {/* Card 1: Relational Graph Inspector */}
-        <div className="lg:col-span-6 bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
           <div className="space-y-4">
+            
+            {/* Title & Badge */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
                 <div className="flex items-center gap-2">
@@ -34,14 +37,16 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
                     R-GCN
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1 font-normal">ตรวจจับเครือข่ายบัญชีม้าและความเร็วการหมุนเงิน &lt;80ms</p>
+                <p className="text-xs text-slate-400 mt-0.5 font-normal">
+                  วิเคราะห์โครงสร้างเครือข่ายและความเร็วการหมุนเงิน &lt; 80ms
+                </p>
               </div>
               <span className="text-xs font-mono font-bold text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 rounded tabular-nums">
                 SLA: 3.85ms
               </span>
             </div>
 
-            {/* Selector: Routine Transfer vs Critical Mule Anomaly */}
+            {/* Toggle: Routine Transfer vs Critical Mule Anomaly */}
             <div className="p-1 rounded-xl bg-black/50 border border-white/10 grid grid-cols-2 gap-1 text-xs font-mono">
               <button
                 onClick={() => setSelectedRecipient('routine')}
@@ -67,75 +72,105 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
               </button>
             </div>
 
-            {/* Precision Network Topology Visual */}
-            <div className="h-44 rounded-xl bg-black/60 border border-white/10 flex items-center justify-center px-6 relative overflow-hidden">
-              <div className="flex items-center justify-between w-full max-w-sm relative z-10">
-                {/* Source User */}
-                <div className="flex flex-col items-center">
-                  <div className="w-11 h-11 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-200 shadow-md">
-                    <User className="w-5 h-5 text-slate-300" />
+            {/* Precision Network Topology Visualizer */}
+            <div className="h-48 rounded-xl bg-black/60 border border-white/10 flex items-center justify-center px-4 sm:px-6 relative overflow-hidden">
+              
+              {/* Routine Scenario Visual */}
+              {selectedRecipient === 'routine' ? (
+                <div className="flex items-center justify-between w-full max-w-sm relative z-10 animate-fadeIn">
+                  {/* Source User */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-11 h-11 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-200 shadow-md">
+                      <User className="w-5 h-5 text-slate-300" />
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 mt-1.5 font-semibold">USER ACCOUNT</span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400 mt-2 font-semibold">USER ACCOUNT</span>
-                </div>
 
-                {/* Arrow & State Tag */}
-                <div className="flex-1 mx-4 relative">
-                  <div className={`h-1 w-full rounded-full transition-colors duration-300 ${
-                    selectedRecipient === 'routine'
-                      ? "bg-emerald-500 shadow-lg shadow-emerald-500/50"
-                      : "bg-rose-500 shadow-lg shadow-rose-500/50 animate-pulse"
-                  }`}></div>
-                  <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded text-[9px] font-mono font-bold border whitespace-nowrap shadow-md ${
-                    selectedRecipient === 'routine'
-                      ? "bg-emerald-950 text-emerald-300 border-emerald-500/40"
-                      : "bg-rose-950 text-rose-300 border-rose-500/40"
-                  }`}>
-                    {selectedRecipient === 'routine' ? "ZERO-DELAY (3.8ms)" : "MICRO-AUTH (5s)"}
+                  {/* Connecting Line */}
+                  <div className="flex-1 mx-3 relative">
+                    <div className="h-1 w-full rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50"></div>
+                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-500/40 whitespace-nowrap shadow-md">
+                      ZERO-DELAY (3.85ms)
+                    </div>
                   </div>
-                </div>
 
-                {/* Target Recipient */}
-                <div className="flex flex-col items-center">
-                  <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shadow-lg transition-colors duration-200 ${
-                    selectedRecipient === 'routine'
-                      ? "bg-emerald-950/70 border-emerald-500 text-emerald-400"
-                      : "bg-rose-950/80 border-rose-500 text-rose-400 animate-pulse"
-                  }`}>
-                    {selectedRecipient === 'routine' ? (
+                  {/* Target Peer */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-11 h-11 rounded-xl border border-emerald-500 bg-emerald-950/70 text-emerald-400 flex items-center justify-center shadow-lg">
                       <CheckCircle2 className="w-5 h-5" />
-                    ) : (
-                      <AlertTriangle className="w-5 h-5" />
-                    )}
+                    </div>
+                    <span className="text-[10px] font-mono text-emerald-400 mt-1.5 font-bold">ROUTINE PEER</span>
                   </div>
-                  <span className={`text-[10px] font-mono mt-2 font-bold ${
-                    selectedRecipient === 'routine' ? "text-emerald-400" : "text-rose-400"
-                  }`}>
-                    {selectedRecipient === 'routine' ? "ROUTINE PEER" : "SUSPECT MULE (48H)"}
-                  </span>
                 </div>
-              </div>
+              ) : (
+                /* Mule Scenario Visual with Multi-Hop Pass-Through Trace */
+                <div className="flex items-center justify-between w-full max-w-md relative z-10 animate-fadeIn">
+                  {/* Source User */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-200">
+                      <User className="w-4 h-4 text-slate-300" />
+                    </div>
+                    <span className="text-[9px] font-mono text-slate-400 mt-1">USER</span>
+                  </div>
+
+                  {/* Hop 1 */}
+                  <div className="flex-1 mx-2 relative">
+                    <div className="h-1 w-full rounded-full bg-rose-500 shadow-lg shadow-rose-500/50 animate-pulse"></div>
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-rose-950 text-rose-300 border border-rose-500/40 whitespace-nowrap">
+                      INFLOW
+                    </div>
+                  </div>
+
+                  {/* Mule Tier 1 */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-xl border border-rose-500 bg-rose-950/90 text-rose-400 flex items-center justify-center shadow-lg animate-pulse">
+                      <AlertTriangle className="w-4 h-4" />
+                    </div>
+                    <span className="text-[9px] font-mono text-rose-400 mt-1 font-bold">MULE (48H)</span>
+                  </div>
+
+                  {/* Hop 2: Rapid Pass-Through Velocity */}
+                  <div className="flex-1 mx-2 relative">
+                    <div className="h-1 w-full rounded-full bg-red-600 animate-pulse"></div>
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-red-950 text-red-300 border border-red-500/40 whitespace-nowrap">
+                      &lt;24s OUTFLOW
+                    </div>
+                  </div>
+
+                  {/* Mule Tier 2 Ring */}
+                  <div className="flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-xl border border-red-500/70 bg-red-950/60 text-red-400 flex items-center justify-center">
+                      <Network className="w-4 h-4" />
+                    </div>
+                    <span className="text-[9px] font-mono text-red-400 mt-1">RING TIER-2</span>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Explanation box */}
-            <div className="p-3.5 rounded-xl bg-black/40 border border-white/5 text-xs text-slate-300 leading-relaxed font-mono">
+            <div className="p-3 rounded-xl bg-black/40 border border-white/5 text-xs text-slate-300 leading-relaxed font-mono">
               {selectedRecipient === 'routine' ? (
                 <div>
                   <span className="text-emerald-400 font-bold">[Zero-Delay Baseline] </span>
-                  รายการโอนเงินในชีวิตประจำวันจะประมวลผลผ่านทันทีใน 3.8ms โดยไม่มี Pop-up หรือขั้นตอนยืนยันใดๆ มาขัดจังหวะ
+                  รายการปกติประมวลผลผ่านทันทีใน 3.8ms โดยไม่มี Pop-up หรือขั้นตอนยืนยันใดๆ มาขัดจังหวะ
                 </div>
               ) : (
                 <div>
                   <span className="text-rose-400 font-bold">[Micro-Auth for Critical Anomaly] </span>
-                  ตัดการล็อคบัญชี 15 นาทีตามอำเภอใจออก แทนที่ด้วยการสแกนใบหน้า 5 วินาที พร้อมชี้แจงเหตุผลภาษาคนตรงจุด
+                  ตรวจจับความเร็วการหมุนเงินออกภายใน 24 วินาที กระตุ้นสแกนหน้า 5 วินาที พร้อมชี้แจงเหตุผลตรงจุด
                 </div>
               )}
             </div>
+
           </div>
         </div>
 
         {/* Card 2: Direct Risk Reasoning & Autonomy */}
-        <div className="lg:col-span-6 bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
           <div className="space-y-4">
+            
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div>
                 <div className="flex items-center gap-2">
@@ -145,13 +180,13 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
                     EXPLAINABLE AI
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mt-1 font-normal">ชี้แจงเหตุผลภาษาคนตรงไปตรงมา และให้ผู้ใช้ตัดสินใจเอง</p>
+                <p className="text-xs text-slate-400 mt-0.5 font-normal">ชี้แจงเหตุผลภาษาคนตรงไปตรงมา และให้ผู้ใช้ตัดสินใจเอง</p>
               </div>
               <span className="tech-label text-xs font-mono text-emerald-400">NO 15-MIN LOCK</span>
             </div>
 
             {/* Risk Reasoning Callout */}
-            <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-2.5">
+            <div className="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 space-y-2">
               <div className="font-semibold text-rose-300 text-xs flex items-center gap-1.5">
                 <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                 <span>ตัวอย่างการชี้แจงเหตุผลความเสี่ยง (Direct Risk Reasoning):</span>
@@ -175,16 +210,18 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
                 <span className="font-bold text-white">ผู้ใช้เป็นผู้ตัดสินใจ</span>
               </div>
             </div>
+
           </div>
 
           <button
             onClick={onOpenScamModal}
-            className="w-full py-3 px-4 rounded-xl bg-rose-950/40 hover:bg-rose-900/50 text-rose-200 font-semibold text-xs sm:text-sm border border-rose-500/40 hover:border-rose-400 transition-all duration-150 flex items-center justify-center gap-2 shadow-lg shadow-rose-950/30"
+            className="w-full py-3 px-4 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 text-rose-200 font-bold text-xs sm:text-sm border border-rose-500/40 hover:border-rose-400 transition-all duration-150 flex items-center justify-center gap-2 shadow-lg shadow-rose-950/30"
           >
             <ScanFace className="w-4 h-4 text-rose-400" />
             <span>ทดลองเปิดหน้าต่าง TrustGraph Micro-Auth (5s)</span>
           </button>
         </div>
+
       </div>
     </div>
   );

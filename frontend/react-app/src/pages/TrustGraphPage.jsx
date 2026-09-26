@@ -1,11 +1,11 @@
 import React from 'react';
 import TrustGraphCard from '../components/TrustGraphCard';
-import { ArrowRight, Zap, ScanFace, AlertTriangle } from 'lucide-react';
+import { ArrowRight, Zap, ScanFace, AlertTriangle, ShieldCheck, Activity, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function TrustGraphPage({ onOpenScamModal }) {
   return (
-    <div className="py-10 space-y-12">
+    <div className="py-8 sm:py-10 space-y-12">
       
       {/* Header Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,23 +19,29 @@ export default function TrustGraphPage({ onOpenScamModal }) {
               <span>Module B: Targeted Anti-Scam Verification</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              TrustGraph: <span className="text-gradient-kplus">สกัดบัญชีม้าตรงจุด ไร้ขั้นตอนซ้ำซ้อน</span>
+            {/* Fixed Thai Word Wrap: prevents 'ไร้ขั้น' / 'ตอนซ้ำซ้อน' breaking */}
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.25]">
+              TrustGraph: สกัดบัญชีม้าตรงจุด <br className="hidden sm:block" />
+              <span className="text-gradient-kplus whitespace-nowrap">ไร้ขั้นตอนซ้ำซ้อน</span>{' '}
+              <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">(&lt; 80ms SLA)</span>
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
-              ปกป้อง First Jobbers จากขบวนการหลอกลวงงานเสริม (Task Scams) และแอปหลอกลงทุน โดยไม่สร้างแรงเสียดทานจนทำให้ลูกค้าหนีไปใช้คู่แข่ง (Security Friction Drives Churn):
-              รายการปกติผ่านทันทีด้วย <strong className="text-emerald-400">Zero-Delay Baseline</strong> และหากตรวจพบม้าวิกฤตจะใช้ <strong className="text-rose-400">Micro-Auth สแกนหน้า 5 วินาที</strong> พร้อมชี้แจงเหตุผลภาษาคนให้ผู้ใช้เป็นผู้ตัดสินใจขั้นสุดท้าย
+              สกัดขบวนการหลอกลวง (Task Scams &amp; Investment Scams) ด้วยสถาปัตยกรรม R-GCN ระดับ Sub-millisecond: รายการปกติผ่านฉลุยใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเฉพาะเมื่อพบม้าวิกฤต โดยไม่ต้องหน่วงเวลา 15 นาทีตามอำเภอใจ
             </p>
 
-            <div className="pt-2">
-              <button
-                onClick={onOpenScamModal}
-                className="px-5 py-2.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 text-rose-200 border border-rose-500/40 hover:border-rose-400 text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-rose-950/30"
-              >
-                <ScanFace className="w-4 h-4 text-rose-400" />
-                <span>จำลองการทำงาน TrustGraph Micro-Auth (5s)</span>
-              </button>
+            {/* Live Telemetry & Core Benchmarks Pill Strip */}
+            <div className="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs">
+              <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-slate-300 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>P99 Inference: <strong className="text-emerald-400">11.62ms</strong></span>
+              </div>
+              <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-slate-300">
+                Core SLA: <strong className="text-white">&lt; 80.0ms</strong>
+              </div>
+              <div className="px-3 py-1.5 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300">
+                Arbitrary Lock: <strong className="text-rose-200">0s (None)</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -46,24 +52,24 @@ export default function TrustGraphPage({ onOpenScamModal }) {
         <TrustGraphCard onOpenScamModal={onOpenScamModal} showHeader={false} />
       </section>
 
-      {/* 3 Pillars of TrustGraph Architecture (from Pitch) */}
+      {/* 3 Pillars of TrustGraph Architecture */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl space-y-2 mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label text-xs">
             <Zap className="w-3.5 h-3.5 text-emerald-400" />
-            <span>3 Pillars of TrustGraph Security Architecture</span>
+            <span>3 Pillars of Security Architecture</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
             สถาปัตยกรรมความปลอดภัยที่รักษาประสบการณ์ผู้ใช้งาน
           </h2>
-          <p className="text-sm text-slate-300">
+          <p className="text-sm text-slate-400">
             แก้ปัญหาการล็อคบัญชี 15 นาทีตามอำเภอใจ ด้วยการตรวจจับความเสี่ยงเฉพาะเจาะจง
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pillar 1 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Zap className="w-5 h-5 text-emerald-400" />
@@ -75,7 +81,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
           </div>
 
           {/* Pillar 2 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-rose-500/30 bg-rose-950/15">
+          <div className="bento-card rounded-2xl p-6 space-y-3 border border-rose-500/30 bg-rose-950/15">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-rose-300 font-bold uppercase">PILLAR 02</span>
               <ScanFace className="w-5 h-5 text-rose-400" />
@@ -87,7 +93,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
           </div>
 
           {/* Pillar 3 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <AlertTriangle className="w-5 h-5 text-slate-400" />
@@ -100,14 +106,14 @@ export default function TrustGraphPage({ onOpenScamModal }) {
         </div>
       </section>
 
-      {/* Latency Benchmark SLA Table */}
+      {/* Latency Benchmark SLA Table with Visual Bars */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 shadow-xl">
+        <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label mb-1.5">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label mb-1">
                 <Zap className="w-3.5 h-3.5 text-emerald-400" />
-                <span>200 Iterations Benchmark</span>
+                <span>Benchmark 200 Iterations</span>
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">ประสิทธิภาพความเร็วเทียบ SLA ธนาคาร (&lt; 80ms)</h2>
             </div>
@@ -123,6 +129,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
                   <th className="py-3 px-4">ขั้นตอนการประมวลผล (Pipeline Stage)</th>
                   <th className="py-3 px-4 text-center">เกณฑ์ SLA</th>
                   <th className="py-3 px-4 text-center">เวลาที่วัดได้จริง</th>
+                  <th className="py-3 px-4">เปรียบเทียบเชิงภาพ</th>
                   <th className="py-3 px-4 text-right">ความเร็วสัมพัทธ์</th>
                 </tr>
               </thead>
@@ -131,24 +138,44 @@ export default function TrustGraphPage({ onOpenScamModal }) {
                   <td className="py-3.5 px-4 font-sans font-bold text-white">TrustGraph Pre-Transaction (P50 Median)</td>
                   <td className="py-3.5 px-4 text-center text-slate-400">&lt; 80.0 ms</td>
                   <td className="py-3.5 px-4 text-center font-bold text-emerald-400 tabular-nums">3.85 ms</td>
+                  <td className="py-3.5 px-4">
+                    <div className="w-28 bg-black/50 h-2 rounded-full overflow-hidden border border-white/10">
+                      <div className="bg-emerald-400 h-full rounded-full" style={{ width: '4.8%' }}></div>
+                    </div>
+                  </td>
                   <td className="py-3.5 px-4 text-right text-emerald-300 font-sans font-semibold">เร็วกว่าเกณฑ์ 20x</td>
                 </tr>
                 <tr className="hover:bg-white/[0.03] transition-colors">
                   <td className="py-3.5 px-4 font-sans font-bold text-white">TrustGraph Pre-Transaction (P95)</td>
                   <td className="py-3.5 px-4 text-center text-slate-400">&lt; 80.0 ms</td>
                   <td className="py-3.5 px-4 text-center font-bold text-emerald-400 tabular-nums">5.11 ms</td>
+                  <td className="py-3.5 px-4">
+                    <div className="w-28 bg-black/50 h-2 rounded-full overflow-hidden border border-white/10">
+                      <div className="bg-emerald-400 h-full rounded-full" style={{ width: '6.3%' }}></div>
+                    </div>
+                  </td>
                   <td className="py-3.5 px-4 text-right text-emerald-300 font-sans font-semibold">เร็วกว่าเกณฑ์ 15x</td>
                 </tr>
                 <tr className="hover:bg-white/[0.03] transition-colors">
                   <td className="py-3.5 px-4 font-sans font-bold text-white">TrustGraph Pre-Transaction (P99 Tail Latency)</td>
                   <td className="py-3.5 px-4 text-center text-slate-400">&lt; 80.0 ms</td>
                   <td className="py-3.5 px-4 text-center font-bold text-emerald-400 tabular-nums">11.62 ms</td>
+                  <td className="py-3.5 px-4">
+                    <div className="w-28 bg-black/50 h-2 rounded-full overflow-hidden border border-white/10">
+                      <div className="bg-emerald-400 h-full rounded-full" style={{ width: '14.5%' }}></div>
+                    </div>
+                  </td>
                   <td className="py-3.5 px-4 text-right text-emerald-300 font-sans font-semibold">เร็วกว่าเกณฑ์ 7x</td>
                 </tr>
                 <tr className="hover:bg-white/[0.03] transition-colors">
                   <td className="py-3.5 px-4 font-sans font-bold text-white">Core Triton ONNX Inference (P99)</td>
                   <td className="py-3.5 px-4 text-center text-slate-400">&lt; 80.0 ms</td>
                   <td className="py-3.5 px-4 text-center font-bold text-slate-200 tabular-nums">0.27 ms</td>
+                  <td className="py-3.5 px-4">
+                    <div className="w-28 bg-black/50 h-2 rounded-full overflow-hidden border border-white/10">
+                      <div className="bg-cyan-400 h-full rounded-full" style={{ width: '1%' }}></div>
+                    </div>
+                  </td>
                   <td className="py-3.5 px-4 text-right text-slate-300 font-sans font-semibold">Sub-millisecond</td>
                 </tr>
               </tbody>
