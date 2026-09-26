@@ -793,34 +793,41 @@ function toggleDynamicIslandDetails() {
 function updateSafeToSpendUI(sts) {
   const limEl = document.getElementById("sts-daily-limit");
   if (limEl) {
-    const proj = sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75;
+    const proj = sts.projected_month_end_liquidity !== undefined 
+      ? sts.projected_month_end_liquidity 
+      : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
     limEl.textContent = `฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
   }
 
+  const daysToPayday = sts.days_to_payday !== undefined ? sts.days_to_payday : 2;
+
   const spEl = document.getElementById("sts-spent-today");
   if (spEl) {
-    spEl.textContent = `${30 - sts.days_to_payday}/30 วัน`;
+    spEl.textContent = `${30 - daysToPayday}/30 วัน`;
   }
 
   const remEl = document.getElementById("sts-safe-remaining") || document.getElementById("sts-remaining-today");
   if (remEl) {
-    remEl.textContent = `${sts.days_to_payday} วัน`;
+    remEl.textContent = `${daysToPayday} วัน`;
   }
 
+  // Robust burn rate computation with zero undefined% risk
+  const burnRate = sts.burn_rate_pct !== undefined 
+    ? Math.round(sts.burn_rate_pct) 
+    : (sts.horizon_health_pct !== undefined ? Math.round(100 - sts.horizon_health_pct) : 42);
+
   const brEl = document.getElementById("sts-burn-rate-text") || document.getElementById("sts-burn-rate");
-  if (brEl) brEl.textContent = `${sts.burn_rate_pct}% (${sts.burn_rate_pct > 80 ? 'ระวังตึงตัว' : 'ปกติ'})`;
+  if (brEl) brEl.textContent = `${burnRate}% (${burnRate > 80 ? 'ระวังตึงตัว' : 'ปกติ'})`;
 
   const dtpEl = document.getElementById("sts-days-to-payday");
-  if (dtpEl) dtpEl.textContent = sts.days_to_payday;
+  if (dtpEl) dtpEl.textContent = daysToPayday;
 
   // Progress Bar
   const progFill = document.getElementById("sts-burn-rate-bar") || document.getElementById("sts-progress-fill");
   if (progFill) {
-    progFill.style.width = `${Math.min(100, sts.burn_rate_pct)}%`;
-    if (sts.burn_rate_pct > 100) {
-      progFill.className = "bg-gradient-to-r from-rose-600 to-rose-500 h-full rounded-full transition-all duration-500 shadow-sm";
-    } else if (sts.burn_rate_pct > 80) {
-      progFill.className = "bg-gradient-to-r from-amber-500 to-amber-400 h-full rounded-full transition-all duration-500 shadow-sm";
+    progFill.style.width = `${Math.min(100, Math.max(5, burnRate))}%`;
+    if (burnRate > 80) {
+      progFill.className = "bg-gradient-to-r from-amber-500 to-rose-500 h-full rounded-full transition-all duration-500 shadow-sm";
     } else {
       progFill.className = "bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-500 shadow-sm";
     }
@@ -829,11 +836,11 @@ function updateSafeToSpendUI(sts) {
   // Status Badge
   const badge = document.getElementById("sts-status-badge");
   if (badge) {
-    const isAtRisk = sts.status === "OVERSPENT" || sts.status === "DEFICIT_RISK";
+    const isAtRisk = sts.commitment_at_risk || sts.horizon_state === "COMMITMENT_AT_RISK" || sts.status === "OVERSPENT";
     badge.textContent = isAtRisk ? "DEFICIT RISK" : "HEALTHY RUNWAY";
     badge.className = isAtRisk
-      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider"
-      : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider";
+      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider"
+      : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider";
   }
 
   // Breakdown
@@ -854,7 +861,10 @@ function updateSafeToSpendUI(sts) {
 
   const nudgeEl = document.getElementById("nudge-message-display");
   if (nudgeEl) {
-    nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${sts.projected_month_end_surplus ? sts.projected_month_end_surplus.toLocaleString('en-US', {minimumFractionDigits: 2}) : '8,433.75'} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อป้องกันความเครียดสะสม</i>`;
+    const proj = sts.projected_month_end_liquidity !== undefined 
+      ? sts.projected_month_end_liquidity 
+      : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
+    nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อป้องกันความเครียดสะสม</i>`;
   }
 }
 

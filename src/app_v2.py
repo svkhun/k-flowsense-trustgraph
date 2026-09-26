@@ -472,6 +472,7 @@ def get_flowsense_horizon_status(account_id: str):
 
     # Status Horizon Bar Percentage (0-100% indicating month-end liquidity runway health)
     horizon_health_pct = min(100.0, max(15.0, round(((current_balance - total_fixed_obligations) / (current_balance + 1e-5)) * 100, 1)))
+    burn_rate_pct = min(100.0, max(10.0, round(100.0 - horizon_health_pct, 1)))
     daily_safe_limit = max(200.0, round((current_balance - total_fixed_obligations) / days_to_payday, 2))
 
     return {
@@ -480,6 +481,7 @@ def get_flowsense_horizon_status(account_id: str):
         "payday_date": f"{now.year}-{now.month:02d}-28",
         "current_balance": round(current_balance, 2),
         "horizon_health_pct": horizon_health_pct,
+        "burn_rate_pct": burn_rate_pct,
         "horizon_state": horizon_state,
         "horizon_badge_th": horizon_badge_th,
         "alert_suppressed": alert_suppressed,

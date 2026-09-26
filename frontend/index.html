@@ -241,211 +241,204 @@
               </div>
 
               <!-- Inner Screen Scrollable Content (Simulates actual touchable mobile screen) -->
-              <div class="iphone-screen-scroll space-y-4">
+              <div class="iphone-screen-scroll space-y-2.5">
                 
                 <!-- App Top Profile Bar with Eye Toggle -->
                 <div class="flex justify-between items-center">
-                  <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-600 to-green-500 flex items-center justify-center font-bold text-xs text-white shadow-md shadow-emerald-500/20 border border-white/20">
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-emerald-600 to-green-500 flex items-center justify-center font-bold text-[11px] text-white shadow-md shadow-emerald-500/20 border border-white/20">
                       KP
                     </div>
                     <div>
-                      <div class="text-[10px] text-slate-400">สวัสดี, บัญชีผู้ใช้งาน</div>
-                      <div id="user-display-name" class="text-xs font-bold text-white truncate max-w-[170px]">First Jobber • ACC_0100</div>
+                      <div class="text-[9.5px] text-slate-400">สวัสดี, บัญชีผู้ใช้งาน</div>
+                      <div id="user-display-name" class="text-[11.5px] font-bold text-white truncate max-w-[170px]">First Jobber • ACC_0100</div>
                     </div>
                   </div>
                   
                   <div class="flex items-center gap-1.5">
-                    <button onclick="toggleBalanceVisibility()" title="ซ่อน/แสดงยอดเงินคงเหลือ" class="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-all">
-                      <i data-lucide="eye" id="eye-icon" class="w-3.5 h-3.5"></i>
+                    <button onclick="toggleBalanceVisibility()" title="ซ่อน/แสดงยอดเงินคงเหลือ" class="w-6 h-6 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-all">
+                      <i data-lucide="eye" id="eye-icon" class="w-3 h-3"></i>
                     </button>
                     <div class="relative">
-                      <div class="w-7 h-7 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300">
-                        <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                      <div class="w-6 h-6 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300">
+                        <i data-lucide="bell" class="w-3 h-3"></i>
                       </div>
-                      <span class="absolute top-0 right-0 w-2 h-2 bg-emerald-400 rounded-full border-2 border-[#0B0F19]"></span>
+                      <span class="absolute top-0 right-0 w-1.5 h-1.5 bg-emerald-400 rounded-full border-2 border-[#0B0F19]"></span>
                     </div>
                   </div>
                 </div>
 
-                <!-- Authentic K-eSavings Digital Card (with 3D Parallax & Holographic Glint) -->
+                <!-- Authentic K-eSavings Digital Card (Sleek Compact Geometry) -->
                 <div class="card-3d-wrap">
                   <div class="kplus-card relative" id="interactive-kplus-card">
                     <!-- Holographic Glint Light Reflection -->
                     <div class="card-glint" id="card-glint-reflection"></div>
 
-                    <div class="flex justify-between items-start relative z-10">
+                    <div class="flex justify-between items-center relative z-10">
+                      <div class="flex items-center gap-1.5">
+                        <div class="emv-chip-mini"></div>
+                        <div>
+                          <span class="text-[11px] font-bold tracking-wide text-white">K-eSavings Digital</span>
+                          <span class="text-[8.5px] text-white/70 font-mono ml-1">• PromptPay</span>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-1 bg-black/30 backdrop-blur-sm px-1.5 py-0.5 rounded border border-white/15">
+                        <span class="font-extrabold tracking-wider text-[10px]">K PLUS</span>
+                      </div>
+                    </div>
+
+                    <!-- Account Number & Balance Row -->
+                    <div class="mt-2 relative z-10 flex items-end justify-between">
                       <div>
-                        <span class="text-xs font-semibold tracking-wide text-white/90">K-eSavings Digital</span>
-                        <div class="text-[9px] text-white/70 font-mono mt-0.5">PromptPay Linked</div>
+                        <div class="text-[9.5px] text-white/75 font-mono flex items-center gap-1">
+                          <span id="card-acc-num">ACC_0100 •••• 4291</span>
+                          <button onclick="copyAccNumber()" class="hover:text-white transition-colors" title="คัดลอกเลขบัญชี">
+                            <i data-lucide="copy" class="w-2.5 h-2.5"></i>
+                          </button>
+                        </div>
+                        <div class="text-xl font-black tracking-tight mt-0.5" id="card-main-balance">฿ 24,500.00</div>
                       </div>
-                      <div class="flex items-center gap-1.5 bg-black/25 backdrop-blur-sm px-2 py-0.5 rounded-md border border-white/15">
-                        <span class="font-extrabold tracking-widest text-xs">K PLUS</span>
+                      <div class="text-right text-[9.5px] text-white/85 font-medium pb-0.5">
+                        <div class="text-white/60 text-[8.5px]">เงินเดือน (รอบ 28)</div>
+                        <div class="font-bold font-mono" id="card-monthly-salary">฿ 28,000.00</div>
                       </div>
-                    </div>
-
-                    <!-- EMV Chip & Contactless Waves -->
-                    <div class="mt-3 flex items-center justify-between relative z-10">
-                      <div class="emv-chip"></div>
-                      <i data-lucide="rss" class="w-4 h-4 text-white/70 rotate-90"></i>
-                    </div>
-
-                    <!-- Account Number & Balance -->
-                    <div class="mt-2.5 relative z-10">
-                      <div class="flex items-center justify-between text-[11px] text-white/80 font-mono">
-                        <span id="card-acc-num">ACC_0100 •••• 4291</span>
-                        <button onclick="copyAccNumber()" class="hover:text-white transition-colors" title="คัดลอกเลขบัญชี">
-                          <i data-lucide="copy" class="w-3 h-3"></i>
-                        </button>
-                      </div>
-                      <div class="mt-1 text-2xl font-black tracking-tight" id="card-main-balance">฿ 24,500.00</div>
-                    </div>
-
-                    <!-- Monthly Salary Footer -->
-                    <div class="mt-2.5 flex justify-between items-center text-[10px] text-white/85 border-t border-white/15 pt-2 font-medium relative z-10">
-                      <span>เงินเดือน: <b id="card-monthly-salary">฿ 28,000.00</b></span>
-                      <span class="bg-white/15 px-2 py-0.5 rounded-full text-[9px]">รอบเงินเดือน: 28</span>
                     </div>
                   </div>
                 </div>
 
-                <!-- K PLUS Quick Actions Bar -->
-                <div class="grid grid-cols-4 gap-2 pt-0.5 pb-0.5">
+                <!-- K PLUS Quick Actions Bar (Compact & Polished) -->
+                <div class="grid grid-cols-4 gap-1.5 pt-0.5">
                   <div class="kplus-action-btn" onclick="switchMobileTab('transfer')">
                     <div class="kplus-action-icon">
-                      <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400"></i>
+                      <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-emerald-400"></i>
                     </div>
-                    <span class="text-[10px] font-medium text-slate-300">โอนเงิน</span>
+                    <span class="text-[9.5px] font-semibold text-slate-300">โอนเงิน</span>
                   </div>
                   <div class="kplus-action-btn" onclick="triggerMicroSweep()">
                     <div class="kplus-action-icon">
-                      <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
                     </div>
-                    <span class="text-[10px] font-medium text-slate-300">กวาดออม</span>
+                    <span class="text-[9.5px] font-semibold text-slate-300">กวาดออม</span>
                   </div>
                   <div class="kplus-action-btn" onclick="triggerOneTapRecall()">
                     <div class="kplus-action-icon">
-                      <i data-lucide="rotate-ccw" class="w-4 h-4 text-teal-400"></i>
+                      <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-teal-400"></i>
                     </div>
-                    <span class="text-[10px] font-medium text-slate-300">1-Tap Undo</span>
+                    <span class="text-[9.5px] font-semibold text-slate-300">1-Tap Undo</span>
                   </div>
                   <div class="kplus-action-btn" onclick="showFeatureAlert('QR Scan')">
                     <div class="kplus-action-icon">
-                      <i data-lucide="qr-code" class="w-4 h-4 text-slate-300"></i>
+                      <i data-lucide="qr-code" class="w-3.5 h-3.5 text-slate-300"></i>
                     </div>
-                    <span class="text-[10px] font-medium text-slate-300">สแกน</span>
+                    <span class="text-[9.5px] font-semibold text-slate-300">สแกน</span>
                   </div>
                 </div>
 
                 <!-- In-Mobile Sub Navigation Tabs -->
-                <div class="flex bg-[#141E33] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
-                  <button onclick="switchMobileTab('sts')" id="m-tab-btn-sts" class="flex-1 py-1.5 text-center rounded-lg bg-emerald-600 text-white transition-all shadow-sm text-[11px]">
-                    FlowSense (Horizon &amp; Savings)
+                <div class="flex bg-[#141E33] p-0.5 rounded-xl border border-white/[0.08] text-xs font-semibold">
+                  <button onclick="switchMobileTab('sts')" id="m-tab-btn-sts" class="flex-1 py-1 text-center rounded-lg bg-emerald-600 text-white transition-all shadow-sm text-[10.5px]">
+                    1. FlowSense (สภาพคล่อง &amp; ออม)
                   </button>
-                  <button onclick="switchMobileTab('transfer')" id="m-tab-btn-transfer" class="flex-1 py-1.5 text-center rounded-lg text-slate-400 hover:text-white transition-all text-[11px]">
-                    TrustGraph (โอนเงิน)
+                  <button onclick="switchMobileTab('transfer')" id="m-tab-btn-transfer" class="flex-1 py-1 text-center rounded-lg text-slate-400 hover:text-white transition-all text-[10.5px]">
+                    2. TrustGraph (โอนเงินปลอดภัย)
                   </button>
                 </div>
 
                 <!-- SUB-TAB 1: FlowSense (Status Horizon Bar & Sub-Account with 1-Tap Undo) -->
-                <div id="mobile-tab-sts" class="space-y-3">
+                <div id="mobile-tab-sts" class="space-y-2">
                   
-                  <!-- Status Horizon Bar Card -->
-                  <div class="bg-[#141E33]/90 p-3.5 rounded-2xl border border-white/[0.08] relative overflow-hidden">
-                    <div class="flex justify-between items-start">
-                      <div>
-                        <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
-                          <i data-lucide="activity" class="w-3 h-3 text-emerald-400"></i>
-                          <span>คาดการณ์สภาพคล่องสิ้นเดือน</span>
-                        </span>
-                        <div class="text-xl font-black text-emerald-400 mt-1 font-mono" id="sts-daily-limit">฿ 8,433.75</div>
-                        <p class="text-[9px] text-slate-400 mt-0.5">ฉายภาพสภาพคล่องสิ้นเดือน ไม่ต้องจดรายวัน</p>
-                      </div>
+                  <!-- Unified FlowSense Smart Liquidity Card -->
+                  <div class="bg-[#141E33]/95 p-3 rounded-2xl border border-emerald-500/25 relative overflow-hidden shadow-lg">
+                    
+                    <!-- Header: Title & Healthy Runway Badge -->
+                    <div class="flex justify-between items-center">
+                      <span class="text-[10px] uppercase tracking-wider text-slate-300 font-bold flex items-center gap-1.5">
+                        <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>คาดการณ์สภาพคล่องสิ้นเดือน</span>
+                      </span>
                       <div class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider" id="sts-status-badge">
                         HEALTHY RUNWAY
                       </div>
                     </div>
 
+                    <!-- Projected Month-End Surplus Balance -->
+                    <div class="flex items-baseline justify-between mt-1">
+                      <div class="text-xl font-black text-emerald-400 font-mono tracking-tight" id="sts-daily-limit">฿ 8,433.75</div>
+                      <span class="text-[9px] text-slate-400 font-medium">ฉายภาพสภาพคล่อง ไม่ต้องจดรายวัน</span>
+                    </div>
+
                     <!-- Horizon Progress Runway Bar -->
-                    <div class="mt-2.5">
-                      <div class="flex justify-between text-[10px] text-slate-400 mb-1">
-                        <span>ความคืบหน้ารอบเดือน: <b class="text-white" id="sts-spent-today">14/30 วัน</b></span>
-                        <span>อัตราเผาผลาญ: <b class="text-emerald-400" id="sts-burn-rate-text">45% (ปกติ)</b></span>
+                    <div class="mt-2 bg-black/25 p-2 rounded-xl border border-white/[0.05]">
+                      <div class="flex justify-between text-[9.5px] text-slate-400 mb-1">
+                        <span>รอบเดือน: <b class="text-white font-mono" id="sts-spent-today">28/30 วัน</b></span>
+                        <span>อัตราใช้จ่าย: <b class="text-emerald-400 font-mono" id="sts-burn-rate-text">42% (ปกติ)</b></span>
                       </div>
                       <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                        <div id="sts-burn-rate-bar" class="bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-500" style="width: 45%;"></div>
+                        <div id="sts-burn-rate-bar" class="bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-500" style="width: 42%;"></div>
                       </div>
                     </div>
 
                     <!-- Fixed Commitments Mini Grid inside Phone -->
-                    <div class="mt-2.5 pt-2 border-t border-white/[0.06] space-y-1.5">
-                      <div class="flex justify-between items-center text-[9px]">
-                        <span class="text-slate-400 font-medium">ภาระผูกพันล่วงหน้า:</span>
-                        <span class="text-emerald-400 font-bold font-mono">฿ 11,760.00</span>
+                    <div class="mt-2 pt-1.5 border-t border-white/[0.06]">
+                      <div class="flex justify-between items-center text-[9px] mb-1">
+                        <span class="text-slate-400 font-medium">ภาระผูกพันคงที่ (ล็อคเงินล่วงหน้า):</span>
+                        <span class="text-white font-bold font-mono">฿ 11,760.00</span>
                       </div>
                       <div class="grid grid-cols-3 gap-1.5 text-[8.5px] text-center font-mono">
-                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
-                          <div class="text-slate-400">ค่าเช่า</div>
-                          <div class="text-white font-bold mt-0.5">฿7,000</div>
+                        <div class="bg-black/35 py-1 px-1.5 rounded-lg border border-white/5">
+                          <div class="text-slate-400 text-[8px]">ค่าเช่า</div>
+                          <div class="text-emerald-400 font-bold mt-0.5">฿7,000</div>
                         </div>
-                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
-                          <div class="text-slate-400">หนี้ผ่อน</div>
-                          <div class="text-white font-bold mt-0.5">฿3,360</div>
+                        <div class="bg-black/35 py-1 px-1.5 rounded-lg border border-white/5">
+                          <div class="text-slate-400 text-[8px]">หนี้ผ่อน</div>
+                          <div class="text-emerald-400 font-bold mt-0.5">฿3,360</div>
                         </div>
-                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
-                          <div class="text-slate-400">ค่าน้ำไฟ</div>
-                          <div class="text-white font-bold mt-0.5">฿1,400</div>
+                        <div class="bg-black/35 py-1 px-1.5 rounded-lg border border-white/5">
+                          <div class="text-slate-400 text-[8px]">ค่าน้ำไฟ</div>
+                          <div class="text-emerald-400 font-bold mt-0.5">฿1,400</div>
                         </div>
                       </div>
                     </div>
 
-                    <!-- Commitment Warnings Pill & Alert Suppression -->
-                    <div class="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[9px]">
-                      <div class="flex items-center gap-1 text-emerald-400">
+                    <!-- FlowSense Sub-Account (Embedded Micro-Sweep & 1-Tap Undo Strip) -->
+                    <div class="mt-2 pt-2 border-t border-white/[0.06] bg-teal-950/20 p-2 rounded-xl border border-teal-500/20">
+                      <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                          <div class="w-5 h-5 rounded-md bg-teal-500/20 text-teal-400 flex items-center justify-center">
+                            <i data-lucide="piggy-bank" class="w-3 h-3"></i>
+                          </div>
+                          <div>
+                            <span class="text-[10px] font-bold text-white">FlowSense Sub-Account</span>
+                            <span class="text-[8.5px] text-teal-400 font-mono ml-1 bg-teal-500/20 px-1 rounded">1.5% p.a.</span>
+                          </div>
+                        </div>
+                        <div class="text-xs font-bold text-white font-mono" id="disp-vault-balance">฿ 15,240.00</div>
+                      </div>
+                      <div class="flex items-center justify-between mt-1.5 text-[8.5px] text-slate-400">
+                        <span class="flex items-center gap-1 text-emerald-400">
+                          <i data-lucide="check" class="w-2.5 h-2.5"></i>
+                          <span>1-Tap Undo ดึงเงินคืน 100% ไร้ค่าปรับ</span>
+                        </span>
+                        <div class="flex gap-1">
+                          <button onclick="triggerMicroSweep()" class="px-1.5 py-0.5 rounded bg-teal-600/30 hover:bg-teal-600/50 text-teal-300 text-[8.5px] font-semibold border border-teal-500/30">
+                            + กวาดออม
+                          </button>
+                          <button onclick="triggerOneTapRecall()" class="px-1.5 py-0.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[8.5px] font-bold shadow-xs">
+                            ↺ Undo
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Alert Suppression Footer -->
+                    <div class="mt-2 pt-1.5 border-t border-white/[0.06] flex items-center justify-between text-[8.5px]">
+                      <div class="flex items-center gap-1 text-emerald-400 font-medium">
                         <i data-lucide="bell-off" class="w-3 h-3"></i>
                         <span>Alerts Suppressed In Normal Dips</span>
                       </div>
-                      <span class="text-slate-400">เหลือ: <b class="text-emerald-400 font-mono" id="sts-safe-remaining">14 วัน</b></span>
-                    </div>
-                  </div>
-
-                  <!-- FlowSense Sub-Account (Micro-Sweep & 1-Tap Undo) -->
-                  <div class="bg-[#141E33]/90 p-3.5 rounded-2xl border border-white/[0.08]">
-                    <div class="flex justify-between items-start">
-                      <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center">
-                          <i data-lucide="piggy-bank" class="w-3.5 h-3.5"></i>
-                        </div>
-                        <div>
-                          <div class="text-[11px] font-bold text-white">FlowSense Sub-Account</div>
-                          <div class="text-[9px] text-slate-400">ดอกเบี้ย 1.50% ต่อปี • กวาดออมส่วนเกิน</div>
-                        </div>
-                      </div>
-                      <span class="text-[9px] font-bold text-teal-400 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-500/30">
-                        1.50% p.a.
-                      </span>
+                      <span class="text-slate-400">เหลือ: <b class="text-emerald-400 font-mono" id="sts-safe-remaining">2 วัน</b></span>
                     </div>
 
-                    <div class="mt-2.5 flex items-center justify-between">
-                      <div>
-                        <div class="text-[9px] text-slate-400">ยอดเงินใน Sub-Account</div>
-                        <div class="text-lg font-black text-white font-mono" id="disp-vault-balance">฿ 15,240.00</div>
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <button onclick="triggerMicroSweep()" class="px-2.5 py-1.5 rounded-xl bg-teal-600/30 hover:bg-teal-600/40 border border-teal-500/40 text-teal-300 text-[10px] font-semibold flex items-center gap-1 transition-all">
-                          <i data-lucide="sparkles" class="w-3 h-3"></i>
-                          <span>กวาดออม</span>
-                        </button>
-                        <button onclick="triggerOneTapRecall()" class="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold flex items-center gap-1 transition-all shadow-md shadow-emerald-600/30">
-                          <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
-                          <span>1-Tap Undo</span>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="mt-2 text-[9px] text-slate-400 flex items-center gap-1">
-                      <i data-lucide="check" class="w-2.5 h-2.5 text-emerald-400 shrink-0"></i>
-                      <span>ดึงเงินกลับเข้าบัญชีหลัก 100% ทันที ไร้ค่าปรับ</span>
-                    </div>
                   </div>
 
                 </div>
