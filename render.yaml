@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: flowsense-trustgraph
+    name: k-flowsense-trustgraph
     runtime: python
     plan: free
     region: singapore

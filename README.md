@@ -3,11 +3,11 @@
 > **KBTG KAMPUS HACKATHON 2026 | TRACK 2: DATA SCIENCE & INTELLIGENCE**  
 > *Frictionless Cashflow & Target-Specific Fraud Defense for K PLUS*
 
-[![Live Cloud Demo](https://img.shields.io/badge/Live_Cloud_Demo-Render.com-46E3B7?style=for-the-badge&logo=render)](https://flowsense-trustgraph.onrender.com/)
-[![Latency SLA](https://img.shields.io/badge/Latency_SLA-P99_%3C_11.62ms_(Target_%3C_80ms)-00A950?style=for-the-badge&logo=fastapi)](https://flowsense-trustgraph.onrender.com/)
+[![Live Cloud Demo](https://img.shields.io/badge/Live_Cloud_Demo-Render.com-46E3B7?style=for-the-badge&logo=render)](https://k-flowsense-trustgraph.onrender.com/)
+[![Latency SLA](https://img.shields.io/badge/Latency_SLA-P99_%3C_11.62ms_(Target_%3C_80ms)-00A950?style=for-the-badge&logo=fastapi)](https://k-flowsense-trustgraph.onrender.com/)
 [![Inference Engine](https://img.shields.io/badge/Serving_Engine-Triton_Inference_Server-blue?style=for-the-badge&logo=nvidia)](https://developer.nvidia.com/triton-inference-server)
 [![Graph Neural Network](https://img.shields.io/badge/Graph_Model-PyG_Relational_GCN-orange?style=for-the-badge&logo=pytorch)](https://pyg.org/)
-[![Frontend Architecture](https://img.shields.io/badge/Frontend-React_18_%7C_React_Router_6_%7C_Vite-61DAFB?style=for-the-badge&logo=react)](https://flowsense-trustgraph.onrender.com/)
+[![Frontend Architecture](https://img.shields.io/badge/Frontend-React_18_%7C_React_Router_6_%7C_Vite-61DAFB?style=for-the-badge&logo=react)](https://k-flowsense-trustgraph.onrender.com/)
 [![Styling](https://img.shields.io/badge/UI_System-Tailwind_CSS_%7C_Bento_Grid-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
 
 ---
@@ -151,8 +151,8 @@ Built with **React 18 + React Router v6 + Vite + Tailwind CSS**:
 
 ### Clone Repository
 ```bash
-git clone https://github.com/svkhun/flowsense-trustgraph.git
-cd flowsense-trustgraph
+git clone https://github.com/svkhun/k-flowsense-trustgraph.git
+cd k-flowsense-trustgraph
 ```
 
 ### Option 1: Full-Stack Production Server (FastAPI + React)
