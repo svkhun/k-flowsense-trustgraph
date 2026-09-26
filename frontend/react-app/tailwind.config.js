@@ -13,24 +13,24 @@ export default {
           hover: '#008F43',
           dark: '#005E2C',
           forest: '#02381A',
-          glow: 'rgba(0, 169, 80, 0.35)'
+          subtle: 'rgba(0, 169, 80, 0.12)',
+          border: 'rgba(0, 169, 80, 0.28)'
         },
-        cyber: {
-          emerald: '#10B981',
-          mint: '#34D399',
-          teal: '#14B8A6'
-        },
-        slate: {
-          950: '#070B12',
-          900: '#0E1524',
-          850: '#141E33',
-          800: '#1C2942',
-          700: '#2A3C5E'
+        surface: {
+          950: '#090A0F',
+          900: '#0E1017',
+          850: '#12151E',
+          800: '#181C28',
+          750: '#202534',
+          700: '#2A3042'
         }
       },
       fontFamily: {
-        sans: ['"IBM Plex Sans Thai"', '"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'monospace']
+        sans: ['"IBM Plex Sans Thai"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace']
+      },
+      transitionDuration: {
+        DEFAULT: '150ms',
       }
     },
   },

@@ -31,13 +31,13 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-deep);
-  color: #F1F5F9;
+  background-color: #090A0F;
+  color: #F4F4F5;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 169, 80, 0.14), transparent),
-    radial-gradient(ellipse 60% 40% at 90% 60%, rgba(14, 165, 233, 0.06), transparent);
-  background-attachment: fixed;
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 /* Tabular numbers for all financial figures */
@@ -60,10 +60,10 @@ body {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(14, 21, 36, 0.6);
+  background: #090A0F;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2A364E;
+  background: #27272A;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -71,22 +71,19 @@ body {
 }
 
 /* ============================================================================== */
-/* LUXURY FINTECH GLASS PANEL SYSTEM                                              */
+/* LUXURY FINTECH BENTO PANEL SYSTEM                                              */
 /* ============================================================================== */
 .fintech-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-card);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  background: #0E1017;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  transition: border-color 0.15s ease-out, background-color 0.15s ease-out;
 }
 
 .fintech-panel-hover:hover {
-  border-color: var(--border-active);
-  box-shadow: 0 12px 36px -4px rgba(0, 169, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateY(-1.5px);
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: #12151E;
 }
 
 /* ============================================================================== */

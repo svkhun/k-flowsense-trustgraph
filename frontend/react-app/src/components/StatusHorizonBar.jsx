@@ -1,144 +1,148 @@
 import React, { useState } from 'react';
-import { Compass, CheckCircle2, AlertTriangle, ShieldCheck, Calendar, BellOff } from 'lucide-react';
+import { Compass, CheckCircle2, AlertTriangle, ShieldCheck, BellOff, Calendar } from 'lucide-react';
 
 export default function StatusHorizonBar() {
-  const [spentFactor, setSpentFactor] = useState(380); // interactive slider for spending simulation
+  const [spentFactor, setSpentFactor] = useState(450); // interactive spending slider
   const monthlySalary = 28000;
   const mainBalance = 24500 - spentFactor;
   
-  // Recurring commitments (rent, credit card/debt emi, utilities)
+  // Recurring commitments (rent, debt/credit card, utilities)
   const rentCommitment = 7000;
   const debtCommitment = 3360;
   const utilCommitment = 1400;
   const totalCommitments = rentCommitment + debtCommitment + utilCommitment; // 11,760
 
-  // Horizon month-end projection
-  const projectedMonthEnd = Math.max(0, mainBalance - totalCommitments - (spentFactor * 0.8));
+  // Month-end projection
+  const projectedMonthEnd = Math.max(0, mainBalance - totalCommitments - (spentFactor * 0.75));
   const isCommitmentAtRisk = (mainBalance - totalCommitments) < 1500;
   const isNormalDip = mainBalance < 20000 && !isCommitmentAtRisk;
 
   // Horizon bar percentage
-  const horizonPct = Math.min(100, Math.max(10, Math.round(((mainBalance - totalCommitments) / (monthlySalary * 0.5)) * 100)));
+  const horizonPct = Math.min(100, Math.max(8, Math.round(((mainBalance - totalCommitments) / (monthlySalary * 0.5)) * 100)));
 
   return (
-    <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
+    <div className="bento-card rounded-xl p-6 space-y-6">
       
-      {/* Title Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
-            <Compass className="w-5 h-5" />
+      {/* Title & Engine Mode */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/[0.08]">
+        <div>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-bold text-white tracking-tight">Status Horizon Bar</h3>
+            <span className="tech-label text-[10px] bg-white/[0.04] text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded">
+              FLOWSENSE
+            </span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold text-white">Status Horizon Bar</h3>
-              <span className="text-[10px] bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
-                FlowSense
-              </span>
-            </div>
-            <p className="text-xs text-slate-400">
-              ตัวบ่งชี้เดียวที่คาดการณ์สภาพคล่องสิ้นเดือนจากภาระผูกพันประจำ ไม่ต้องจดงบรายวัน (No Budget Burnout)
-            </p>
-          </div>
+          <p className="text-xs text-zinc-400 mt-0.5">
+            ตัวชี้วัดสภาพคล่องสุทธิถึงวันเงินเดือนออก โดยคำนวณจากภาระผูกพันประจำ ขจัด Budget Burnout
+          </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div>
           {isCommitmentAtRisk ? (
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1.5 animate-pulse">
-              <AlertTriangle className="w-3.5 h-3.5" />
-              <span>Commitment Warning</span>
+            <span className="tech-label text-xs px-2.5 py-1 rounded bg-rose-950/60 text-rose-300 border border-rose-500/40 flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+              <span>COMMITMENT WARNING</span>
             </span>
           ) : isNormalDip ? (
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5">
-              <BellOff className="w-3.5 h-3.5" />
-              <span>Normal Dip (Alert Suppressed)</span>
+            <span className="tech-label text-xs px-2.5 py-1 rounded bg-zinc-800 text-zinc-300 border border-zinc-700 flex items-center gap-1.5">
+              <BellOff className="w-3.5 h-3.5 text-zinc-400" />
+              <span>ALERT SUPPRESSED (NORMAL DIP)</span>
             </span>
           ) : (
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>Healthy Horizon Runway</span>
+            <span className="tech-label text-xs px-2.5 py-1 rounded bg-emerald-950/40 text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>RUNWAY HEALTHY</span>
             </span>
           )}
         </div>
       </div>
 
       {/* Main Single Clean Indicator: Status Horizon Bar */}
-      <div className="p-5 rounded-2xl bg-[#09111E] border border-white/[0.08] space-y-3">
-        <div className="flex justify-between items-end">
+      <div className="p-5 rounded-lg bg-black/40 border border-white/[0.08] space-y-3">
+        <div className="flex justify-between items-baseline">
           <div>
-            <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">คาดการณ์สภาพคล่องคงเหลือ ณ วันเงินเดือนออก (28 ก.ย.)</span>
-            <div className="text-2xl sm:text-3xl font-black text-white font-num mt-0.5 flex items-baseline gap-2">
+            <span className="tech-label text-[10px] text-zinc-400">
+              สุทธิคาดการณ์ ณ วันเงินเดือนออก (28 ก.ย.)
+            </span>
+            <div className="text-2xl sm:text-3xl font-bold font-num tracking-tight mt-1 text-white">
               <span className={isCommitmentAtRisk ? "text-rose-400" : "text-emerald-400"}>
-                ฿ {projectedMonthEnd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ฿{projectedMonthEnd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
-              <span className="text-xs font-normal text-slate-400">สุทธิหลังหักภาระผูกพันทุกรายการ</span>
             </div>
           </div>
-          <span className="text-sm font-mono font-bold text-slate-300">{horizonPct}% Runway</span>
+          <div className="text-right">
+            <span className="font-mono text-sm font-bold text-zinc-300">{horizonPct}%</span>
+            <span className="tech-label text-[10px] text-zinc-400 block">Runway Ratio</span>
+          </div>
         </div>
 
-        {/* Clean Horizon Bar */}
-        <div className="w-full h-3 rounded-full bg-slate-800 overflow-hidden relative">
+        {/* Precision Progress Bar */}
+        <div className="w-full h-2 rounded bg-zinc-800 overflow-hidden relative">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${
-              isCommitmentAtRisk 
-                ? "bg-gradient-to-r from-rose-500 to-amber-500"
+            className={`h-full transition-all duration-200 ${
+              isCommitmentAtRisk
+                ? "bg-rose-500"
                 : isNormalDip
-                ? "bg-gradient-to-r from-emerald-500 to-cyan-400"
-                : "bg-gradient-to-r from-[#00A950] via-emerald-400 to-teal-300"
+                ? "bg-amber-400"
+                : "bg-[#00A950]"
             }`}
             style={{ width: `${horizonPct}%` }}
           ></div>
         </div>
 
-        <div className="flex justify-between text-[11px] text-slate-400 pt-1">
-          <span>ยอดเงินในบัญชีปัจจุบัน: <b className="text-white font-mono">฿{mainBalance.toLocaleString()}</b></span>
-          <span>ภาระผูกพันคงที่รอหัก: <b className="text-amber-300 font-mono">฿{totalCommitments.toLocaleString()}</b></span>
+        {/* Ledger Balance vs Obligations */}
+        <div className="grid grid-cols-2 text-xs pt-1 text-zinc-400 border-t border-white/5 font-mono">
+          <div>
+            ยอดบัญชีปัจจุบัน: <span className="text-white font-semibold">฿{mainBalance.toLocaleString()}</span>
+          </div>
+          <div className="text-right">
+            ภาระผูกพันคงที่รอหัก: <span className="text-zinc-200 font-semibold">฿{totalCommitments.toLocaleString()}</span>
+          </div>
         </div>
       </div>
 
-      {/* Commitment Warnings Logic (Pitch Core Feature) */}
-      <div className={`p-4 rounded-2xl border text-xs sm:text-sm leading-relaxed transition-all ${
+      {/* Commitment Warning & Suppression Telemetry */}
+      <div className={`p-4 rounded-lg border text-xs leading-relaxed ${
         isCommitmentAtRisk
-          ? "bg-rose-950/40 border-rose-500/40 text-rose-200"
+          ? "bg-rose-950/20 border-rose-500/30 text-rose-200"
           : isNormalDip
-          ? "bg-cyan-950/30 border-cyan-500/30 text-cyan-200"
-          : "bg-emerald-950/30 border-emerald-500/30 text-emerald-200"
+          ? "bg-zinc-900 border-zinc-700/60 text-zinc-300"
+          : "bg-emerald-950/20 border-emerald-500/20 text-emerald-200"
       }`}>
         <div className="flex items-start gap-2.5">
           {isCommitmentAtRisk ? (
             <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
           ) : isNormalDip ? (
-            <BellOff className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+            <BellOff className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
           ) : (
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
           )}
           <div>
-            <span className="font-bold">
+            <strong className="block font-semibold mb-0.5">
               {isCommitmentAtRisk
-                ? "🚨 Commitment Warning (เตือนเฉพาะเมื่อภาระผูกพันเสี่ยงจริง): "
+                ? "Commitment Warning (ตรวจพบความเสี่ยงต่อภาระคงที่):"
                 : isNormalDip
-                ? "🔕 Alert Suppressed (ระงับการแจ้งเตือนช่วงเงินลดตามปกติ): "
-                : "✅ สภาพคล่องแข็งแรง: "}
-            </span>
-            <span>
+                ? "Alert Suppressed (ระงับการแจ้งเตือนช่วงยอดเงินลดปกติ):"
+                : "Safe Liquidity Margin (สภาพคล่องปลอดภัย):"}
+            </strong>
+            <p className="text-[12px] opacity-90">
               {isCommitmentAtRisk
-                ? `อัตราการใช้จ่ายปัจจุบันเริ่มกระทบต่อค่าเช่าห้องที่จะถึงกำหนดในอีก 5 วัน แนะนำใช้ฟังก์ชัน 1-Tap Undo เพื่อดึงเงินออมกลับมาล่วงหน้า`
+                ? "อัตราการใช้จ่ายสะสมเริ่มกระทบต่อยอดเงินค่าเช่าห้องที่จะถึงกำหนดใน 5 วัน ระบบแนะนำให้ใช้ปุ่ม 1-Tap Undo เพื่อดึงเงินออมกลับมาล่วงหน้า"
                 : isNormalDip
-                ? `ยอดเงินลดลงตามวงจรการใช้ชีวิตปกติ แต่แบบจำลอง LightGBM คำนวณแล้วว่ายังครอบคลุมภาระคงที่สิ้นเดือน ระบบจึงไม่ส่งเสียงรบกวนเพื่อป้องกัน Alert Fatigue`
-                : `กระแสเงินสดรองรับค่าเช่า บิลบัตรเครดิต และค่าน้ำไฟครบถ้วน มีส่วนเกินพร้อมสำหรับ Micro-Sweeping`}
-            </span>
+                ? "ยอดเงินลดลงตามวัฏจักรใช้จ่ายปกติ โมเดล LightGBM วิเคราะห์แล้วว่ายังครอบคลุมภาระผูกพันสิ้นเดือน ระบบจึงตัดเสียงรบกวนเพื่อป้องกัน Alert Fatigue"
+                : "กระแสเงินสดรองรับค่าเช่าห้อง บิลบัตรเครดิต และค่าน้ำไฟครบถ้วน มีส่วนเกินพร้อมสำหรับ Micro-Sweeping อัตโนมัติ"}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Interactive Spending Simulation Slider */}
-      <div className="p-4 rounded-2xl bg-slate-900/50 border border-white/5 space-y-2">
+      <div className="p-4 rounded-lg bg-black/30 border border-white/5 space-y-2">
         <div className="flex justify-between items-center text-xs">
-          <label className="text-slate-300 font-medium">
-            จำลองพฤติกรรมการใช้จ่ายเพื่อทดสอบการทำงานของ Horizon Bar &amp; Alert Suppression:
+          <label className="text-zinc-300 font-medium">
+            จำลองอัตราการใช้จ่าย (ทดสอบ Horizon Bar &amp; Alert Suppression):
           </label>
-          <span className="font-mono text-emerald-400 font-bold">ใช้จ่ายสะสม +฿{spentFactor.toLocaleString()}</span>
+          <span className="font-mono text-emerald-400 font-bold">+฿{spentFactor.toLocaleString()}</span>
         </div>
         <input
           type="range"
@@ -147,42 +151,49 @@ export default function StatusHorizonBar() {
           step="200"
           value={spentFactor}
           onChange={(e) => setSpentFactor(Number(e.target.value))}
-          className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#00A950]"
+          className="w-full h-1.5 bg-zinc-700 rounded appearance-none cursor-pointer accent-[#00A950]"
         />
-        <div className="flex justify-between text-[10px] text-slate-500">
-          <span>ใช้จ่ายต่ำ (Healthy)</span>
-          <span>ใช้จ่ายปานกลาง (Normal Dip - Alert Suppressed)</span>
-          <span>ใช้จ่ายสูงมาก (Commitment At Risk)</span>
+        <div className="flex justify-between tech-label text-[10px] text-zinc-400">
+          <span>ปกติ (Healthy)</span>
+          <span>ปานกลาง (Suppressed)</span>
+          <span>สูง (Risk Warning)</span>
         </div>
       </div>
 
-      {/* 3 Recurring Commitments Breakdown */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs border-t border-white/[0.08]">
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5 space-y-1">
-          <div className="text-slate-400 flex items-center justify-between text-[11px]">
-            <span>ค่าเช่าห้อง/คอนโด (25%)</span>
-            <span className="text-emerald-400 font-bold">มีเงินพอ</span>
-          </div>
-          <div className="text-sm font-bold text-white font-mono">฿ {rentCommitment.toLocaleString()}</div>
-          <span className="text-[10px] text-slate-500 block">หักอัตโนมัติรอบวันที่ 1</span>
+      {/* Structured Obligations Ledger */}
+      <div className="pt-2 border-t border-white/[0.08] space-y-2">
+        <div className="tech-label text-[10px] text-zinc-400">
+          ภาระผูกพันประจำเดือน (Recurring Commitments Breakdown)
         </div>
-
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5 space-y-1">
-          <div className="text-slate-400 flex items-center justify-between text-[11px]">
-            <span>หนี้ผ่อนชำระ/บัตร (12%)</span>
-            <span className="text-emerald-400 font-bold">มีเงินพอ</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs font-mono">
+          
+          <div className="p-2.5 rounded bg-black/30 border border-white/5">
+            <div className="flex justify-between text-zinc-400 text-[11px]">
+              <span>ค่าเช่าห้อง</span>
+              <span className="text-emerald-400">Covered</span>
+            </div>
+            <div className="text-sm font-bold text-white mt-1">฿{rentCommitment.toLocaleString()}</div>
+            <span className="text-[10px] text-zinc-400 block">หักวันที่ 1</span>
           </div>
-          <div className="text-sm font-bold text-white font-mono">฿ {debtCommitment.toLocaleString()}</div>
-          <span className="text-[10px] text-slate-500 block">หักอัตโนมัติรอบวันที่ 25</span>
-        </div>
 
-        <div className="p-3 rounded-xl bg-slate-900/60 border border-white/5 space-y-1">
-          <div className="text-slate-400 flex items-center justify-between text-[11px]">
-            <span>ค่าน้ำ-ไฟ-เน็ต (5%)</span>
-            <span className="text-emerald-400 font-bold">มีเงินพอ</span>
+          <div className="p-2.5 rounded bg-black/30 border border-white/5">
+            <div className="flex justify-between text-zinc-400 text-[11px]">
+              <span>ผ่อนชำระ/บัตร</span>
+              <span className="text-emerald-400">Covered</span>
+            </div>
+            <div className="text-sm font-bold text-white mt-1">฿{debtCommitment.toLocaleString()}</div>
+            <span className="text-[10px] text-zinc-400 block">หักวันที่ 25</span>
           </div>
-          <div className="text-sm font-bold text-white font-mono">฿ {utilCommitment.toLocaleString()}</div>
-          <span className="text-[10px] text-slate-500 block">หักอัตโนมัติรอบวันที่ 28</span>
+
+          <div className="p-2.5 rounded bg-black/30 border border-white/5">
+            <div className="flex justify-between text-zinc-400 text-[11px]">
+              <span>ค่าน้ำ-ไฟ-เน็ต</span>
+              <span className="text-emerald-400">Covered</span>
+            </div>
+            <div className="text-sm font-bold text-white mt-1">฿{utilCommitment.toLocaleString()}</div>
+            <span className="text-[10px] text-zinc-400 block">หักวันที่ 28</span>
+          </div>
+
         </div>
       </div>
 

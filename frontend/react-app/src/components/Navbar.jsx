@@ -1,52 +1,49 @@
 import React, { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { ShieldCheck, ArrowRight, Menu, X, Wallet, ShieldAlert, Cpu, Users } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { to: '/', label: 'หน้าแรก' },
+    { to: '/', label: 'Overview' },
     { to: '/flowsense', label: 'FlowSense' },
     { to: '/trustgraph', label: 'TrustGraph' },
     { to: '/architecture', label: 'AI Architecture' },
-    { to: '/personas', label: 'Personas' },
+    { to: '/personas', label: 'Personas & Impact' },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#070B12]/90 backdrop-blur-xl border-b border-white/[0.08]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-[#090A0F]/95 backdrop-blur-md border-b border-white/[0.08]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-3.5 group">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#008744] via-[#00A950] to-[#22C55E] flex items-center justify-center text-white shadow-lg shadow-emerald-500/25 border border-white/20 group-hover:scale-105 transition-transform">
-            <ShieldCheck className="w-6 h-6" />
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="w-8 h-8 rounded-lg bg-[#00A950] flex items-center justify-center text-white border border-emerald-400/30 shadow-sm transition-transform duration-150 group-hover:scale-105">
+            <ShieldCheck className="w-5 h-5" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white">
-                FlowSense <span className="text-slate-400 font-light">&amp;</span> <span className="text-[#00A950]">TrustGraph</span>
-              </span>
-              <span className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] px-2 py-0.5 rounded-full font-bold">
-                K PLUS
-              </span>
-            </div>
-            <span className="text-xs text-slate-400 hidden sm:inline">KBTG Kampus Hackathon 2026 — Track 2: Data Science &amp; Intelligence</span>
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-base sm:text-lg tracking-tight text-white">
+              FlowSense <span className="text-zinc-500 font-light">&amp;</span> <span className="text-[#00A950]">TrustGraph</span>
+            </span>
+            <span className="tech-label text-[10px] bg-white/[0.04] text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded">
+              K PLUS
+            </span>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-2 text-sm font-medium">
+        <div className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `transition-all py-1.5 px-3 rounded-xl text-sm font-medium outline-none focus:outline-none ring-0 ${
+                `text-xs font-medium px-3 py-1.5 rounded-md transition-colors duration-150 outline-none ${
                   isActive
-                    ? 'text-emerald-400 font-bold bg-emerald-500/15 border border-emerald-500/25 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-white/[0.04]'
+                    ? 'text-white bg-white/[0.08] border border-white/15'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-white/[0.03]'
                 }`
               }
             >
@@ -56,22 +53,26 @@ export default function Navbar() {
         </div>
 
         {/* Action Button & Mobile Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="tech-label hidden xl:inline text-[10px] text-zinc-400 px-2 py-1 rounded bg-white/[0.02] border border-white/5">
+            SLA: &lt; 80ms
+          </span>
+
           <Link
             to="/app"
-            className="hidden sm:inline-flex items-center gap-2 bg-[#00A950] hover:bg-[#008F43] text-white px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition-all hover:scale-[1.02] outline-none focus:outline-none ring-0"
+            className="inline-flex items-center gap-1.5 bg-[#00A950] hover:bg-[#008F43] text-white px-3.5 py-1.5 rounded-md font-medium text-xs border border-emerald-400/20 shadow-sm transition-colors duration-150"
           >
-            <span>เปิดแอปจำลอง (Simulator)</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>Live Simulator</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-200 hover:text-white outline-none focus:outline-none"
+            className="lg:hidden w-8 h-8 rounded-md bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300 hover:text-white"
             aria-label="Toggle Menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
 
@@ -79,8 +80,8 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden px-4 pt-2 pb-6 bg-[#070B12] border-b border-white/10 space-y-3">
-          <div className="flex flex-col space-y-2">
+        <div className="lg:hidden px-4 pt-2 pb-5 bg-[#090A0F] border-b border-white/10 space-y-2">
+          <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}
@@ -88,10 +89,10 @@ export default function Navbar() {
                 end={link.to === '/'}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `px-4 py-2.5 rounded-xl text-sm font-medium transition-colors outline-none focus:outline-none ring-0 ${
+                  `px-3 py-2 rounded-md text-xs font-medium transition-colors ${
                     isActive
-                      ? 'bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30'
-                      : 'text-slate-300 hover:bg-white/5'
+                      ? 'bg-white/[0.08] text-white border border-white/15'
+                      : 'text-zinc-400 hover:bg-white/[0.03] hover:text-zinc-100'
                   }`
                 }
               >
@@ -101,10 +102,10 @@ export default function Navbar() {
             <Link
               to="/app"
               onClick={() => setMobileMenuOpen(false)}
-              className="inline-flex items-center justify-center gap-2 bg-[#00A950] text-white px-4 py-3 rounded-xl font-bold text-sm mt-2 outline-none focus:outline-none ring-0"
+              className="inline-flex items-center justify-center gap-2 bg-[#00A950] text-white px-3 py-2 rounded-md font-medium text-xs mt-2"
             >
               <span>เปิดแอปจำลอง (Simulator)</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

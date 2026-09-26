@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, RotateCcw, CheckCircle2, ShieldCheck, ArrowRight, Zap } from 'lucide-react';
+import { RotateCcw, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
 
 export default function MicroSweepVault() {
   const [subAccountBalance, setSubAccountBalance] = useState(15240);
@@ -13,7 +13,7 @@ export default function MicroSweepVault() {
     const recalledAmount = subAccountBalance;
     setMainBalance(prev => prev + recalledAmount);
     setSubAccountBalance(0);
-    setRecentActionMsg(`✅ 1-Tap Undo สำเร็จ! ดึงเงิน ฿${recalledAmount.toLocaleString()} คืนเข้าบัญชีหลักทันที 100% ไร้ค่าปรับ`);
+    setRecentActionMsg(`1-Tap Undo สำเร็จ: โอนเงิน ฿${recalledAmount.toLocaleString()} คืนเข้าบัญชีหลักทันที 100% ไร้ค่าปรับ`);
     setTimeout(() => setRecentActionMsg(null), 4000);
   };
 
@@ -23,39 +23,38 @@ export default function MicroSweepVault() {
     if (mainBalance - sweepAmt < 500) return;
     setMainBalance(prev => prev - sweepAmt);
     setSubAccountBalance(prev => prev + sweepAmt);
-    setRecentActionMsg(`✨ Micro-Sweep สำเร็จ: กวาดเงินส่วนเกิน ฿${sweepAmt} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50%`);
+    setRecentActionMsg(`Micro-Sweep สำเร็จ: กวาดเงินส่วนเกิน ฿${sweepAmt} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50%`);
     setTimeout(() => setRecentActionMsg(null), 3500);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       
       {/* High-Interest Sub-Account Card */}
-      <div className="glass-card rounded-3xl p-6 relative overflow-hidden">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center border border-teal-500/30">
-              <Sparkles className="w-5 h-5 text-teal-300" />
+      <div className="bento-card rounded-xl p-6 space-y-5">
+        <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-bold text-white tracking-tight">FlowSense Sub-Account</h3>
+              <span className="tech-label text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded">
+                1.50% P.A.
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-white">FlowSense Sub-Account</h3>
-                <span className="text-[10px] bg-teal-500/20 text-teal-300 px-2 py-0.5 rounded-full border border-teal-500/30 font-bold">
-                  1.50% p.a.
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">บัญชีย่อยดอกเบี้ยสูง แยกเงินออมอัตโนมัติเมื่อกระแสเงินสดเอื้ออำนวย</p>
-            </div>
+            <p className="text-xs text-zinc-400 mt-0.5">
+              บัญชีย่อยดอกเบี้ยสูง แยกเงินออมอัตโนมัติเมื่อกระแสเงินสดเอื้ออำนวย
+            </p>
           </div>
+          <span className="tech-label text-[10px] text-zinc-400">CASA ENGINE</span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[#09111E] border border-white/5">
+        {/* Balance & Instant Recall Action */}
+        <div className="p-4 rounded-lg bg-black/40 border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <span className="text-[11px] text-slate-400 block">ยอดเงินออมสะสมในบัญชีย่อย</span>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-num mt-0.5">
-              ฿ {subAccountBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <span className="tech-label text-[10px] text-zinc-400 block">ยอดเงินออมสะสมในบัญชีย่อย</span>
+            <div className="text-2xl sm:text-3xl font-bold text-white font-num mt-1">
+              ฿{subAccountBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
-            <div className="text-xs text-emerald-400 flex items-center gap-1.5 mt-1 font-medium">
+            <div className="text-xs text-emerald-400 flex items-center gap-1.5 mt-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>ถอนคืนเข้าบัญชีหลักได้ทันที 100% ไร้บทลงโทษ</span>
             </div>
@@ -65,72 +64,73 @@ export default function MicroSweepVault() {
           <button
             onClick={handleOneTapRecall}
             disabled={subAccountBalance <= 0}
-            className={`px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-lg transition-all ${
+            className={`px-4 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition-colors duration-150 border shrink-0 ${
               subAccountBalance > 0
-                ? "bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white hover:scale-105 shadow-emerald-600/25"
-                : "bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5"
+                ? "bg-[#00A950] hover:bg-[#008F43] text-white border-emerald-400/20 shadow-sm"
+                : "bg-zinc-800 text-zinc-500 border-white/5 cursor-not-allowed"
             }`}
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
             <span>1-Tap Undo (ดึงเงินคืน 100%)</span>
           </button>
         </div>
 
         {recentActionMsg && (
-          <div className="mt-3 p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-semibold animate-in fade-in">
+          <div className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
             {recentActionMsg}
           </div>
         )}
       </div>
 
       {/* Micro-Sweep Status Card */}
-      <div className="glass-card rounded-3xl p-6 space-y-4">
+      <div className="bento-card rounded-xl p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-base font-bold text-white">Micro-Sweep with 1-Tap Undo</h4>
-              <span className="text-[10px] bg-emerald-500/15 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
-                Autonomous
+              <h4 className="text-sm font-bold text-white">Micro-Sweep with 1-Tap Undo</h4>
+              <span className="tech-label text-[9px] bg-white/[0.04] text-zinc-400 border border-white/10 px-1.5 py-0.5 rounded">
+                AUTOPILOT
               </span>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-zinc-400 mt-0.5">
               กวาดเงินส่วนเกินขนาดเล็กอัตโนมัติเฉพาะเมื่อสภาพคล่องเพียงพอ
             </p>
           </div>
 
+          {/* Clean Minimal Toggle */}
           <button
             onClick={() => setIsSweepingActive(!isSweepingActive)}
-            className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 focus:outline-none ${
-              isSweepingActive ? "bg-[#00A950]" : "bg-slate-700"
+            className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-150 focus:outline-none ${
+              isSweepingActive ? "bg-[#00A950]" : "bg-zinc-700"
             }`}
             title="เปิด/ปิดระบบกวาดเงินออมอัตโนมัติ"
           >
             <div
-              className={`w-6 h-6 rounded-full bg-white transition-transform duration-300 ${
-                isSweepingActive ? "translate-x-6" : "translate-x-0"
+              className={`w-5 h-5 rounded-full bg-white transition-transform duration-150 ${
+                isSweepingActive ? "translate-x-5" : "translate-x-0"
               }`}
             ></div>
           </button>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-white/5 flex items-center justify-between text-xs">
+        <div className="p-3 rounded-lg bg-black/30 border border-white/5 flex items-center justify-between text-xs">
           <div>
-            <span className="text-slate-300 block font-medium">สถานะระบบกวาดเงินออม:</span>
-            <span className="text-slate-500 text-[11px]">คำนวณจาก Cashflow Margin</span>
+            <span className="text-zinc-300 font-medium block">สถานะระบบกวาดเงินออม:</span>
+            <span className="text-zinc-400 text-[11px]">คำนวณจาก Cashflow Margin</span>
           </div>
           <div className="text-right">
-            <span className="font-bold font-num text-emerald-400 text-sm block">
+            <span className="font-mono font-bold text-emerald-400 text-xs block">
               {isSweepingActive ? "+฿150.00 / วัน (เมื่อเงินเหลือ)" : "ปิดการทำงานชั่วคราว"}
             </span>
-            <span className="text-[10px] text-slate-400">สะสม CASA ดอกเบี้ย 1.50%</span>
+            <span className="tech-label text-[9px] text-zinc-400">สะสม CASA ดอกเบี้ย 1.50%</span>
           </div>
         </div>
 
         <button
           onClick={handleManualSweep}
-          className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-white/10 flex items-center justify-center gap-2 transition-all"
+          className="w-full py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-700/80 flex items-center justify-center gap-2 transition-colors duration-150"
         >
-          <Zap className="w-3.5 h-3.5 text-amber-400" />
+          <Zap className="w-3.5 h-3.5 text-zinc-400" />
           <span>ทดสอบจำลองคำสั่ง Micro-Sweep (+฿150 เข้า Sub-account)</span>
         </button>
       </div>
