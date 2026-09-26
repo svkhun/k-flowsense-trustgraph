@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: k-sentinel-wealthpilot
+    name: flowsense-trustgraph
     runtime: python
     plan: free
     region: singapore
