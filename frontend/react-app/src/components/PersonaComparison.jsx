@@ -4,7 +4,7 @@ import { X, Check, Users, Target, TrendingUp, ShieldCheck, DollarSign } from 'lu
 export default function PersonaComparison() {
   return (
     <section className="py-16 border-t border-white/10 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-14">
         
         {/* Section 1: Problem Statement & Transformation */}
         <div>

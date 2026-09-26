@@ -39,7 +39,7 @@ export default function ArchitecturePage() {
     <div className="py-8 sm:py-10 space-y-12">
       
       {/* 1. Unified Master Header (Zero Redundant Double-Headers) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
@@ -78,12 +78,12 @@ export default function ArchitecturePage() {
       </section>
 
       {/* 2. Interactive 4-Stage Core Banking ML Pipeline */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <ArchitecturePipeline showHeader={false} />
       </section>
 
       {/* 3. Interactive Throughput & Scalability Radar for KBTG Judges */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>
@@ -171,7 +171,7 @@ export default function ArchitecturePage() {
       </section>
 
       {/* 4. Navigation CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
         <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
           <div className="space-y-1.5">
             <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">ศึกษาผลกระทบที่มีต่อกลุ่มเป้าหมาย First Jobber</h3>

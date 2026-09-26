@@ -8,7 +8,7 @@ export default function PersonasPage() {
     <div className="py-10 space-y-12">
       
       {/* Header Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
@@ -34,7 +34,7 @@ export default function PersonasPage() {
       <PersonaComparison />
 
       {/* Navigation CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
         <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
           <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">กลับไปยังหน้า Overview เพื่อดูภาพรวมทั้งระบบ</h3>

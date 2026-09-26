@@ -16,7 +16,7 @@ export default function HomePage({ onOpenScamModal }) {
       <Hero onOpenScamModal={onOpenScamModal} />
 
       {/* 2. Interactive Dual-Engine Sandbox (Judge Playground) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-6">
         
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-white/10">
@@ -121,7 +121,7 @@ export default function HomePage({ onOpenScamModal }) {
       </section>
 
       {/* 3. Streamlined Bento Grid Overview */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-6">
         <div className="space-y-1">
           <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300 tech-label text-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -231,7 +231,7 @@ export default function HomePage({ onOpenScamModal }) {
       </section>
 
       {/* 4. Executive Scorecard Summary (Replaces redundant wall of text) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card rounded-2xl p-6 sm:p-7 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>

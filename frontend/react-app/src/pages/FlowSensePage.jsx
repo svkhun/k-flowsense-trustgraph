@@ -9,7 +9,7 @@ export default function FlowSensePage() {
     <div className="py-10 space-y-12">
       
       {/* Header Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
@@ -32,7 +32,7 @@ export default function FlowSensePage() {
       </section>
 
       {/* Main Interactive Components (Status Horizon Bar & Micro-Sweep) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <div className="lg:col-span-7">
             <StatusHorizonBar />
@@ -44,7 +44,7 @@ export default function FlowSensePage() {
       </section>
 
       {/* 3 Core Architecture Pillars of FlowSense (from Pitch) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="max-w-3xl space-y-2 mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label text-xs">
             <Compass className="w-3.5 h-3.5 text-emerald-400" />
@@ -98,7 +98,7 @@ export default function FlowSensePage() {
       </section>
 
       {/* Data Science Table Preview */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
             <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">DATA SCIENCE ARCHITECTURE</span>
@@ -112,7 +112,7 @@ export default function FlowSensePage() {
       </section>
 
       {/* Navigation CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
         <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
           <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-bold text-white">ต้องการทดสอบการตรวจจับมิจฉาชีพด้วย TrustGraph?</h3>
