@@ -798,7 +798,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   }
 
   #sidebar-nav.sidebar-collapsed {
-    margin-left: -18rem !important; /* Smoothly collapses the width allocated in flex layout (md:w-72 = 18rem) */
+    margin-left: -14rem !important; /* Smoothly collapses the width allocated in flex layout (md:w-56 = 14rem) */
     transform: translateX(-24px) !important;
     opacity: 0 !important;
     pointer-events: none !important;
@@ -808,7 +808,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 @media (min-width: 1024px) {
   #sidebar-nav.sidebar-collapsed {
-    margin-left: -20rem !important; /* For lg:w-80 (20rem) */
+    margin-left: -15rem !important; /* For lg:w-60 (15rem) */
   }
 }
 
