@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RotateCcw, ShieldCheck, Zap } from 'lucide-react';
+import { RotateCcw, ShieldCheck, Zap, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export default function MicroSweepVault() {
   const [subAccountBalance, setSubAccountBalance] = useState(15240);
@@ -13,8 +13,8 @@ export default function MicroSweepVault() {
     const recalledAmount = subAccountBalance;
     setMainBalance(prev => prev + recalledAmount);
     setSubAccountBalance(0);
-    setRecentActionMsg(`1-Tap Undo สำเร็จ: โอนเงิน ฿${recalledAmount.toLocaleString()} คืนเข้าบัญชีหลักทันที 100% ไร้ค่าปรับ`);
-    setTimeout(() => setRecentActionMsg(null), 4000);
+    setRecentActionMsg(`1-Tap Undo สำเร็จ: โอนเงิน ฿${recalledAmount.toLocaleString()} คืนเข้าบัญชีหลักทันที 100% ไร้ค่าปรับ ไร้เวลารอ`);
+    setTimeout(() => setRecentActionMsg(null), 4500);
   };
 
   // Test micro-sweep
@@ -23,38 +23,38 @@ export default function MicroSweepVault() {
     if (mainBalance - sweepAmt < 500) return;
     setMainBalance(prev => prev - sweepAmt);
     setSubAccountBalance(prev => prev + sweepAmt);
-    setRecentActionMsg(`Micro-Sweep สำเร็จ: กวาดเงินส่วนเกิน ฿${sweepAmt} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50%`);
+    setRecentActionMsg(`Micro-Sweep สำเร็จ: กวาดเงินส่วนเกิน ฿${sweepAmt} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50% P.A.`);
     setTimeout(() => setRecentActionMsg(null), 3500);
   };
 
   return (
     <div className="space-y-4">
       {/* High-Interest Sub-Account Card */}
-      <div className="bento-card rounded-xl p-6 space-y-5">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
+      <div className="bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
+        <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-semibold text-slate-900 tracking-tight">FlowSense Sub-Account</h3>
-              <span className="text-[10px] font-mono font-medium tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200/70 px-2 py-0.5 rounded">
-                1.50% P.A.
+              <h3 className="text-base font-bold text-white tracking-tight">FlowSense Sub-Account</h3>
+              <span className="text-[10px] font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded shadow-xs">
+                1.50% P.A. CASA
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+            <p className="text-xs text-slate-400 mt-1 font-normal">
               บัญชีย่อยดอกเบี้ยสูง แยกเงินออมอัตโนมัติเมื่อกระแสเงินสดเอื้ออำนวย
             </p>
           </div>
-          <span className="text-[10px] font-mono tracking-wider text-slate-400 uppercase font-medium">CASA ENGINE</span>
+          <span className="tech-label text-[10px] text-slate-400 font-mono">AUTOPILOT</span>
         </div>
 
         {/* Balance & Instant Recall Action */}
-        <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <span className="text-[11px] font-mono tracking-wider text-slate-500 block uppercase font-medium">ยอดเงินออมสะสมในบัญชีย่อย</span>
-            <div className="text-2xl sm:text-3xl font-semibold text-slate-900 font-num tabular-nums mt-1 tracking-tight">
+            <span className="tech-label text-[10px] text-slate-400 block font-mono">ยอดเงินออมสะสมในบัญชีย่อย</span>
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-num mt-1 tracking-tight text-gradient-kplus">
               ฿{subAccountBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
-            <div className="text-xs text-emerald-700 flex items-center gap-1.5 mt-1 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="text-xs text-emerald-400 flex items-center gap-1.5 mt-1 font-mono">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span>ถอนคืนเข้าบัญชีหลักได้ทันที 100% ไร้ค่าธรรมเนียม</span>
             </div>
           </div>
@@ -63,35 +63,36 @@ export default function MicroSweepVault() {
           <button
             onClick={handleOneTapRecall}
             disabled={subAccountBalance <= 0}
-            className={`px-4 py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2 transition-all duration-150 border shrink-0 ${
+            className={`px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all duration-200 border shrink-0 ${
               subAccountBalance > 0
-                ? "bg-[#064E3B] hover:bg-[#022C22] text-white border-emerald-900/30 shadow-sm"
-                : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
+                ? "btn-kplus text-white shadow-lg shadow-emerald-500/30"
+                : "bg-slate-800 text-slate-500 border-white/5 cursor-not-allowed"
             }`}
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-4 h-4" />
             <span>1-Tap Undo (ดึงเงินคืน 100%)</span>
           </button>
         </div>
 
         {recentActionMsg && (
-          <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono leading-relaxed">
-            {recentActionMsg}
+          <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono leading-relaxed flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>{recentActionMsg}</span>
           </div>
         )}
       </div>
 
       {/* Micro-Sweep Status Card */}
-      <div className="bento-card rounded-xl p-5 space-y-4">
+      <div className="bento-card rounded-2xl p-5 sm:p-6 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-sm font-semibold text-slate-900">Micro-Sweep with 1-Tap Undo</h4>
-              <span className="text-[9px] font-mono font-medium tracking-wider bg-slate-100 text-slate-600 border border-slate-200 px-1.5 py-0.5 rounded uppercase">
-                AUTOPILOT
+              <h4 className="text-sm font-bold text-white">Micro-Sweep with 1-Tap Undo</h4>
+              <span className="text-[9px] font-mono font-semibold bg-white/5 text-slate-300 border border-white/10 px-1.5 py-0.5 rounded">
+                K PLUS ENGINE
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-normal leading-relaxed mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5 font-normal">
               กวาดเงินส่วนเกินขนาดเล็กอัตโนมัติเฉพาะเมื่อสภาพคล่องเพียงพอ
             </p>
           </div>
@@ -99,37 +100,37 @@ export default function MicroSweepVault() {
           {/* Clean Minimal Toggle */}
           <button
             onClick={() => setIsSweepingActive(!isSweepingActive)}
-            className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-150 focus:outline-none ${
-              isSweepingActive ? "bg-[#064E3B]" : "bg-slate-300"
+            className={`w-11 h-6 rounded-full p-0.5 transition-colors duration-200 focus:outline-none ${
+              isSweepingActive ? "bg-[#00A950]" : "bg-slate-700"
             }`}
             title="เปิด/ปิดระบบกวาดเงินออมอัตโนมัติ"
           >
             <div
-              className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-150 ${
+              className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200 ${
                 isSweepingActive ? "translate-x-5" : "translate-x-0"
               }`}
             ></div>
           </button>
         </div>
 
-        <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
+        <div className="p-3 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between text-xs font-mono">
           <div>
-            <span className="text-slate-700 font-medium block">สถานะระบบกวาดเงินออม:</span>
-            <span className="text-slate-400 text-[11px] font-normal">คำนวณจาก Cashflow Margin</span>
+            <span className="text-slate-300 font-medium block">สถานะระบบกวาดเงินออม:</span>
+            <span className="text-slate-500 text-[11px]">คำนวณจาก Cashflow Margin</span>
           </div>
           <div className="text-right">
-            <span className="font-mono font-semibold text-emerald-700 text-xs tabular-nums block">
+            <span className="font-bold text-emerald-400 text-xs tabular-nums block">
               {isSweepingActive ? "+฿150.00 / วัน (เมื่อเงินเหลือ)" : "ปิดการทำงานชั่วคราว"}
             </span>
-            <span className="text-[9px] font-mono tracking-wider text-slate-400 uppercase">สะสม CASA ดอกเบี้ย 1.50%</span>
+            <span className="text-[10px] text-slate-400">สะสม CASA ดอกเบี้ย 1.50%</span>
           </div>
         </div>
 
         <button
           onClick={handleManualSweep}
-          className="w-full py-2.5 px-3 rounded-lg bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-medium border border-slate-200/80 shadow-sm flex items-center justify-center gap-2 transition-colors duration-150"
+          className="w-full py-2.5 px-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-300 hover:text-white text-xs font-medium border border-white/10 flex items-center justify-center gap-2 transition-colors duration-150"
         >
-          <Zap className="w-3.5 h-3.5 text-slate-500" />
+          <Zap className="w-3.5 h-3.5 text-emerald-400" />
           <span>ทดสอบจำลองคำสั่ง Micro-Sweep (+฿150 เข้า Sub-account)</span>
         </button>
       </div>

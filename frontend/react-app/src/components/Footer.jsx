@@ -1,23 +1,53 @@
 import React from 'react';
+import { ShieldCheck, Cpu, Database, Activity } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="py-10 bg-slate-50 border-t border-slate-200/80 text-center text-xs text-slate-500 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 space-y-3">
-        <div className="flex items-center justify-center gap-2 text-slate-900 font-semibold text-sm tracking-tight">
-          <span>FlowSense</span>
-          <span className="text-slate-400 font-light">&amp;</span>
-          <span className="text-[#064E3B]">TrustGraph</span>
-          <span className="tech-label text-[10px] bg-white text-slate-600 border border-slate-200 px-2 py-0.5 rounded tracking-wider">
-            K PLUS
-          </span>
+    <footer className="bg-[#03060E] border-t border-white/10 text-slate-400 text-xs py-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/5">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <span className="font-bold text-sm text-white tracking-tight">
+                FlowSense &amp; TrustGraph Enterprise
+              </span>
+              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 rounded">
+                KBTG 2026
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 max-w-md">
+              ระบบสถาปัตยกรรมจัดการสภาพคล่องและสกัดกั้นบัญชีม้าความเร็วสูงระดับ Core Banking ออกแบบเฉพาะสำหรับ K PLUS
+            </p>
+          </div>
+
+          {/* Core Tech Stack Badges */}
+          <div className="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+            <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/10 text-slate-300">Kafka Stream</span>
+            <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/10 text-slate-300">Feast Redis</span>
+            <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/10 text-slate-300">R-GCN</span>
+            <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/10 text-slate-300">LightGBM</span>
+            <span className="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">Triton ONNX</span>
+          </div>
         </div>
-        <p className="text-slate-600 font-normal">
-          นวัตกรรมบริการทางการเงินและการสกัดกั้นบัญชีม้าสำหรับงาน KBTG Kampus Hackathon 2026 • Track 2: Data Science &amp; Intelligence
-        </p>
-        <p className="tech-label text-[10px] text-slate-400">
-          Built with React 18 • Vite • Tailwind CSS • Triton &amp; Feast Architecture
-        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+          <div>
+            &copy; 2026 K-FlowSense &amp; TrustGraph. Designed for KBTG Hackathon Innovation Showcase.
+          </div>
+          <div className="flex items-center gap-4 text-slate-400">
+            <Link to="/" className="hover:text-emerald-400 transition-colors">Overview</Link>
+            <Link to="/flowsense" className="hover:text-emerald-400 transition-colors">FlowSense</Link>
+            <Link to="/trustgraph" className="hover:text-emerald-400 transition-colors">TrustGraph</Link>
+            <Link to="/architecture" className="hover:text-emerald-400 transition-colors">Architecture</Link>
+            <Link to="/app" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">Launch Simulator</Link>
+          </div>
+        </div>
+
       </div>
     </footer>
   );

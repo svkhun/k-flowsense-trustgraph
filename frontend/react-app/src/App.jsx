@@ -18,15 +18,15 @@ export default function App() {
   const [isMicroAuthOpen, setIsMicroAuthOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-slate-800 bg-[#F8FAFC]">
+    <div className="min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white">
       {/* Auto scroll to top on route change */}
       <ScrollToTop />
 
       {/* Global Navigation */}
-      <Navbar />
+      <Navbar onOpenScamModal={() => setIsMicroAuthOpen(true)} />
 
       {/* Dynamic Viewport Container via React Router */}
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         <Routes>
           <Route
             path="/"
@@ -62,7 +62,7 @@ export default function App() {
           />
           <Route
             path="/simulator"
-            element={<SimulatorPage />}
+            element={<Navigate to="/app" replace />}
           />
           <Route
             path="*"
@@ -71,14 +71,14 @@ export default function App() {
         </Routes>
       </main>
 
-      {/* Global Footer */}
-      <Footer />
-
-      {/* Interactive Global TrustGraph Micro-Auth Modal */}
+      {/* Global Interactive Micro-Auth Modal */}
       <MicroAuthModal
         isOpen={isMicroAuthOpen}
         onClose={() => setIsMicroAuthOpen(false)}
       />
+
+      {/* Global Enterprise Footer */}
+      <Footer />
     </div>
   );
 }

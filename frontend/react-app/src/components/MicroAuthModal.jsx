@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, ScanFace, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, ScanFace, X, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
   const [scanStep, setScanStep] = useState('idle'); // 'idle' | 'scanning' | 'passed'
@@ -51,67 +51,71 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200 shadow-2xl text-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
+      <div className="bg-[#0B1224] rounded-2xl max-w-lg w-full p-6 sm:p-7 space-y-5 border border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.25)] text-slate-100 relative overflow-hidden">
+        
+        {/* Subtle Ambient Red Glow */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 blur-3xl pointer-events-none"></div>
+
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
-              <AlertTriangle className="w-4 h-4" />
+        <div className="flex items-center justify-between pb-3.5 border-b border-white/10 relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-rose-950/80 border border-rose-500/40 flex items-center justify-center text-rose-400 shadow-md">
+              <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-base font-semibold text-slate-900 tracking-tight">TrustGraph: Micro-Auth</h3>
-                <span className="text-[10px] font-mono tracking-wider bg-rose-50 text-rose-700 px-2 py-0.5 rounded border border-rose-200 font-medium">
+                <h3 className="text-base font-bold text-white tracking-tight">TrustGraph: Micro-Auth</h3>
+                <span className="text-[10px] font-mono font-bold bg-rose-950 text-rose-300 px-2 py-0.5 rounded border border-rose-500/40">
                   CRITICAL ANOMALY
                 </span>
               </div>
-              <p className="text-xs text-slate-500 font-normal">ตรวจพบลักษณะผิดปกติวิกฤตบน Relational GCN (&lt;80ms)</p>
+              <p className="text-xs text-slate-400 mt-0.5">ตรวจพบลักษณะผิดปกติวิกฤตบน Relational GCN (&lt;80ms)</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-md bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
+            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Direct Risk Reasoning (Pitch Core Feature) */}
-        <div className="p-3.5 rounded-lg bg-rose-50/70 border border-rose-200 space-y-2">
-          <div className="flex items-center gap-1.5 text-rose-800 text-xs font-medium">
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+        <div className="p-4 rounded-xl bg-black/50 border border-rose-500/30 space-y-2 relative z-10">
+          <div className="flex items-center gap-1.5 text-rose-300 text-xs font-bold">
+            <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
             <span>Direct Risk Reasoning (เหตุผลความเสี่ยงตรงจุด):</span>
           </div>
-          <p className="text-xs text-slate-800 leading-relaxed font-mono bg-white p-3 rounded border border-rose-200/60 shadow-sm">
+          <p className="text-xs text-slate-200 leading-relaxed font-mono bg-[#060A14] p-3 rounded-lg border border-white/10">
             &ldquo;Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีปลายทางเพิ่งเปิดได้เพียง 48 ชม. พร้อมพฤติกรรมเงินเข้าแล้วหมุนเวียนโอนออกทันทีภายใน 24 วินาที)&rdquo;
           </p>
-          <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-500 pt-0.5">
-            <div>Topology: <span className="text-rose-700 font-semibold">Mule Net Tier-2</span></div>
-            <div>Inflow Window: <span className="text-rose-700 font-semibold">24s Pass-Through</span></div>
+          <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400 pt-0.5">
+            <div>Topology: <span className="text-rose-400 font-bold">Mule Net Tier-2</span></div>
+            <div>Inflow Window: <span className="text-rose-400 font-bold">24s Pass-Through</span></div>
           </div>
         </div>
 
         {/* 5-Second Micro-Auth Face Liveness Banner */}
-        <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between relative z-10">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-lg flex items-center justify-center border shadow-sm ${
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center border shadow-md transition-colors ${
               scanStep === 'passed'
-                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                : 'bg-white text-slate-700 border-slate-200'
+                ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500'
+                : 'bg-slate-800 text-slate-300 border-slate-700 animate-pulse'
             }`}>
-              {scanStep === 'passed' ? <ShieldCheck className="w-4 h-4 text-emerald-700" /> : <ScanFace className="w-4 h-4 text-slate-600" />}
+              {scanStep === 'passed' ? <CheckCircle2 className="w-6 h-6 text-emerald-400" /> : <ScanFace className="w-6 h-6 text-slate-300" />}
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-900 flex items-center gap-1.5">
+              <div className="text-xs font-bold text-white flex items-center gap-2">
                 <span>{scanStep === 'passed' ? 'Micro-Auth ตรวจสอบผ่านแล้ว' : 'Micro-Auth Face Liveness'}</span>
                 {scanStep === 'passed' && (
-                  <span className="text-[9px] font-mono tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded font-medium">
+                  <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/40">
                     PASSED
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-slate-500 font-normal">
+              <p className="text-[11px] text-slate-400 mt-0.5">
                 {scanStep === 'passed'
                   ? 'ยืนยันตัวตนสำเร็จ ไร้การหน่วงเวลา 15 นาทีตามอำเภอใจ'
                   : 'สแกนใบหน้า 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง'}
@@ -121,11 +125,11 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
 
           <div className="text-right shrink-0">
             {scanStep === 'scanning' ? (
-              <span className="font-mono text-xl font-semibold text-slate-900 bg-white px-3 py-1 rounded border border-slate-200 shadow-sm tabular-nums">
+              <span className="font-mono text-2xl font-extrabold text-white bg-white/10 px-3 py-1 rounded-lg border border-white/20 tabular-nums animate-pulse">
                 {countdown}s
               </span>
             ) : (
-              <span className="text-[10px] font-mono tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 font-medium">
+              <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/20 px-2.5 py-1 rounded-lg border border-emerald-500/30">
                 100% OK
               </span>
             )}
@@ -133,40 +137,40 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
         </div>
 
         {/* Action Prompt */}
-        <div className="space-y-2 pt-1">
-          <div className="text-center text-xs text-slate-500 font-normal">
-            ระบบชี้แจงความเสี่ยงแล้ว <strong className="text-slate-900 font-semibold">การตัดสินใจขั้นสุดท้ายขึ้นอยู่กับคุณ</strong>
+        <div className="space-y-3 pt-1 relative z-10">
+          <div className="text-center text-xs text-slate-400 font-mono">
+            ระบบชี้แจงความเสี่ยงแล้ว <strong className="text-white">การตัดสินใจขั้นสุดท้ายขึ้นอยู่กับคุณ</strong>
           </div>
 
           {decisionMade === 'PROCEED' ? (
-            <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-xs text-center font-mono font-medium">
+            <div className="p-3.5 rounded-xl bg-amber-950/50 border border-amber-500/40 text-amber-300 text-xs text-center font-mono font-bold">
               กำลังดำเนินการโอนเงินตามการตัดสินใจของคุณ (บันทึก Audit Log)
             </div>
           ) : decisionMade === 'CANCEL' ? (
-            <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs text-center font-mono font-medium">
-              ยกเลิกรายการสำเร็จ เงินของคุณยังคงปลอดภัย 100% ในบัญชี
+            <div className="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 text-xs text-center font-mono font-bold">
+              ยกเลิกรายการสำเร็จ เงินของคุณยังคงปลอดภัย 100% ในบัญชี K PLUS
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <button
                 onClick={handleCancel}
-                className="w-full py-2.5 px-3 rounded-lg bg-[#064E3B] hover:bg-[#022C22] text-white font-medium text-xs border border-emerald-900/30 shadow-sm flex items-center justify-center gap-1.5 transition-colors duration-150"
+                className="w-full py-3 px-3 rounded-xl btn-kplus font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/25"
               >
-                <ShieldCheck className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-4 h-4" />
                 <span>ยกเลิกการโอน (แนะนำ)</span>
               </button>
 
               <button
                 onClick={handleProceed}
                 disabled={scanStep === 'scanning'}
-                className={`w-full py-2.5 px-3 rounded-lg text-xs font-medium border flex items-center justify-center gap-1.5 transition-colors duration-150 ${
+                className={`w-full py-3 px-3 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1.5 transition-all ${
                   scanStep === 'scanning'
-                    ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed'
-                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200 shadow-sm'
+                    ? 'bg-slate-800 text-slate-500 border-white/5 cursor-not-allowed'
+                    : 'bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border-white/20'
                 }`}
               >
                 <span>ยืนยันต้องการโอน</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           )}

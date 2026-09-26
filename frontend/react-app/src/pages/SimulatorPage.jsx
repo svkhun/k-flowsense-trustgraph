@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { RefreshCw, Maximize2, ArrowLeft } from 'lucide-react';
+import { RefreshCw, Maximize2, ArrowLeft, Smartphone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function SimulatorPage() {
@@ -14,25 +14,26 @@ export default function SimulatorPage() {
   return (
     <div className="py-4 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto space-y-3">
       {/* Top Toolbar */}
-      <div className="bento-card rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border-slate-200/90 shadow-sm">
+      <div className="bento-card rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl">
         <div className="flex items-center gap-3">
           <Link
             to="/"
-            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 transition-colors"
+            className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
             title="กลับสู่หน้า Overview"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-sm sm:text-base font-semibold text-slate-900 tracking-tight">
+              <Smartphone className="w-4 h-4 text-emerald-400" />
+              <h1 className="text-sm sm:text-base font-bold text-white tracking-tight">
                 FlowSense &amp; TrustGraph Interactive Simulator (K PLUS)
               </h1>
-              <span className="text-[10px] font-mono tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-medium">
+              <span className="text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded">
                 LIVE RUNTIME
               </span>
             </div>
-            <p className="text-xs text-slate-500 hidden sm:block font-normal">
+            <p className="text-xs text-slate-400 hidden sm:block">
               ระบบจำลอง K PLUS: Status Horizon Bar, Micro-Sweep 1-Tap Undo, Zero-Delay Baseline, และ Micro-Auth 5s
             </p>
           </div>
@@ -42,23 +43,25 @@ export default function SimulatorPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleRefresh}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 text-xs font-medium border border-slate-200/80 shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold border border-white/10 transition-colors"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-slate-500" />
+            <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
             <span>รีเฟรช</span>
           </button>
           <a
             href="/simulator.html"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#064E3B] hover:bg-[#022C22] text-white text-xs font-medium border border-emerald-900/30 shadow-sm transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-kplus inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-semibold"
           >
             <Maximize2 className="w-3.5 h-3.5" />
-            <span>เปิดเต็มหน้าจอ</span>
+            <span>เปิดเต็มหน้าต่างใหม่</span>
           </a>
         </div>
       </div>
 
       {/* Simulator Viewport Container */}
-      <div className="w-full h-[calc(100vh-140px)] min-h-[750px] rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white relative">
+      <div className="w-full h-[calc(100vh-140px)] min-h-[750px] rounded-2xl overflow-hidden border border-white/10 bg-[#070B14] relative shadow-2xl">
         <iframe
           ref={iframeRef}
           src="/simulator.html"

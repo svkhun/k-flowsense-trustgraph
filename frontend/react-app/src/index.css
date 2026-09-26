@@ -4,75 +4,107 @@
 
 @layer base {
   :root {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', -apple-system, sans-serif;
-    background-color: #F8FAFC;
-    color: #1E293B;
+    background-color: #050814;
+    color: #F1F5F9;
     background-image: 
-      linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-position: 0 0;
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 169, 80, 0.16), transparent 70%),
+      radial-gradient(circle at 100% 40%, rgba(14, 165, 233, 0.08), transparent 50%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Production-grade Soft Light Bento Card & Surfaces */
+/* KBTG Enterprise Glassmorphism Cards */
 .bento-card, .glass-card {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
-  transition: border-color 160ms ease-out, box-shadow 160ms ease-out, transform 160ms ease-out;
+  background: rgba(13, 21, 45, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-card:hover, .glass-card:hover {
-  border-color: rgba(203, 213, 225, 1);
-  box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+  border-color: rgba(0, 169, 80, 0.45);
+  box-shadow: 0 14px 44px -8px rgba(0, 169, 80, 0.2), inset 0 1px 0 0 rgba(0, 245, 155, 0.25);
+  transform: translateY(-2px);
 }
 
-.bento-card-highlight {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  box-shadow: 0 1px 3px 0 rgba(16, 185, 129, 0.06);
-  transition: border-color 160ms ease-out, box-shadow 160ms ease-out;
+.bento-card-active {
+  border-color: rgba(0, 169, 80, 0.65) !important;
+  box-shadow: 0 0 35px rgba(0, 169, 80, 0.25), inset 0 1px 0 0 rgba(0, 245, 155, 0.4) !important;
 }
 
-.bento-card-highlight:hover {
-  border-color: rgba(5, 150, 105, 0.55);
-  box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.09);
+/* Gradient Typography */
+.text-gradient-kplus {
+  background: linear-gradient(135deg, #FFFFFF 0%, #A7F3D0 40%, #00F59B 75%, #00A950 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Micro-badge & Technical Monospace Labels (Airy & Slender) */
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #FFFFFF 0%, #BAE6FD 50%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-amber {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDE68A 50%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Flagship K PLUS Neon Button */
+.btn-kplus {
+  background: linear-gradient(135deg, #00A950 0%, #00843E 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  box-shadow: 0 0 20px rgba(0, 169, 80, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 180ms ease-out;
+}
+
+.btn-kplus:hover {
+  background: linear-gradient(135deg, #00C45D 0%, #009947 100%);
+  border-color: rgba(110, 231, 183, 0.8);
+  box-shadow: 0 0 32px rgba(0, 169, 80, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Monospace Labels & Numbers */
 .tech-label {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-/* Tabular Numbers for Financial Instruments & Metrics */
 .font-num {
   font-feature-settings: "tnum" 1;
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle Modern Scrollbar */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #050814;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #142042;
   border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #00A950;
 }
