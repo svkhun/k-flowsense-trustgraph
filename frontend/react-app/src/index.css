@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +10,7 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', -apple-system, sans-serif;
+    font-family: 'IBM Plex Sans Thai', 'Plus Jakarta Sans', -apple-system, sans-serif;
     background-color: #050814;
     color: #F1F5F9;
     background-image: 
@@ -19,6 +21,16 @@
     background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Explicitly prioritize IBM Plex Sans Thai for all standard elements */
+  *, button, input, select, textarea {
+    font-family: 'IBM Plex Sans Thai', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+
+  /* Monospace elements strictly use JetBrains Mono */
+  code, pre, .font-mono, .tech-label, .font-num {
+    font-family: 'JetBrains Mono', ui-monospace, monospace !important;
   }
 }
 
@@ -80,7 +92,7 @@
 
 /* Monospace Labels & Numbers */
 .tech-label {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -90,6 +102,7 @@
 .font-num {
   font-feature-settings: "tnum" 1;
   font-variant-numeric: tabular-nums;
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
 }
 
 /* Custom Scrollbars */

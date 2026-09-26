@@ -39,7 +39,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', '"IBM Plex Sans Thai"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['"IBM Plex Sans Thai"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        thai: ['"IBM Plex Sans Thai"', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace']
       },
       animation: {
