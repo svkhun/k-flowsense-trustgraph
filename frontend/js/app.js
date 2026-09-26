@@ -466,6 +466,42 @@ function toggleSidebar(forceState = null) {
 }
 
 // ==============================================================================
+// TOP DRAWER NAVBAR CONTROLLER (Smooth Hardware-Accelerated Sliding Animation)
+// ==============================================================================
+function toggleNavbarDrawer(forceState) {
+  const navbar = document.getElementById("top-navbar");
+  const spacer = document.getElementById("navbar-spacer");
+  const arrow = document.getElementById("drawer-handle-arrow");
+  const text = document.getElementById("drawer-handle-text");
+  if (!navbar) return;
+
+  const isCurrentlyCollapsed = navbar.classList.contains("drawer-collapsed");
+  const shouldExpand = forceState !== undefined ? forceState : isCurrentlyCollapsed;
+
+  if (shouldExpand) {
+    navbar.classList.remove("drawer-collapsed");
+    navbar.classList.add("drawer-expanded");
+    if (spacer) spacer.classList.remove("drawer-collapsed");
+    if (arrow) arrow.style.transform = "rotate(0deg)";
+    if (text) text.innerText = "DRAWER • พับเก็บลิ้นชัก";
+    if (typeof playSound === "function") playSound("tap");
+    try { localStorage.setItem("simulator_drawer_state", "expanded"); } catch(e) {}
+  } else {
+    navbar.classList.remove("drawer-expanded");
+    navbar.classList.add("drawer-collapsed");
+    if (spacer) spacer.classList.add("drawer-collapsed");
+    if (arrow) arrow.style.transform = "rotate(180deg)";
+    if (text) text.innerText = "DRAWER • เปิดลิ้นชักเมนู";
+    if (typeof playSound === "function") playSound("tap");
+    try { localStorage.setItem("simulator_drawer_state", "collapsed"); } catch(e) {}
+  }
+
+  if (window.lucide && typeof window.lucide.createIcons === "function") {
+    window.lucide.createIcons();
+  }
+}
+
+// ==============================================================================
 // NAVIGATION SYSTEM (SEGMENTED CONTROL)
 // ==============================================================================
 function switchView(viewName) {
