@@ -1038,13 +1038,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* ============================================================================== */
 /* DRAWER NAVBAR ARCHITECTURE WITH SMOOTH HARDWARE-ACCELERATED SPRING ANIMATION    */
 /* ============================================================================== */
+/* NAVBAR SLIDING DRAWER ANIMATION & FLOATING DYNAMIC ISLAND TRIGGER              */
+/* ============================================================================== */
 #top-navbar.drawer-navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 50;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   will-change: transform;
 }
 
@@ -1055,61 +1057,60 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 #top-navbar.drawer-expanded {
   transform: translateY(0) !important;
-  box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.75), 0 0 25px rgba(0, 169, 80, 0.15) !important;
+  box-shadow: 0 14px 40px -4px rgba(0, 0, 0, 0.75), 0 0 25px rgba(0, 169, 80, 0.15) !important;
 }
 
 #navbar-spacer {
   height: 48px;
   flex-shrink: 0;
-  transition: height 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: height 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: height;
 }
 
 #navbar-spacer.drawer-collapsed {
-  height: 0px !important;
+  height: 12px !important;
 }
 
-/* Drawer Pull Handle Tab */
-.navbar-drawer-handle {
-  position: absolute;
-  top: 100%;
+/* Floating Dynamic Island Drawer Trigger (Shown only when navbar is collapsed) */
+#drawer-collapsed-trigger-container {
+  position: fixed;
+  top: 8px;
   left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 15, 29, 0.96);
+  transform: translateX(-50%) translateY(-12px);
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+#drawer-collapsed-trigger-container.visible {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+.drawer-pill-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(10, 15, 29, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-top: none;
-  border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 14px;
-  padding: 3px 18px 5px 18px;
+  border: 1px solid rgba(0, 169, 80, 0.35);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 16px rgba(0, 169, 80, 0.25);
   cursor: pointer;
-  box-shadow: 0 10px 25px -2px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 169, 80, 0.25);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 51;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 
-.navbar-drawer-handle:hover {
-  background: rgba(14, 22, 42, 0.99);
+.drawer-pill-btn:hover {
+  background: rgba(14, 22, 42, 0.98);
   border-color: rgba(0, 169, 80, 0.6);
-  box-shadow: 0 14px 32px -2px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 169, 80, 0.45);
-  transform: translateX(-50%) translateY(1px);
-}
-
-.drawer-handle-bar {
-  display: block;
-  width: 26px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 2px;
-  margin: 0 auto 3px auto;
-  transition: background 0.2s ease, width 0.2s ease;
-}
-
-.navbar-drawer-handle:hover .drawer-handle-bar {
-  background: #00A950;
-  width: 32px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 169, 80, 0.45);
+  transform: translateY(1px) scale(1.02);
 }
 
 .drawer-pill-pulse {
@@ -1121,6 +1122,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   display: inline-block;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
 
 
 
