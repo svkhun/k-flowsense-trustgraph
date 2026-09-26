@@ -15,9 +15,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
 app = FastAPI(
-    title="K-Sentinel & WealthPilot (Industrial Banking Engine)",
-    description="Backend API powering K-Sentinel Real-time Scam Shield & WealthPilot Autonomous Cashflow Copilot for K PLUS First Jobbers",
-    version="2.5.0"
+    title="FlowSense & TrustGraph (Industrial Banking Engine)",
+    description="Backend API powering FlowSense Flexible Liquidity & Autonomous Saving, and TrustGraph Targeted Anti-Scam Verification for K PLUS First Jobbers",
+    version="3.0.0"
 )
 
 app.add_middleware(
@@ -55,6 +55,8 @@ def get_spa_or_landing_response():
 @app.get("/", response_class=FileResponse)
 @app.get("/home", response_class=FileResponse)
 @app.get("/landing", response_class=FileResponse)
+@app.get("/flowsense", response_class=FileResponse)
+@app.get("/trustgraph", response_class=FileResponse)
 @app.get("/wealthpilot", response_class=FileResponse)
 @app.get("/sentinel", response_class=FileResponse)
 @app.get("/architecture", response_class=FileResponse)
@@ -148,31 +150,54 @@ class FaceVerificationRequest(BaseModel):
     target_account_id: str
     amount: float
     liveness_score: float = Field(0.98, ge=0.0, le=1.0)
+    auth_duration_sec: int = Field(5, ge=1)
+
+class MicroAuthRequest(BaseModel):
+    source_account_id: str
+    target_account_id: str
+    amount: float
+    liveness_score: float = Field(0.98, ge=0.0, le=1.0)
+    auth_duration_sec: int = Field(5, ge=1)
+
+class TransferConfirmRequest(BaseModel):
+    source_account_id: str
+    target_account_id: str
+    amount: float
+    decision: str = Field(..., pattern="^(PROCEED|CANCEL)$")
+    auth_token: Optional[str] = None
 
 class MicroSweepRequest(BaseModel):
     account_id: str
     custom_sweep_amount: Optional[float] = None
 
+class RecallRequest(BaseModel):
+    account_id: str
+    amount: Optional[float] = None  # None means 100% full recall
+
 class VaultWithdrawalRequest(BaseModel):
     account_id: str
     amount: float = Field(..., gt=0)
-    intent_reason: str = Field(..., example="Emergency medical expense")
-    bypass_cooldown: bool = Field(False)
+    intent_reason: Optional[str] = Field("1-Tap Recall", example="1-Tap Recall for emergency liquidity")
+    bypass_cooldown: bool = Field(True)
 
 # ==============================================================================
-# 3. K-SENTINEL CORE SERVICES (SUB-80MS GRAPH + TELEMETRY + XAI)
+# 3. TRUSTGRAPH CORE SERVICES (ZERO-DELAY BASELINE & TARGET-SPECIFIC FRAUD DEFENSE)
 # ==============================================================================
+@app.post("/api/v2/trustgraph/evaluate-transfer")
 @app.post("/api/v2/sentinel/evaluate-transfer")
 def evaluate_transfer_v2(payload: TransferEvaluationRequest):
     """
-    Tier 2 Pre-Transaction Scam Screening:
-    Combines Tier 1 Relational GCN Node Embeddings (O(1) Redis Lookup)
-    with Real-time Telemetry via ONNX LightGBM Runtime (<80ms criteria).
-    Generates Counterfactual XAI Actionable Advice & Dynamic Step-up Friction.
+    TrustGraph Targeted Anti-Scam Verification:
+    - Zero-Delay Baseline: Routine transfers to known or low-risk accounts execute immediately with zero added steps (<80ms SLA).
+    - Micro-Auth for Critical Anomaly: Eliminates arbitrary waiting periods (no 15-minute locks).
+      Triggers a 5-second face liveness check and displays a single confirmation prompt.
+    - Direct Risk Reasoning: Tells the user plainly why a recipient looks suspicious
+      (e.g., 'Recipient account opened 48 hours ago with rapid pass-through fund patterns')
+      and leaves the final transfer decision to the user.
     """
     t_start = time.perf_counter()
 
-    # 1. Feature Store Lookup
+    # 1. Feature Store Lookup (Tier 1 Redis Simulation)
     if payload.target_account_id not in FEATURE_STORE_CACHE:
         raise HTTPException(status_code=404, detail="Target beneficiary account not found in Graph Feature Store.")
     
@@ -197,7 +222,7 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
 
     feature_vec = np.concatenate([telemetry, target_emb]).reshape(1, -1)
 
-    # 3. ONNX Fast Inference
+    # 3. ONNX Fast Inference (<80ms Target SLA)
     raw_probs = sentinel_sess.run([sentinel_out_prob], {sentinel_in_name: feature_vec})[0]
     current_risk = float(raw_probs[0][1])
 
@@ -207,129 +232,144 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
     kyc_level = target_meta.get("kyc_level", 2)
     inflow_velocity = target_meta.get("avg_inflow_velocity_sec", 3600.0)
 
-    # 5. Counterfactual What-If Reasoning Engine
     latency_ms = (time.perf_counter() - t_start) * 1000
 
+    # --------------------------------------------------------------------------
+    # ZERO-DELAY BASELINE: Routine / Low-Risk Transfers Execute Immediately
+    # --------------------------------------------------------------------------
     if current_risk < 0.45:
         return {
             "status": "APPROVED",
             "risk_tier": "LOW_RISK",
             "risk_score": round(current_risk, 4),
             "action": "ALLOW",
-            "counterfactual_message": "รายการโอนปลอดภัย อยู่ในเกณฑ์พฤติกรรมปกติของผู้ใช้",
-            "actionable_warning": "Beneficiary verified within normal thresholds.",
-            "target_meta": {
-                "account_id": payload.target_account_id,
-                "account_age_days": account_age_days,
-                "kyc_level": kyc_level,
-                "velocity_sec": inflow_velocity
-            },
+            "zero_delay_baseline": True,
             "step_up_required": False,
+            "added_steps_count": 0,
+            "direct_risk_reasoning": "Zero-Delay Baseline: บัญชีปลายทางและพฤติกรรมการโอนอยู่ในเกณฑ์ปกติ ดำเนินการโอนทันทีโดยไม่มีขั้นตอนเพิ่ม",
+            "actionable_warning": "Zero-Delay Baseline verified. Instant transfer executed.",
+            "target_meta": {
+                "account_id": payload.target_account_id,
+                "account_age_days": account_age_days,
+                "kyc_level": kyc_level,
+                "velocity_sec": inflow_velocity
+            },
             "latency_ms": round(latency_ms, 2)
         }
 
-    # High / Critical Risk -> Run Counterfactual What-if Scenarios
-    # Scenario 1: Biometric Face Scan Step-up
-    vec_face = feature_vec.copy()
-    vec_face[0, 5:8] = [1.0, 0.0, 0.0]
-    risk_face = float(sentinel_sess.run([sentinel_out_prob], {sentinel_in_name: vec_face})[0][0][1])
-
-    # Scenario 2: Micro-transfer Limit Guardrail (<= 500 THB)
-    vec_low = feature_vec.copy()
-    vec_low[0, 0] = 300.0
-    vec_low[0, 4] = 0.25
-    risk_low = float(sentinel_sess.run([sentinel_out_prob], {sentinel_in_name: vec_low})[0][0][1])
-
-    # Counterfactual Explanations
-    reasons = []
+    # --------------------------------------------------------------------------
+    # MICRO-AUTH FOR CRITICAL ANOMALY: No arbitrary waiting periods!
+    # Triggers 5-second face liveness check & Direct Risk Reasoning
+    # Leaves final transfer decision to user.
+    # --------------------------------------------------------------------------
+    direct_reasons = []
     if account_age_days <= 45:
-        reasons.append(f"บัญชีปลายทางเพิ่งเปิดใหม่เพียง {account_age_days} วัน")
+        direct_reasons.append(f"Recipient account opened {account_age_days} days ago (บัญชีเปิดใหม่เพียง {account_age_days} วัน)")
     if inflow_velocity < 180:
-        reasons.append(f"บัญชีปลายทางมีพฤติกรรมเงินเข้าแล้วโอนออกทันทีภายใน {int(inflow_velocity)} วินาที (Mule Layering pattern)")
+        direct_reasons.append(f"Rapid pass-through fund patterns ({int(inflow_velocity)}s inflow-to-outflow layering velocity)")
     if payload.session_duration_sec < 15:
-        reasons.append(f"ทำรายการรวดเร็วผิดปกติ ({payload.session_duration_sec} วินาที) บ่งชี้การถูกเร่งรัดจากมิจฉาชีพ")
+        direct_reasons.append(f"Rapid execution ({payload.session_duration_sec}s session) suggests urgency pressure from scammers")
     if payload.ratio_to_daily_avg > 5.0:
-        reasons.append(f"ยอดเงินสูงกว่าค่าเฉลี่ยปกติ {payload.ratio_to_daily_avg:.1f} เท่า")
+        direct_reasons.append(f"Amount is {payload.ratio_to_daily_avg:.1f}x higher than your daily transfer average")
 
-    reason_summary = " | ".join(reasons) if reasons else "ตรวจพบความผิดปกติในเครือข่ายความสัมพันธ์บัญชีม้า (RGCN mule ring)"
+    if not direct_reasons:
+        direct_reasons.append("Relational GCN detected topology match with high-risk mule ring")
 
-    if risk_face < 0.50 or risk_low < 0.50:
-        best_scenario = "FACE_SCAN" if risk_face <= risk_low else "LOWER_AMOUNT"
-        best_risk = min(risk_face, risk_low)
-        warning = (
-            f"ตรวจพบความเสี่ยงมิจฉาชีพสูง ({reason_summary}) แนะนำยืนยันตัวตนด้วยการสแกนใบหน้า (Liveness Face Scan) หรือจำกัดยอดโอนไม่เกิน 500 บาท เพื่อดำเนินการต่อ"
-            if best_scenario == "FACE_SCAN"
-            else f"ตรวจพบความเสี่ยงมิจฉาชีพสูง ({reason_summary}) หากต้องการทดสอบโอน แนะนำปรับลดยอดโอนต่ำกว่า 500 บาท"
-        )
-        return {
-            "status": "STEP_UP_REQUIRED",
-            "risk_tier": "HIGH_RISK",
-            "current_risk_score": round(current_risk, 4),
-            "post_action_risk_score": round(best_risk, 4),
-            "recommended_action": best_scenario,
-            "actionable_warning": warning,
-            "counterfactual_message": f"ลดความเสี่ยงจาก {current_risk*100:.1f}% เหลือ {best_risk*100:.1f}% หากดำเนินการตามคำแนะนำ",
-            "reason_summary": reason_summary,
-            "target_meta": {
-                "account_id": payload.target_account_id,
-                "account_age_days": account_age_days,
-                "kyc_level": kyc_level,
-                "velocity_sec": inflow_velocity
-            },
-            "step_up_required": True,
-            "friction_type": "BIOMETRIC_FACE_SCAN",
-            "latency_ms": round(latency_ms, 2)
-        }
-    else:
-        # Critical Scam Trap detected (e.g. verified mule node + anomalous high-value drain)
-        return {
-            "status": "CRITICAL_BLOCKED",
-            "risk_tier": "CRITICAL_RISK",
-            "current_risk_score": round(current_risk, 4),
-            "post_action_risk_score": round(min(risk_face, risk_low), 4),
-            "recommended_action": "15_MIN_COOL_OFF",
-            "actionable_warning": f"🚨 สกัดกั้นรายการฉุกเฉิน! บัญชีปลายทางตรงกับเครือข่ายบัญชีม้าหลอกลวง ({reason_summary}) ระบบเริ่มกระบวนการ Cool-off 15 นาที เพื่อทำลายภาวะการถูกบีบคั้นจิตวิทยา (Disrupt Psychological Coercion)",
-            "counterfactual_message": "ระบบระงับการโอนเงินชั่วคราวเพื่อปกป้องเงินเก็บก้อนแรกของคุณ กรุณาติดต่อ AOC 1441 หรือรอให้ครบเวลาเพื่อตรวจสอบความถูกต้อง",
-            "reason_summary": reason_summary,
-            "target_meta": {
-                "account_id": payload.target_account_id,
-                "account_age_days": account_age_days,
-                "kyc_level": kyc_level,
-                "velocity_sec": inflow_velocity
-            },
-            "step_up_required": True,
-            "friction_type": "15_MIN_COOL_OFF",
-            "latency_ms": round(latency_ms, 2)
-        }
+    primary_reason = direct_reasons[0]
+    reason_summary = " | ".join(direct_reasons)
 
+    return {
+        "status": "MICRO_AUTH_REQUIRED",
+        "risk_tier": "CRITICAL_ANOMALY",
+        "current_risk_score": round(current_risk, 4),
+        "zero_delay_baseline": False,
+        "step_up_required": True,
+        "friction_type": "5_SECOND_LIVENESS",
+        "auth_duration_sec": 5,
+        "eliminates_arbitrary_waiting": True,
+        "direct_risk_reasoning": f"Recipient account opened {account_age_days} days ago with rapid pass-through fund patterns ({int(inflow_velocity)}s)",
+        "direct_risk_reasons_list": direct_reasons,
+        "primary_reason_th": f"บัญชีปลายทางเพิ่งเปิดใหม่ {account_age_days} วัน พร้อมพฤติกรรมเงินเข้าแล้วโอนออกทันทีภายใน {int(inflow_velocity)} วินาที",
+        "actionable_warning": f"⚠️ ตรวจพบความผิดปกติวิกฤต: {reason_summary}",
+        "user_confirmation_prompt": "ระบบเปิดการยืนยัน Micro-Auth ด้วยการสแกนใบหน้า 5 วินาที เพื่อดึงสติและตรวจสอบผู้ใช้งานจริง และให้คุณเป็นผู้ตัดสินใจโอนเงินขั้นสุดท้าย",
+        "final_decision_left_to_user": True,
+        "target_meta": {
+            "account_id": payload.target_account_id,
+            "account_age_days": account_age_days,
+            "kyc_level": kyc_level,
+            "velocity_sec": inflow_velocity
+        },
+        "latency_ms": round(latency_ms, 2)
+    }
+
+@app.post("/api/v2/trustgraph/verify-micro-auth")
 @app.post("/api/v2/sentinel/verify-face-scan")
-def verify_face_scan(payload: FaceVerificationRequest):
+def verify_micro_auth(payload: MicroAuthRequest):
     """
-    Simulate Face Liveness Verification Pass.
-    Returns step-up clearance token allowing secure execution of guarded transaction.
+    Micro-Auth Verification (5-Second Face Liveness Check).
+    Verifies genuine user presence without imposing arbitrary waiting periods.
+    Displays single confirmation prompt leaving final decision to the user.
     """
     if payload.liveness_score < 0.85:
         raise HTTPException(status_code=400, detail="Face liveness check failed. Spoofing detected.")
     
+    token = f"TRUSTGRAPH-TOKEN-{int(time.time())}-{payload.source_account_id[-4:]}"
     return {
-        "status": "CLEARANCE_GRANTED",
+        "status": "MICRO_AUTH_VERIFIED",
         "verified": True,
         "liveness_score": payload.liveness_score,
-        "clearance_token": f"KPLUS-SEC-{int(time.time())}-{payload.source_account_id[-4:]}",
-        "message": "ยืนยันใบหน้าผ่านการตรวจสอบสำเร็จ อนุญาตให้ทำรายการภายใต้การเฝ้าระวังขั้นสูง"
+        "auth_duration_sec": payload.auth_duration_sec,
+        "clearance_token": token,
+        "message": "การสแกนใบหน้า 5 วินาทีผ่านการตรวจสอบสำเร็จ กรุณาพิจารณาเหตุผลความเสี่ยงและตัดสินใจยืนยันการโอนเงิน",
+        "prompt_title": "ยืนยันการทำรายการโอนเงิน",
+        "prompt_message": "ระบบได้ชี้แจงความเสี่ยงของบัญชีปลายทางแล้ว คุณต้องการดำเนินการโอนเงินต่อไปหรือไม่?",
+        "options": ["PROCEED_TRANSFER", "CANCEL_TRANSFER"]
+    }
+
+@app.post("/api/v2/trustgraph/confirm-transfer")
+def confirm_transfer(payload: TransferConfirmRequest):
+    """
+    Direct Risk Reasoning Final Decision:
+    User retains full autonomy to proceed or cancel after the 5-second Micro-Auth check.
+    """
+    src_id = payload.source_account_id
+    if src_id not in LIVE_ACCOUNT_STATES:
+        src_id = "ACC_0100"
+
+    state = LIVE_ACCOUNT_STATES.get(src_id, {"main_balance": 24500.0, "vault_balance": 15000.0})
+
+    if payload.decision == "CANCEL":
+        return {
+            "status": "TRANSFER_CANCELLED",
+            "decision": "CANCEL",
+            "message": "ยกเลิกรายการโอนเงินเรียบร้อยแล้ว เงินของคุณยังคงปลอดภัย 100% ในบัญชี",
+            "current_balance": round(state["main_balance"], 2)
+        }
+    
+    # User decided to proceed
+    if state["main_balance"] < payload.amount:
+        raise HTTPException(status_code=400, detail="Insufficient funds in main account.")
+    
+    state["main_balance"] -= payload.amount
+    return {
+        "status": "TRANSFER_EXECUTED",
+        "decision": "PROCEED",
+        "amount": payload.amount,
+        "remaining_balance": round(state["main_balance"], 2),
+        "message": f"โอนเงิน ฿ {payload.amount:,.2f} ไปยังบัญชี {payload.target_account_id} สำเร็จแล้วตามความประสงค์ของคุณ"
     }
 
 # ==============================================================================
-# 4. WEALTHPILOT SERVICES (SAFE-TO-SPEND, FORECAST, SWEEP & VAULT)
+# 4. FLOWSENSE SERVICES (FLEXIBLE LIQUIDITY & AUTONOMOUS SAVING)
 # ==============================================================================
+@app.get("/api/v2/flowsense/profile/{account_id}")
 @app.get("/api/v2/wealthpilot/profile/{account_id}")
-def get_wealthpilot_profile(account_id: str):
+def get_flowsense_profile(account_id: str):
     """
-    Get user profile, behavioral cluster persona (Pitch: Paycheck-to-Paycheck vs High-Yield Seeker),
-    and live balance + vault statistics.
+    Get user profile, behavioral cluster persona (Pitch: Primary 18k-35k Living Month-to-Month
+    vs Secondary Active Mobile Transactor), live balance, and high-interest sub-account statistics.
     """
     if account_id not in BEHAVIORAL_PROFILES_CACHE:
-        # Fallback to ACC_0100 if user not indexed
         account_id = "ACC_0100"
 
     prof = BEHAVIORAL_PROFILES_CACHE[account_id]
@@ -351,19 +391,23 @@ def get_wealthpilot_profile(account_id: str):
         "persona": {
             "cluster_id": int(prof["cluster_id"]),
             "name": prof["persona_name"],
-            "name_th": prof["persona_th"],
-            "description": prof["persona_desc"],
+            "name_th": "กลุ่มเป้าหมายหลัก: รายได้ 18k–35k บาท (เดือนชนเดือน ต้องการออมอัตโนมัติแต่ต้องดึงเงินคืนได้ทันที)",
+            "description": "First jobber รายได้ 18k–35k ใช้ชีวิตเดือนชนเดือน ต้องการออมเงินแบบไม่ต้องจดบันทึก และสามารถดึงเงินคืนเข้าบัญชีหลักได้ทันที 100% เมื่อถึงกำหนดจ่ายค่าเช่าหรือบิล",
             "recommended_sweep_pct": prof["recommended_sweep_pct"],
             "scam_vulnerability": prof["scam_vulnerability"],
-            "vault_friction_level": prof["vault_friction_level"]
+            "vault_friction_level": "1_TAP_RECALL_ZERO_PENALTY"
         }
     }
 
+@app.get("/api/v2/flowsense/horizon-status/{account_id}")
 @app.get("/api/v2/wealthpilot/safe-to-spend/{account_id}")
-def get_daily_safe_to_spend(account_id: str):
+def get_flowsense_horizon_status(account_id: str):
     """
-    Automated Payroll Detection & Dynamic Safe-to-Spend limit.
-    Formula: (Current Balance - Fixed Obligations in 7-15d - Emergency Cushion) / (Days to Payday)
+    Module A: FlowSense — Status Horizon Bar & Commitment Warnings:
+    - Status Horizon Bar: A single clean indicator on the account home screen projecting month-end liquidity
+      based on recurring commitments, removing the need for daily manual budgets.
+    - Commitment Warnings: Fires alerts ONLY when an upcoming fixed debit (e.g., credit card bill or rent)
+      is directly at risk based on current burn rate. Suppresses alerts during normal dips!
     """
     if account_id not in BEHAVIORAL_PROFILES_CACHE:
         account_id = "ACC_0100"
@@ -377,66 +421,104 @@ def get_daily_safe_to_spend(account_id: str):
     })
 
     now = datetime.now()
-    # Assume payday is 28th of every month
     payday_day = 28
     if now.day <= payday_day:
         days_to_payday = payday_day - now.day
     else:
         days_to_payday = (30 - now.day) + payday_day
-    
     days_to_payday = max(1, days_to_payday)
 
-    # Fixed obligations estimation
     salary = float(prof["monthly_salary"])
     fixed_rent = round(salary * 0.25, 2)
     fixed_debt_emi = round(salary * 0.12, 2)
     fixed_utilities = round(salary * 0.05, 2)
     total_fixed_obligations = fixed_rent + fixed_debt_emi + fixed_utilities
 
-    # Safety buffer based on persona
-    emergency_buffer = 1500.0 if prof["cluster_id"] == 1 else 3000.0
-
     current_balance = state["main_balance"]
-    liquid_disposable = max(500.0, current_balance - (total_fixed_obligations * (days_to_payday / 30.0)) - emergency_buffer)
-    daily_safe_limit = round(liquid_disposable / days_to_payday, 2)
-
     spent_today = state["daily_spent_today"]
-    remaining_today = max(0.0, round(daily_safe_limit - spent_today, 2))
-    
-    burn_rate_pct = round((spent_today / (daily_safe_limit + 1e-5)) * 100, 1)
+    avg_daily_spend = float(prof.get("avg_daily_spend", 600.0))
 
-    status = "ON_TRACK" if burn_rate_pct <= 80 else ("CAUTION" if burn_rate_pct <= 100 else "OVERSPENT")
+    # Burn rate & projected balance at payday
+    projected_daily_burn = (spent_today * 0.5) + (avg_daily_spend * 0.5)
+    projected_end_balance = current_balance - (projected_daily_burn * days_to_payday) - total_fixed_obligations
+
+    # Commitment Warning Logic (Pitch: Suppresses alerts during normal dips; fires ONLY when upcoming debit is at risk)
+    is_normal_dip = (current_balance < salary * 0.5) and (projected_end_balance >= 1000.0)
+    is_commitment_at_risk = projected_end_balance < 0.0
+
+    if is_commitment_at_risk:
+        horizon_state = "COMMITMENT_AT_RISK"
+        horizon_badge_th = "ภาระผูกพันมีความเสี่ยง"
+        alert_suppressed = False
+        warning_nudge = (
+            f"⚠️ แจ้งเตือนภาระผูกพัน: จากอัตราการใช้จ่ายปัจจุบัน ค่าเช่าห้อง/บิลสิ้นเดือน ฿{total_fixed_obligations:,.2f} "
+            f"อาจไม่เพียงพอในอีก {days_to_payday} วันข้างหน้า แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า"
+        )
+    elif is_normal_dip:
+        horizon_state = "NORMAL_DIP_SAFE"
+        horizon_badge_th = "เงินลดปกติ (ไม่ส่งเสียงเตือน)"
+        alert_suppressed = True  # Suppress alerts during normal dips!
+        warning_nudge = (
+            f"Status Horizon: ยอดเงินลดลงตามวงจรปกติ แต่ครอบคลุมภาระผูกพันสิ้นเดือนเรียบร้อย "
+            f"(ระบบระงับการแจ้งเตือนเพื่อป้องกัน Alert Fatigue และ Budget Burnout)"
+        )
+    else:
+        horizon_state = "HEALTHY_HORIZON"
+        horizon_badge_th = "สภาพคล่องแข็งแรง"
+        alert_suppressed = True
+        warning_nudge = (
+            f"Status Horizon: สภาพคล่องเพียงพอครอบคลุมค่าเช่าห้องและบิลประจำเดือน 100% คาดการณ์เหลือเงิน ฿{max(0.0, projected_end_balance):,.2f} ณ วันเงินเดือนออก"
+        )
+
+    # Status Horizon Bar Percentage (0-100% indicating month-end liquidity runway health)
+    horizon_health_pct = min(100.0, max(15.0, round(((current_balance - total_fixed_obligations) / (current_balance + 1e-5)) * 100, 1)))
+    daily_safe_limit = max(200.0, round((current_balance - total_fixed_obligations) / days_to_payday, 2))
 
     return {
         "account_id": account_id,
         "days_to_payday": days_to_payday,
         "payday_date": f"{now.year}-{now.month:02d}-28",
         "current_balance": round(current_balance, 2),
-        "total_fixed_obligations": total_fixed_obligations,
-        "breakdown": {
-            "rent": fixed_rent,
-            "debt_emi": fixed_debt_emi,
-            "utilities": fixed_utilities,
-            "emergency_buffer": emergency_buffer
-        },
+        "horizon_health_pct": horizon_health_pct,
+        "horizon_state": horizon_state,
+        "horizon_badge_th": horizon_badge_th,
+        "alert_suppressed": alert_suppressed,
+        "commitment_at_risk": is_commitment_at_risk,
+        "total_recurring_commitments": total_fixed_obligations,
+        "recurring_commitments": [
+            {
+                "name": "ค่าเช่าห้อง/คอนโด",
+                "amount": fixed_rent,
+                "due_days": max(1, days_to_payday - 2),
+                "is_at_risk": is_commitment_at_risk and (current_balance < fixed_rent)
+            },
+            {
+                "name": "บิลผ่อนชำระ / บัตรเครดิต",
+                "amount": fixed_debt_emi,
+                "due_days": max(1, days_to_payday - 6),
+                "is_at_risk": False
+            },
+            {
+                "name": "ค่าน้ำ-ไฟ-อินเทอร์เน็ต",
+                "amount": fixed_utilities,
+                "due_days": max(1, days_to_payday - 1),
+                "is_at_risk": False
+            }
+        ],
+        "projected_month_end_liquidity": round(max(0.0, projected_end_balance), 2),
         "daily_safe_limit": daily_safe_limit,
         "spent_today": round(spent_today, 2),
-        "remaining_today": remaining_today,
-        "burn_rate_pct": burn_rate_pct,
-        "status": status,
-        "nudge_message": (
-            f"ยอด Safe-to-Spend ประจำวัน: ฿ {daily_safe_limit:,.2f} (ใช้วันนี้ ฿ {spent_today:,.2f} | เหลืออีก ฿ {remaining_today:,.2f})"
-            if status != "OVERSPENT"
-            else f"⚠️ วันนี้คุณใช้เกินวงเงิน Safe-to-Spend ไปแล้ว ฿ {spent_today - daily_safe_limit:,.2f} ระบบแนะนำลดรายจ่ายหมวดสังสรรค์ใน 2 วันถัดไป"
-        )
+        "remaining_today": max(0.0, round(daily_safe_limit - spent_today, 2)),
+        "nudge_message": warning_nudge
     }
 
+@app.get("/api/v2/flowsense/forecast-30d/{account_id}")
 @app.get("/api/v2/wealthpilot/forecast-30d/{account_id}")
 def forecast_cashflow_30d(account_id: str):
     """
-    30-Day Liquidity Forecast via ONNX LightGBM Time-Series Model.
-    Connects Real-time Present Anchor (Past 7 Days + Today + Future 22 Days),
-    reflecting actual current date/time, spending patterns, weekend spikes, and salary inflow.
+    30-Day Liquidity Forecast via LightGBM:
+    Method & Architecture: LightGBM with rolling-window lag features & transaction seasonality.
+    Operational Objective: Forecasts safe liquidity margins 30 days ahead; suppresses alerts during normal dips.
     """
     if account_id not in BEHAVIORAL_PROFILES_CACHE:
         account_id = "ACC_0100"
@@ -455,7 +537,7 @@ def forecast_cashflow_30d(account_id: str):
     avg_spend = float(prof["avg_daily_spend"])
     spent_today = float(state.get("daily_spent_today", avg_spend * 0.45))
 
-    # 1. Past 7 days historical actual transactions (reconstructed realistically from user profile)
+    # Past 7 days
     past_points = []
     running_past_bal = cur_balance + spent_today
     past_spends = []
@@ -487,7 +569,7 @@ def forecast_cashflow_30d(account_id: str):
             "is_future": False
         })
 
-    # 2. Today's point (Current moment live anchor)
+    # Today's point
     is_today_weekend = 1.0 if now.weekday() >= 5 else 0.0
     dtp_today = (28 - now.day) if now.day <= 28 else (30 - now.day + 28)
     today_point = {
@@ -506,7 +588,7 @@ def forecast_cashflow_30d(account_id: str):
         "current_time": now.strftime("%H:%M")
     }
 
-    # 3. Future 22 days (AI LightGBM ONNX inference)
+    # Future 22 days (LightGBM rolling-window lag features & transaction seasonality)
     future_points = []
     lag_1 = spent_today
     lag_3 = float(avg_spend * 0.95)
@@ -553,35 +635,35 @@ def forecast_cashflow_30d(account_id: str):
     full_timeline = past_points + [today_point] + future_points
     min_proj_balance = min(p["projected_balance"] for p in full_timeline)
     is_safe = min_proj_balance > 1500.0
-
     payday_target = now + timedelta(days=int(dtp_today))
 
     return {
         "account_id": account_id,
         "forecast_days": 30,
+        "model_architecture": "LightGBM with rolling-window lag features & transaction seasonality",
+        "operational_objective": "Forecasts safe liquidity margins 30 days ahead; suppresses alerts during normal dips.",
         "today_index": len(past_points),
         "current_datetime": now.strftime("%Y-%m-%d %H:%M:%S"),
-        "current_date": now.strftime("%Y-%m-%d"),
-        "current_time": now.strftime("%H:%M:%S"),
         "days_to_payday": int(dtp_today),
         "payday_date": payday_target.strftime("%Y-%m-%d"),
         "current_balance": round(cur_balance, 2),
-        "spent_today": round(spent_today, 2),
         "min_projected_balance": round(min_proj_balance, 2),
         "liquidity_health": "HEALTHY" if is_safe else "RISK_OF_DEFICIT",
+        "alerts_suppressed_during_normal_dips": True,
         "projection_summary": (
-            "สุขภาพกระแสเงินสดแข็งแรง มีเงินเหลือเพียงพอจนถึงวันเงินเดือนออก"
+            "สุขภาพสภาพคล่องแข็งแรง มีเส้นทางกระแสเงินสดรองรับภาระผูกพันถึงวันเงินเดือนออก"
             if is_safe
-            else "ตรวจพบความเสี่ยงสภาพคล่องตึงตัวช่วง 3 วันก่อนเงินเดือนออก แนะนำเปิดใช้งาน Micro-sweeping"
+            else "ตรวจพบความเสี่ยงสภาพคล่องตึงตัวช่วง 3 วันก่อนเงินเดือนออก ระบบแจ้งเตือนเฉพาะจุดที่ภาระผูกพันเริ่มมีความเสี่ยง"
         ),
         "timeline": full_timeline
     }
 
+@app.post("/api/v2/flowsense/micro-sweep")
 @app.post("/api/v2/wealthpilot/micro-sweep")
 def trigger_micro_sweep(payload: MicroSweepRequest):
     """
-    Dynamic Micro-Sweeping:
-    Sweeps liquid surpluses into K-eSavings / Protected Vault based on liquidity variance.
+    Micro-Sweep with 1-Tap Undo:
+    Sweeps small surplus amounts into high-interest sub-accounts only when cashflow permits.
     """
     acc_id = payload.account_id
     if acc_id not in LIVE_ACCOUNT_STATES:
@@ -603,10 +685,10 @@ def trigger_micro_sweep(payload: MicroSweepRequest):
     if sweep_amount is None or sweep_amount <= 0:
         sweep_rate = float(prof.get("recommended_sweep_pct", 0.08))
         sweep_amount = round(state["main_balance"] * sweep_rate * 0.15, 2)
-        sweep_amount = min(sweep_amount, 500.0) # Cap daily auto-sweep
+        sweep_amount = min(sweep_amount, 500.0)
 
     if state["main_balance"] - sweep_amount < 500.0:
-        raise HTTPException(status_code=400, detail="Cannot sweep: Main balance would fall below safety threshold ฿ 500.00")
+        raise HTTPException(status_code=400, detail="Cannot sweep: Main balance would fall below liquidity safety threshold ฿ 500.00")
 
     state["main_balance"] -= sweep_amount
     state["vault_balance"] += sweep_amount
@@ -618,16 +700,19 @@ def trigger_micro_sweep(payload: MicroSweepRequest):
         "account_id": acc_id,
         "swept_amount": sweep_amount,
         "new_main_balance": round(state["main_balance"], 2),
-        "new_vault_balance": round(state["vault_balance"], 2),
+        "new_subaccount_balance": round(state["vault_balance"], 2),
         "total_accumulated_swept": round(state["total_swept"], 2),
-        "message": f"กวาดเงินออมอัตโนมัติสำเร็จ ฿ {sweep_amount:,.2f} เข้า Protected Vault ดอกเบี้ยสูง"
+        "one_tap_undo_available": True,
+        "message": f"กวาดเงินส่วนเกิน ฿ {sweep_amount:,.2f} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50% เรียบร้อยแล้ว (สามารถกด 1-Tap Undo เรียกคืนได้ทันที 100% ไร้ค่าปรับ)"
     }
 
+@app.post("/api/v2/flowsense/recall")
 @app.post("/api/v2/wealthpilot/vault/withdraw")
-def withdraw_vault(payload: VaultWithdrawalRequest):
+def recall_micro_sweep_funds(payload: VaultWithdrawalRequest):
     """
-    Protected Vault with Heightened Withdrawal Friction:
-    Safeguards young wealth from impulsive transfers & social scams by applying delay friction.
+    Micro-Sweep with 1-Tap Undo (Instant Recall):
+    If balance runs low, a 1-tap recall returns 100% of the funds to the main account instantly without penalty.
+    Eliminates arbitrary cooling-off locks, 15-minute wait, or 24h delays!
     """
     acc_id = payload.account_id
     if acc_id not in LIVE_ACCOUNT_STATES:
@@ -635,36 +720,29 @@ def withdraw_vault(payload: VaultWithdrawalRequest):
         LIVE_ACCOUNT_STATES[acc_id] = {"main_balance": 24500.0, "vault_balance": 15000.0, "total_swept": 1500.0, "daily_spent_today": 0.0}
 
     state = LIVE_ACCOUNT_STATES[acc_id]
-    if payload.amount > state["vault_balance"]:
-        raise HTTPException(status_code=400, detail="Insufficient funds in Protected Vault.")
+    recall_amount = payload.amount
+    if recall_amount > state["vault_balance"]:
+        raise HTTPException(status_code=400, detail="Insufficient funds in high-interest savings sub-account.")
 
-    if not payload.bypass_cooldown:
-        # Require friction delay confirmation
-        return {
-            "status": "FRICTION_CHALLENGE_REQUIRED",
-            "account_id": acc_id,
-            "requested_amount": payload.amount,
-            "friction_type": "COOL_DOWN_24H",
-            "message": "Protected Vault มีมาตรการป้องกันเงินเก็บ: รายการถอนเงินนี้จะถูกหน่วงเวลา 24 ชั่วโมง หรือต้องยืนยันตัวตนพิเศษเพื่อป้องกันการโอนเงินตามคำลวงมิจฉาชีพ",
-            "can_bypass_with_biometrics": True
-        }
-
-    # If cleared with friction bypass
-    state["vault_balance"] -= payload.amount
-    state["main_balance"] += payload.amount
+    # Instant 1-tap return without penalty or waiting period!
+    state["vault_balance"] -= recall_amount
+    state["main_balance"] += recall_amount
     return {
-        "status": "WITHDRAWAL_COMPLETED",
+        "status": "RECALL_SUCCESS",
         "account_id": acc_id,
-        "withdrawn_amount": payload.amount,
+        "recalled_amount": recall_amount,
+        "penalty_fee": 0.0,
+        "waiting_time_sec": 0,
         "new_main_balance": round(state["main_balance"], 2),
-        "new_vault_balance": round(state["vault_balance"], 2),
-        "message": f"ถอนเงินจาก Protected Vault สำเร็จ ฿ {payload.amount:,.2f} เข้าสู่บัญชีหลัก"
+        "new_subaccount_balance": round(state["vault_balance"], 2),
+        "message": f"1-Tap Undo สำเร็จ! ดึงเงิน ฿ {recall_amount:,.2f} คืนเข้าบัญชีหลักเรียบร้อยแล้วทันที 100% ไร้ค่าปรับ"
     }
 
+@app.post("/api/v2/flowsense/reset-state/{account_id}")
 @app.post("/api/v2/wealthpilot/reset-state/{account_id}")
 def reset_account_state(account_id: str):
     """
-    Reset live banking account balances & vault state back to initial profile defaults.
+    Reset live banking account balances & sub-account state back to initial profile defaults.
     """
     if account_id not in BEHAVIORAL_PROFILES_CACHE:
         account_id = "ACC_0100"
@@ -718,8 +796,10 @@ def get_secops_kpis():
             "range": "1.2B - 2.0B THB"
         },
         "engine_telemetry": {
-            "tier1_graph_model": "Relational GCN (16D Embeddings)",
-            "tier2_inference_model": "ONNX LightGBM Pre-Transaction Booster",
+            "tier1_graph_model": "Relational GCN (16D Embeddings via PyG)",
+            "tier2_inference_model": "ONNX LightGBM Runtime / Triton Serving",
+            "cashflow_model": "LightGBM with rolling-window lag features & transaction seasonality",
+            "serving_stack": "Kafka event stream, Feast Feature Store, Triton Inference Server",
             "p50_latency_ms": 1.45,
             "p95_latency_ms": 4.82,
             "p99_latency_ms": 10.88,
@@ -778,7 +858,7 @@ def get_mule_graph(limit_nodes: int = Query(60, ge=10, le=200)):
 def get_live_transaction_stream(count: int = Query(15, ge=5, le=50)):
     """
     Simulated Distributed Event Stream (Kafka Consumer simulation).
-    Returns real-time inbound transactions evaluated by K-Sentinel.
+    Returns real-time inbound transactions evaluated by TrustGraph.
     """
     sample_tx = df_tx.sample(n=min(count, len(df_tx))).copy()
     stream_records = []
@@ -794,7 +874,7 @@ def get_live_transaction_stream(count: int = Query(15, ge=5, le=50)):
             "auth_factor": r["auth_factor_used"],
             "channel": r["channel"],
             "risk_score": round(float(np.random.uniform(0.75, 0.98)) if is_scam else float(np.random.uniform(0.01, 0.28)), 4),
-            "verdict": "BLOCKED/STEP_UP" if is_scam else "APPROVED",
+            "verdict": "MICRO_AUTH_5S" if is_scam else "APPROVED_ZERO_DELAY",
             "latency_ms": round(float(np.random.uniform(1.2, 5.8)), 2)
         })
 
@@ -804,8 +884,8 @@ def get_live_transaction_stream(count: int = Query(15, ge=5, le=50)):
 def health_check():
     return {
         "status": "HEALTHY",
-        "service": "K-Sentinel & WealthPilot Production Engine",
-        "version": "2.5.0",
+        "service": "FlowSense & TrustGraph Production Engine",
+        "version": "3.0.0",
         "onnx_sessions": ["k_sentinel.onnx", "wealthpilot.onnx"],
         "cached_embeddings_count": len(FEATURE_STORE_CACHE),
         "cached_users_count": len(BEHAVIORAL_PROFILES_CACHE)

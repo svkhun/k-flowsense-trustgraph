@@ -7,8 +7,8 @@ export default function Navbar() {
 
   const navLinks = [
     { to: '/', label: 'หน้าแรก' },
-    { to: '/wealthpilot', label: 'WealthPilot' },
-    { to: '/sentinel', label: 'K-Sentinel' },
+    { to: '/flowsense', label: 'FlowSense' },
+    { to: '/trustgraph', label: 'TrustGraph' },
     { to: '/architecture', label: 'AI Architecture' },
     { to: '/personas', label: 'Personas' },
   ];
@@ -25,13 +25,13 @@ export default function Navbar() {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white">
-                K-Sentinel <span className="text-slate-400 font-light">&amp;</span> <span className="text-[#00A950]">WealthPilot</span>
+                FlowSense <span className="text-slate-400 font-light">&amp;</span> <span className="text-[#00A950]">TrustGraph</span>
               </span>
               <span className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] px-2 py-0.5 rounded-full font-bold">
-                React Router 6
+                K PLUS
               </span>
             </div>
-            <span className="text-xs text-slate-400 hidden sm:inline">KBTG Kampus Hackathon 2026 — Track 2: Data Science</span>
+            <span className="text-xs text-slate-400 hidden sm:inline">KBTG Kampus Hackathon 2026 — Track 2: Data Science &amp; Intelligence</span>
           </div>
         </Link>
 

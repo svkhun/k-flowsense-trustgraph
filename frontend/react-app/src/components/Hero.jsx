@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Wallet, ShieldAlert, Zap, Lock, CheckCircle } from 'lucide-react';
+import { Sparkles, Compass, ShieldAlert, Zap, RotateCcw, CheckCircle, ArrowRight } from 'lucide-react';
 
 export default function Hero({ onOpenScamModal }) {
   return (
@@ -11,50 +11,57 @@ export default function Hero({ onOpenScamModal }) {
           <div className="lg:col-span-7 space-y-8">
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs sm:text-sm font-semibold shadow-sm backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></span>
-              <span>AI Copilot รุ่นใหม่บน K PLUS สำหรับกลุ่ม First Jobbers</span>
+              <span>KBTG Kampus Hackathon 2026 — Track 2: Data Science &amp; Intelligence</span>
             </div>
 
             <h1 className="text-4xl sm:text-6xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
-              Autonomous Wealth <br />
+              FlowSense <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00A950] via-emerald-400 to-teal-300">
-                &amp; Real-Time Scam Shield
+                &amp; TrustGraph
               </span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-2xl">
-              หยุดปัญหาวงจรเงินเดือนชนเดือนด้วยระบบคำนวณเงินใช้วันต่อวัน พร้อมเกราะสกัดกั้นภัยบัญชีม้าด้วยโมเดลกราฟ AI ความเร็วสูง <strong>&lt; 80ms</strong> ปกป้องเงินสะสมก้อนแรกของคนรุ่นใหม่อย่างอัจฉริยะ
-            </p>
+            <div className="space-y-3">
+              <h2 className="text-lg sm:text-xl font-bold text-emerald-400">
+                Frictionless Cashflow &amp; Target-Specific Fraud Defense for K PLUS
+              </h2>
+              <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+                บอกลา <strong>Budget Burnout</strong> และ <strong>Security Friction</strong> ที่ทำให้คนรุ่นใหม่รำคาญจนลบแอป! 
+                ด้วย <strong>Status Horizon Bar</strong> ตัวชี้วัดเดียวที่มองเห็นสภาพคล่องสิ้นเดือน, <strong>Micro-Sweep พร้อม 1-Tap Undo</strong> คืนเงิน 100% ทันทีไร้ค่าปรับ 
+                และเกราะ <strong>TrustGraph</strong> ที่โอนเงินปกติเร็วกว่า 80ms ไร้การหน่วงเวลา 15 นาทีตามอำเภอใจ
+              </p>
+            </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                to="/wealthpilot"
+                to="/flowsense"
                 className="inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#00A950] to-[#059669] hover:from-[#008F43] hover:to-[#047857] text-white px-7 py-3.5 rounded-xl font-bold text-base shadow-xl shadow-emerald-500/30 transition-all hover:scale-105"
               >
-                <Wallet className="w-5 h-5" />
-                <span>สำรวจฟีเจอร์ WealthPilot</span>
+                <Compass className="w-5 h-5" />
+                <span>สำรวจฟีเจอร์ FlowSense</span>
               </Link>
 
               <button
                 onClick={onOpenScamModal}
-                className="inline-flex items-center justify-center gap-2.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-100 border border-white/10 hover:border-red-500/40 px-7 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-105"
+                className="inline-flex items-center justify-center gap-2.5 bg-slate-800/80 hover:bg-slate-700/80 text-slate-100 border border-white/10 hover:border-rose-500/40 px-7 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-105"
               >
-                <ShieldAlert className="w-5 h-5 text-amber-400" />
-                <span>ทดสอบ K-Sentinel สกัดโกง</span>
+                <ShieldAlert className="w-5 h-5 text-rose-400" />
+                <span>ทดสอบ TrustGraph Micro-Auth</span>
               </button>
             </div>
 
-            <div className="pt-4 border-t border-white/[0.08] flex flex-wrap items-center gap-6 text-sm text-slate-400">
+            <div className="pt-4 border-t border-white/[0.08] flex flex-wrap items-center gap-6 text-xs sm:text-sm text-slate-400">
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4 text-emerald-400" />
-                <span>ตอบสนองภายใน <strong>7.29ms</strong> (SLA &lt;80ms)</span>
+                <span>Zero-Delay Baseline (SLA <strong>&lt; 80ms</strong>)</span>
               </div>
               <div className="flex items-center gap-2">
-                <Lock className="w-4 h-4 text-teal-400" />
-                <span>Protected Vault ดอกเบี้ย <strong>1.50%</strong></span>
+                <RotateCcw className="w-4 h-4 text-teal-400" />
+                <span>Micro-Sweep <strong>1-Tap Undo 100%</strong></span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-amber-400" />
-                <span>แม่นยำ <strong>&gt; 85%</strong> Counterfactual XAI</span>
+                <span>Micro-Auth <strong>5s</strong> (No 15-min lock)</span>
               </div>
             </div>
           </div>
@@ -65,15 +72,15 @@ export default function Hero({ onOpenScamModal }) {
               <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-slate-900/90">
                 <img
                   src="/static/img/hero_fintech_phones.jpg"
-                  alt="K-Sentinel & WealthPilot 3D Experience"
+                  alt="FlowSense & TrustGraph for K PLUS"
                   className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-500"
                 />
                 <div className="p-4 bg-slate-900/95 border-t border-white/10 flex items-center justify-between text-xs text-slate-300">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span className="font-semibold text-white">Live Production Shield</span>
+                    <span className="font-semibold text-white">TrustGraph &amp; FlowSense Live</span>
                   </div>
-                  <span className="font-mono text-emerald-400">P99 Latency: 7.29ms</span>
+                  <span className="font-mono text-emerald-400">Inference &lt; 80ms</span>
                 </div>
               </div>
             </div>

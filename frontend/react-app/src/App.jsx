@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import ScamShieldModal from './components/ScamShieldModal';
+import MicroAuthModal from './components/MicroAuthModal';
 
 // Route Pages
 import HomePage from './pages/HomePage';
-import WealthPilotPage from './pages/WealthPilotPage';
-import SentinelPage from './pages/SentinelPage';
+import FlowSensePage from './pages/FlowSensePage';
+import TrustGraphPage from './pages/TrustGraphPage';
 import ArchitecturePage from './pages/ArchitecturePage';
 import PersonasPage from './pages/PersonasPage';
 import SimulatorPage from './pages/SimulatorPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
-  const [isScamModalOpen, setIsScamModalOpen] = useState(false);
+  const [isMicroAuthOpen, setIsMicroAuthOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-100 bg-[#070B12]">
@@ -30,15 +30,23 @@ export default function App() {
         <Routes>
           <Route
             path="/"
-            element={<HomePage onOpenScamModal={() => setIsScamModalOpen(true)} />}
+            element={<HomePage onOpenScamModal={() => setIsMicroAuthOpen(true)} />}
+          />
+          <Route
+            path="/flowsense"
+            element={<FlowSensePage />}
           />
           <Route
             path="/wealthpilot"
-            element={<WealthPilotPage />}
+            element={<Navigate to="/flowsense" replace />}
+          />
+          <Route
+            path="/trustgraph"
+            element={<TrustGraphPage onOpenScamModal={() => setIsMicroAuthOpen(true)} />}
           />
           <Route
             path="/sentinel"
-            element={<SentinelPage onOpenScamModal={() => setIsScamModalOpen(true)} />}
+            element={<Navigate to="/trustgraph" replace />}
           />
           <Route
             path="/architecture"
@@ -66,10 +74,10 @@ export default function App() {
       {/* Global Footer */}
       <Footer />
 
-      {/* Interactive Global Scam Shield Modal */}
-      <ScamShieldModal
-        isOpen={isScamModalOpen}
-        onClose={() => setIsScamModalOpen(false)}
+      {/* Interactive Global TrustGraph Micro-Auth Modal */}
+      <MicroAuthModal
+        isOpen={isMicroAuthOpen}
+        onClose={() => setIsMicroAuthOpen(false)}
       />
     </div>
   );
