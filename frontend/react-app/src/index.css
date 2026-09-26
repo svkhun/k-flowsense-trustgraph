@@ -4,54 +4,55 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
-    font-family: 'IBM Plex Sans Thai', 'Plus Jakarta Sans', -apple-system, sans-serif;
-    background-color: #090A0F;
-    color: #F4F4F5;
+    font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Thai', -apple-system, sans-serif;
+    background-color: #F8FAFC;
+    color: #1E293B;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
+      linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
     background-position: 0 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Production-grade Bento Card & Terminal Panel */
+/* Production-grade Soft Light Bento Card & Surfaces */
 .bento-card, .glass-card {
-  background-color: #0E1017;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 1px 2px -1px rgba(15, 23, 42, 0.03);
+  transition: border-color 160ms ease-out, box-shadow 160ms ease-out, transform 160ms ease-out;
 }
 
 .bento-card:hover, .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.18);
-  background-color: #12151E;
+  border-color: rgba(203, 213, 225, 1);
+  box-shadow: 0 4px 10px -2px rgba(15, 23, 42, 0.05), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
 }
 
 .bento-card-highlight {
-  background-color: #0E1017;
-  border: 1px solid rgba(0, 169, 80, 0.35);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
-  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 1px 3px 0 rgba(16, 185, 129, 0.06);
+  transition: border-color 160ms ease-out, box-shadow 160ms ease-out;
 }
 
 .bento-card-highlight:hover {
-  border-color: rgba(0, 169, 80, 0.55);
-  background-color: #12151E;
+  border-color: rgba(5, 150, 105, 0.55);
+  box-shadow: 0 4px 12px 0 rgba(16, 185, 129, 0.09);
 }
 
-/* Micro-badge & Technical Monospace Labels */
+/* Micro-badge & Technical Monospace Labels (Airy & Slender) */
 .tech-label {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 11px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 /* Tabular Numbers for Financial Instruments & Metrics */
@@ -60,18 +61,18 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Clean Custom Scrollbar */
+/* Subtle Modern Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090A0F;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
-  border-radius: 3px;
+  background: #CBD5E1;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3F3F46;
+  background: #94A3B8;
 }

@@ -18,7 +18,7 @@ export default function App() {
   const [isMicroAuthOpen, setIsMicroAuthOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-slate-100 bg-[#070B12]">
+    <div className="min-h-screen flex flex-col font-sans text-slate-800 bg-[#F8FAFC]">
       {/* Auto scroll to top on route change */}
       <ScrollToTop />
 
