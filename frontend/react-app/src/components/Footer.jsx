@@ -44,6 +44,8 @@ export default function Footer() {
             <Link to="/flowsense" className="hover:text-emerald-400 transition-colors">FlowSense</Link>
             <Link to="/trustgraph" className="hover:text-emerald-400 transition-colors">TrustGraph</Link>
             <Link to="/architecture" className="hover:text-emerald-400 transition-colors">Architecture</Link>
+            <Link to="/personas" className="hover:text-emerald-400 transition-colors">Personas</Link>
+            <Link to="/dataset" className="hover:text-emerald-400 transition-colors">Dataset (CSV)</Link>
             <Link to="/app" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">Launch Simulator</Link>
           </div>
         </div>

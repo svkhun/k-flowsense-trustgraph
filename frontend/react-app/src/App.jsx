@@ -11,6 +11,7 @@ import FlowSensePage from './pages/FlowSensePage';
 import TrustGraphPage from './pages/TrustGraphPage';
 import ArchitecturePage from './pages/ArchitecturePage';
 import PersonasPage from './pages/PersonasPage';
+import DatasetAnalyticsPage from './pages/DatasetAnalyticsPage';
 import SimulatorPage from './pages/SimulatorPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -57,6 +58,18 @@ export default function App() {
           <Route
             path="/personas"
             element={<PersonasPage />}
+          />
+          <Route
+            path="/dataset"
+            element={<DatasetAnalyticsPage />}
+          />
+          <Route
+            path="/data"
+            element={<Navigate to="/dataset" replace />}
+          />
+          <Route
+            path="/audit"
+            element={<Navigate to="/dataset" replace />}
           />
           <Route
             path="/app"

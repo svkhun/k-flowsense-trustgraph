@@ -12,6 +12,7 @@ export default function Navbar({ onOpenScamModal }) {
     { name: 'TrustGraph (Fraud)', path: '/trustgraph' },
     { name: 'AI Architecture', path: '/architecture' },
     { name: 'Impact & Personas', path: '/personas' },
+    { name: 'Dataset & Evaluation', path: '/dataset' },
   ];
 
   const isActive = (path) => {
