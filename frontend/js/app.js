@@ -1593,12 +1593,33 @@ function openCoolOffModal(res) {
   if (confirmBtn) {
     confirmBtn.disabled = true;
     confirmBtn.classList.add("opacity-50", "cursor-not-allowed");
+    confirmBtn.classList.remove("ring-2", "ring-emerald-400");
+  }
+
+  // Attempt live webcam stream if available
+  const vEl = document.getElementById("micro-auth-video");
+  const aEl = document.getElementById("micro-auth-avatar");
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+      .then(stream => {
+        webcamStream = stream;
+        if (vEl) {
+          vEl.srcObject = stream;
+          vEl.classList.remove("hidden");
+        }
+        if (aEl) aEl.classList.add("hidden");
+      })
+      .catch(() => {
+        if (vEl) vEl.classList.add("hidden");
+        if (aEl) aEl.classList.remove("hidden");
+      });
   }
 
   if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
   coolOffTimerInterval = setInterval(() => {
     coolOffSecondsLeft--;
     updateCoolOffDisplay();
+    playSound("scan");
     if (coolOffSecondsLeft <= 0) {
       clearInterval(coolOffTimerInterval);
       if (statusLabel) {
@@ -1629,6 +1650,14 @@ function closeCoolOffModal() {
   const modal = document.getElementById("modal-cooloff-timer");
   if (modal) modal.classList.add("hidden");
   if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
+  if (webcamStream) {
+    webcamStream.getTracks().forEach(track => track.stop());
+    webcamStream = null;
+  }
+  const vEl = document.getElementById("micro-auth-video");
+  const aEl = document.getElementById("micro-auth-avatar");
+  if (vEl) vEl.classList.add("hidden");
+  if (aEl) aEl.classList.remove("hidden");
 }
 
 async function confirmMicroAuthTransfer() {

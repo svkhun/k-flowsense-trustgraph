@@ -30,7 +30,7 @@ export default function SimulatorPage() {
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-base sm:text-lg font-bold text-white">
-                  K PLUS Mobile &amp; SecOps Simulator
+                  FlowSense &amp; TrustGraph Simulator (K PLUS)
                 </h1>
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] font-semibold">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -38,7 +38,7 @@ export default function SimulatorPage() {
                 </span>
               </div>
               <p className="text-xs text-slate-400 hidden sm:block">
-                ระบบจำลองแอปพลิเคชันมือถือ K PLUS และศูนย์บัญชาการตรวจจับบัญชีม้า Real-time
+                ระบบจำลอง K PLUS: Status Horizon Bar, Micro-Sweep 1-Tap Undo, Zero-Delay Baseline และ Micro-Auth 5s
               </p>
             </div>
           </div>

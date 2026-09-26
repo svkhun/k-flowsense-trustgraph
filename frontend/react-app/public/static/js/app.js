@@ -6,7 +6,7 @@ let cashflowChart = null;
 let latencyChart = null;
 let muleNetwork = null;
 let coolOffTimerInterval = null;
-let coolOffSecondsLeft = 900; // 15 minutes = 900 seconds
+let coolOffSecondsLeft = 5; // 5-second Micro-Auth face scan
 let webcamStream = null;
 let currentPendingTxPayload = null;
 
@@ -642,7 +642,7 @@ function runScenario(num) {
     if (activeBtn) activeBtn.classList.add("ring-2", "ring-emerald-500", "bg-[#1E2C4A]");
     if (activeInd) activeInd.classList.remove("hidden");
 
-    showToast("success", "▶️ กำลังจำลอง: โอนเงิน ฿650 ให้เพื่อนร่วมงาน (ACC_0105)...");
+    showToast("success", "▶️ จำลอง: โอนเงินปกติ ฿650 ให้เพื่อน (Zero-Delay Baseline • 3.8ms • 0 added steps)...");
     switchMobileTab('transfer');
     selectRecipientPreset('safe');
     
@@ -661,18 +661,18 @@ function runScenario(num) {
     }, 500);
 
   } else if (num === 2) {
-    if (activeBtn) activeBtn.classList.add("ring-2", "ring-rose-500", "bg-[#1E2C4A]");
+    if (activeBtn) activeBtn.classList.add("ring-2", "ring-amber-500", "bg-[#1E2C4A]");
     if (activeInd) activeInd.classList.remove("hidden");
 
-    showToast("warning", "กำลังจำลอง: มิจฉาชีพเร่งรัดโอน ฿35,000 เข้าบัญชีม้า (ACC_0001)...");
+    showToast("warning", "จำลอง: โอน ฿35,000 เข้าบัญชีม้า -> TrustGraph Micro-Auth 5s + Direct Risk Reasoning...");
     switchMobileTab('transfer');
     selectRecipientPreset('mule');
     
     // Fill input with visual alert pulse
     const amtInput = document.getElementById("tx-input-amount");
     amtInput.value = 35000;
-    amtInput.classList.add("ring-2", "ring-rose-500");
-    setTimeout(() => amtInput.classList.remove("ring-2", "ring-rose-500"), 800);
+    amtInput.classList.add("ring-2", "ring-amber-500");
+    setTimeout(() => amtInput.classList.remove("ring-2", "ring-amber-500"), 800);
 
     document.getElementById("tx-input-duration").value = 10;
     document.getElementById("tx-input-auth").value = "pin";
@@ -686,7 +686,7 @@ function runScenario(num) {
     if (activeBtn) activeBtn.classList.add("ring-2", "ring-sky-500", "bg-[#1E2C4A]");
     if (activeInd) activeInd.classList.remove("hidden");
 
-    showToast("success", "กำลังจำลอง: AI ตรวจพบสภาพคล่องส่วนเกิน -> กวาดเงินออมเข้า Protected Vault...");
+    showToast("success", "จำลอง: FlowSense กวาดเงินส่วนเกินเข้า Sub-Account (1.50% p.a.) พร้อม 1-Tap Undo คืน 100%...");
     switchMobileTab('sts');
 
     setTimeout(() => {
@@ -750,16 +750,23 @@ function toggleDynamicIslandDetails() {
 
 function updateSafeToSpendUI(sts) {
   const limEl = document.getElementById("sts-daily-limit");
-  if (limEl) limEl.textContent = `฿ ${sts.daily_safe_limit.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  if (limEl) {
+    const proj = sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75;
+    limEl.textContent = `฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  }
 
   const spEl = document.getElementById("sts-spent-today");
-  if (spEl) spEl.textContent = `฿ ${sts.spent_today.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  if (spEl) {
+    spEl.textContent = `${30 - sts.days_to_payday}/30 วัน`;
+  }
 
   const remEl = document.getElementById("sts-safe-remaining") || document.getElementById("sts-remaining-today");
-  if (remEl) remEl.textContent = `฿ ${sts.remaining_today.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  if (remEl) {
+    remEl.textContent = `${sts.days_to_payday} วัน`;
+  }
 
   const brEl = document.getElementById("sts-burn-rate-text") || document.getElementById("sts-burn-rate");
-  if (brEl) brEl.textContent = `${sts.burn_rate_pct}%`;
+  if (brEl) brEl.textContent = `${sts.burn_rate_pct}% (${sts.burn_rate_pct > 80 ? 'ระวังตึงตัว' : 'ปกติ'})`;
 
   const dtpEl = document.getElementById("sts-days-to-payday");
   if (dtpEl) dtpEl.textContent = sts.days_to_payday;
@@ -780,14 +787,11 @@ function updateSafeToSpendUI(sts) {
   // Status Badge
   const badge = document.getElementById("sts-status-badge");
   if (badge) {
-    badge.textContent = sts.status;
-    if (sts.status === "OVERSPENT") {
-      badge.className = "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider";
-    } else if (sts.status === "CAUTION") {
-      badge.className = "bg-amber-500/15 text-amber-400 border border-amber-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider";
-    } else {
-      badge.className = "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider";
-    }
+    const isAtRisk = sts.status === "OVERSPENT" || sts.status === "DEFICIT_RISK";
+    badge.textContent = isAtRisk ? "DEFICIT RISK" : "HEALTHY RUNWAY";
+    badge.className = isAtRisk
+      ? "bg-rose-500/15 text-rose-400 border border-rose-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider"
+      : "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider";
   }
 
   // Breakdown
@@ -807,7 +811,9 @@ function updateSafeToSpendUI(sts) {
   }
 
   const nudgeEl = document.getElementById("nudge-message-display");
-  if (nudgeEl) nudgeEl.textContent = sts.nudge_message;
+  if (nudgeEl) {
+    nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${sts.projected_month_end_surplus ? sts.projected_month_end_surplus.toLocaleString('en-US', {minimumFractionDigits: 2}) : '8,433.75'} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อป้องกันความเครียดสะสม</i>`;
+  }
 }
 
 // ==============================================================================
@@ -1323,7 +1329,7 @@ async function executeTransferEvaluation() {
 
   let res;
   try {
-    const resp = await fetch("/api/v2/sentinel/evaluate-transfer", {
+    const resp = await fetch("/api/v2/trustgraph/evaluate-transfer", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -1342,8 +1348,8 @@ async function executeTransferEvaluation() {
   try {
     if (res.status === "APPROVED") {
       playSound("success");
-      expandDynamicIsland("Verified Safe • ผ่านการตรวจ", `${res.latency_ms}ms`, 2500);
-      showToast("success", `ตรวจสอบความปลอดภัยผ่าน (APPROVED) • Latency: ${res.latency_ms} ms`);
+      expandDynamicIsland("Zero-Delay Baseline • ผ่านทันที", `${res.latency_ms}ms`, 2500);
+      showToast("success", `Zero-Delay Baseline (0 added steps) • Latency: ${res.latency_ms} ms`);
       
       // Deduct from card balance for vivid feedback
       const balanceEl = document.getElementById("card-main-balance");
@@ -1360,8 +1366,8 @@ async function executeTransferEvaluation() {
       showKplusSlipModal(amount, selectedTargetAccount);
     } else {
       playSound("alert");
-      expandDynamicIsland("Mule Threat Blocked", "High Risk", 3500);
-      openSentinelModal(res);
+      expandDynamicIsland("TrustGraph Anomaly", "Micro-Auth 5s", 3500);
+      openCoolOffModal(res);
     }
   } catch (uiErr) {
     console.error("UI rendering error:", uiErr);
@@ -1444,21 +1450,21 @@ function openSentinelModal(res) {
       actionsContainer.appendChild(faceBtn);
 
     } else {
-      if (title) title.textContent = "สกัดกั้นรายการฉุกเฉิน (CRITICAL SCAM TRAP)";
+      if (title) title.textContent = "TrustGraph: ตรวจพบความผิดปกติวิกฤต (Critical Anomaly)";
       if (tierBadge) tierBadge.className = "text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-400 px-2.5 py-0.5 rounded-full";
 
       const coolBtn = document.createElement("button");
-      coolBtn.className = "w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2 text-xs";
-      coolBtn.innerHTML = `<i data-lucide="clock" class="w-4 h-4 text-rose-200"></i><span>เปิดมาตรการ Cool-Off 15 นาที</span>`;
+      coolBtn.className = "w-full bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl shadow-lg shadow-amber-600/30 transition-all flex items-center justify-center gap-2 text-xs";
+      coolBtn.innerHTML = `<i data-lucide="scan-face" class="w-4 h-4 text-white"></i><span>เข้าสู่การตรวจสอบ Micro-Auth (สแกนหน้า 5 วินาที)</span>`;
       coolBtn.onclick = () => {
         closeSentinelModal();
-        openCoolOffModal();
+        openCoolOffModal(res);
       };
       actionsContainer.appendChild(coolBtn);
 
       const cancelBtn = document.createElement("button");
       cancelBtn.className = "w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2 rounded-xl text-xs border border-white/[0.08] transition-all flex items-center justify-center gap-2";
-      cancelBtn.innerHTML = `<i data-lucide="x-circle" class="w-4 h-4 text-rose-400"></i><span>ยกเลิกรายการทันที (แนะนำ)</span>`;
+      cancelBtn.innerHTML = `<i data-lucide="x-circle" class="w-4 h-4 text-emerald-400"></i><span>ยกเลิกรายการทันที (แนะนำ)</span>`;
       cancelBtn.onclick = () => {
         closeSentinelModal();
         showToast("info", "ยกเลิกรายการโอนเงินเรียบร้อยแล้ว เงินของคุณปลอดภัย");
@@ -1558,41 +1564,171 @@ function closeCameraModal() {
 }
 
 // ==============================================================================
-// 15-MINUTE COOL-OFF COUNTDOWN TIMER
+// TRUSTGRAPH MICRO-AUTH (5-SECOND LIVENESS & USER AUTONOMY)
 // ==============================================================================
-function openCoolOffModal() {
+function openCoolOffModal(res) {
   playSound("alert");
   const modal = document.getElementById("modal-cooloff-timer");
+  if (!modal) return;
   modal.classList.remove("hidden");
-  coolOffSecondsLeft = 900; // Reset to 15:00
+  coolOffSecondsLeft = 5; // 5-second Micro-Auth
   updateCoolOffDisplay();
+
+  const riskReasonEl = document.getElementById("micro-auth-risk-reason");
+  if (riskReasonEl) {
+    if (res && (res.direct_risk_reason || res.counterfactual_message || res.reason_summary)) {
+      riskReasonEl.textContent = res.direct_risk_reason || res.counterfactual_message || res.reason_summary;
+    } else {
+      riskReasonEl.textContent = "Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีผู้รับเพิ่งเปิด 48 ชั่วโมงและมีรูปแบบเงินเข้าแล้วโอนออกทันที)";
+    }
+  }
+
+  const statusLabel = document.getElementById("micro-auth-status-label");
+  if (statusLabel) {
+    statusLabel.textContent = "กำลังสแกนใบหน้าตรวจสอบตัวตนสด (Face Liveness 5s)...";
+    statusLabel.className = "text-[10px] text-slate-400 mt-1";
+  }
+
+  const confirmBtn = document.getElementById("btn-micro-auth-confirm");
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.classList.add("opacity-50", "cursor-not-allowed");
+    confirmBtn.classList.remove("ring-2", "ring-emerald-400");
+  }
+
+  // Attempt live webcam stream if available
+  const vEl = document.getElementById("micro-auth-video");
+  const aEl = document.getElementById("micro-auth-avatar");
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+      .then(stream => {
+        webcamStream = stream;
+        if (vEl) {
+          vEl.srcObject = stream;
+          vEl.classList.remove("hidden");
+        }
+        if (aEl) aEl.classList.add("hidden");
+      })
+      .catch(() => {
+        if (vEl) vEl.classList.add("hidden");
+        if (aEl) aEl.classList.remove("hidden");
+      });
+  }
 
   if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
   coolOffTimerInterval = setInterval(() => {
     coolOffSecondsLeft--;
     updateCoolOffDisplay();
+    playSound("scan");
     if (coolOffSecondsLeft <= 0) {
       clearInterval(coolOffTimerInterval);
+      if (statusLabel) {
+        statusLabel.textContent = "ยืนยันอัตลักษณ์บุคคลสำเร็จ! คุณสามารถตัดสินใจทำรายการต่อได้";
+        statusLabel.className = "text-[10px] text-emerald-400 font-semibold mt-1";
+      }
+      if (confirmBtn) {
+        confirmBtn.disabled = false;
+        confirmBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        confirmBtn.classList.add("ring-2", "ring-emerald-400");
+      }
+      playSound("success");
     }
   }, 1000);
+
+  if (window.lucide) lucide.createIcons();
 }
 
 function updateCoolOffDisplay() {
   const digitsEl = document.getElementById("cooloff-timer-digits");
-  const m = Math.floor(coolOffSecondsLeft / 60);
-  const s = coolOffSecondsLeft % 60;
-  digitsEl.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  if (digitsEl) {
+    digitsEl.textContent = `00:0${Math.max(0, coolOffSecondsLeft)}`;
+  }
 }
 
 function closeCoolOffModal() {
   playSound("tap");
-  document.getElementById("modal-cooloff-timer").classList.add("hidden");
+  const modal = document.getElementById("modal-cooloff-timer");
+  if (modal) modal.classList.add("hidden");
   if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
+  if (webcamStream) {
+    webcamStream.getTracks().forEach(track => track.stop());
+    webcamStream = null;
+  }
+  const vEl = document.getElementById("micro-auth-video");
+  const aEl = document.getElementById("micro-auth-avatar");
+  if (vEl) vEl.classList.add("hidden");
+  if (aEl) aEl.classList.remove("hidden");
 }
 
-function callPoliceHotline() {
+async function confirmMicroAuthTransfer() {
   playSound("tap");
-  window.open("tel:1441");
+  closeCoolOffModal();
+  const amount = currentPendingTxPayload ? currentPendingTxPayload.amount : 35000.0;
+  const target = currentPendingTxPayload ? currentPendingTxPayload.target_account_id : selectedTargetAccount;
+
+  try {
+    const resp = await fetch("/api/v2/trustgraph/confirm-transfer", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        source_account_id: currentAccountId,
+        target_account_id: target,
+        amount: amount,
+        user_decision: "PROCEED_ANYWAY"
+      })
+    });
+    const res = await resp.json();
+    playSound("success");
+    showToast("success", res.message || "ยืนยันการโอนเงินสำเร็จตามความประสงค์ของผู้ใช้ (User Autonomy)");
+    
+    // Deduct balance for immediate feedback
+    const balanceEl = document.getElementById("card-main-balance");
+    if (balanceEl) {
+      let curBal = parseFloat(balanceEl.getAttribute("data-raw-balance") || 24500);
+      curBal = Math.max(0, curBal - amount);
+      balanceEl.setAttribute("data-raw-balance", curBal);
+      if (!isBalanceHidden) {
+        balanceEl.textContent = `฿ ${curBal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      }
+    }
+    showKplusSlipModal(amount, target);
+  } catch (err) {
+    showToast("error", "Error confirming transfer");
+  }
+}
+
+// 1-Tap Undo Recall for FlowSense
+async function triggerOneTapRecall() {
+  playSound("tap");
+  try {
+    const resp = await fetch("/api/v2/flowsense/recall", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ account_id: currentAccountId })
+    });
+    const res = await resp.json();
+    if (resp.ok) {
+      playSound("coin");
+      showToast("success", `${res.message} (ดึงเงินคืน 100% ทันทีไร้ค่าปรับ)`);
+      expandDynamicIsland("1-Tap Recall คืน 100%", "ทันที", 3000);
+      
+      let originX = window.innerWidth / 2;
+      let originY = window.innerHeight / 2;
+      const vEl = document.getElementById("disp-vault-balance") || document.getElementById("interactive-kplus-card");
+      if (vEl) {
+        const rect = vEl.getBoundingClientRect();
+        originX = rect.left + rect.width / 2;
+        originY = rect.top + rect.height / 2;
+      }
+      triggerCoinBurst(originX, originY);
+      await loadAllUserData(currentAccountId);
+    } else {
+      playSound("alert");
+      showToast("error", res.detail || "ไม่สามารถดึงเงินคืนได้");
+    }
+  } catch (err) {
+    showToast("error", "Error connecting to FlowSense recall API");
+  }
 }
 
 // ==============================================================================
