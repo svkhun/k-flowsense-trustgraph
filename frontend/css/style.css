@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   /* Official KBank Brand Tokens */
@@ -21,7 +21,7 @@
   --border-active: rgba(0, 169, 80, 0.45);
   
   /* Typography */
-  --font-sans: 'Prompt', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'IBM Plex Sans Thai', 'Prompt', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -87,22 +87,59 @@ body {
 }
 
 /* ============================================================================== */
-/* IPHONE 16 PRO FLAGSHIP DEVICE MOCKUP                                          */
 /* ============================================================================== */
+/* IPHONE 16 PRO FLAGSHIP REALISTIC SMARTPHONE MOCKUP                            */
+/* ============================================================================== */
+.phone-chassis {
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Hardware Side Buttons (Volume Rocker + Action Button on Left, Power on Right) */
+.phone-chassis::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 110px;
+  width: 4px;
+  height: 28px;
+  background: #252D3F;
+  border-radius: 3px 0 0 3px;
+  box-shadow: 
+    0 44px 0 #252D3F, /* Volume Up */
+    0 98px 0 #252D3F; /* Volume Down */
+  z-index: 10;
+}
+.phone-chassis::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  top: 140px;
+  width: 4px;
+  height: 60px;
+  background: #252D3F;
+  border-radius: 0 3px 3px 0;
+  z-index: 10;
+}
+
 .iphone-frame {
-  width: 100%;
-  max-width: 392px;
+  width: 390px;
+  max-width: 100%;
+  height: 814px;
   background: #0B0F19;
   border: 11px solid #1A2234;
-  border-radius: 54px;
+  border-radius: 52px;
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 25px 60px -12px rgba(0, 0, 0, 0.85),
-    0 0 80px -20px rgba(0, 169, 80, 0.2);
+    0 0 0 3px #0d1322,
+    0 25px 60px -12px rgba(0, 0, 0, 0.95),
+    0 0 80px -20px rgba(0, 169, 80, 0.22);
   position: relative;
   overflow: hidden;
   margin: 0 auto;
   user-select: none;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Device Side Reflections (Matte Titanium Aesthetic) */
@@ -113,10 +150,29 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 43px;
+  border-radius: 41px;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   pointer-events: none;
   z-index: 40;
+}
+
+/* Top Hardware Chrome: Ear-piece speaker, Dynamic Island, Status Bar */
+.iphone-top-chrome {
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 45;
+  background: #0B0F19;
+  padding-bottom: 2px;
+}
+
+.iphone-speaker-grill {
+  width: 46px;
+  height: 4px;
+  background: #252D3F;
+  border-radius: 4px;
+  margin: 5px auto -2px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 /* Dynamic Island Pill */
@@ -125,7 +181,7 @@ body {
   height: 28px;
   background: #000000;
   border-radius: 20px;
-  margin: 9px auto 2px;
+  margin: 7px auto 2px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -167,13 +223,48 @@ body {
   gap: 5px;
 }
 
+/* Inner Screen Scroll Container */
+.iphone-screen-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 16px 20px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+.iphone-screen-scroll::-webkit-scrollbar {
+  width: 3.5px;
+}
+.iphone-screen-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.iphone-screen-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+.iphone-screen-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 169, 80, 0.6);
+}
+
+/* Bottom Hardware Chrome: Pinned Home Indicator */
+.iphone-bottom-chrome {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 45;
+  background: linear-gradient(to top, #0B0F19 75%, rgba(11, 15, 25, 0));
+  padding-top: 10px;
+  padding-bottom: 4px;
+}
+
 /* Home Indicator Bar (iOS Style) */
 .iphone-home-indicator {
   width: 130px;
   height: 4.5px;
   background: rgba(255, 255, 255, 0.35);
   border-radius: 9999px;
-  margin: 10px auto 7px;
+  margin: 6px auto 7px;
   transition: background 0.2s;
 }
 .iphone-home-indicator:hover {

@@ -52,16 +52,16 @@
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body class="bg-[#080C14] text-slate-100 min-h-screen md:h-screen md:overflow-hidden flex flex-col md:flex-row font-sans selection:bg-emerald-500 selection:text-white">
+<body class="bg-[#080C14] text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
 
   <!-- ============================================================================== -->
-  <!-- [NAV] LEFT SIDEBAR NAVIGATOR BAR (Collapsible, Sleek & Uncluttered)             -->
+  <!-- [NAV] TOP NAVIGATION TOOLBAR (Horizontal, Sleek & Modern K PLUS FinTech Nav)  -->
   <!-- ============================================================================== -->
-  <aside id="sidebar-nav" class="w-full md:w-56 lg:w-60 bg-[#0A0F1D]/95 backdrop-blur-2xl border-r border-white/[0.08] flex flex-col shrink-0 md:h-screen md:sticky md:top-0 z-40 overflow-y-auto p-3 space-y-3">
-    
-    <!-- Brand Header with Collapse Button -->
-    <div class="flex items-center justify-between pb-2.5 border-b border-white/[0.08]">
-      <a href="/" title="กลับสู่หน้าหลัก (Home Overview)" class="flex items-center gap-2 min-w-0 hover:opacity-90 transition-opacity">
+  <header id="top-navbar" class="w-full bg-[#0A0F1D]/95 backdrop-blur-2xl border-b border-white/[0.08] sticky top-0 z-40 px-3 sm:px-5 py-2.5 shrink-0 shadow-lg shadow-black/40">
+    <div class="max-w-[1700px] mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-3">
+      
+      <!-- Brand Header -->
+      <a href="/" title="กลับสู่หน้าหลัก (Home Overview)" class="flex items-center gap-2.5 min-w-0 hover:opacity-90 transition-opacity">
         <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#006837] via-[#00A950] to-[#22C55E] flex items-center justify-center text-white shadow-md shadow-emerald-500/30 border border-white/20 shrink-0 relative overflow-hidden group">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none">
             <path d="M12 2L4 5V11C4 16.52 7.41 21.61 12 23C16.59 21.61 20 16.52 20 11V5L12 2Z" fill="url(#brand-shield-glow-nav)" stroke="#A7F3D0" stroke-width="1.5" stroke-linejoin="round"/>
@@ -76,111 +76,91 @@
           </svg>
         </div>
         <div class="min-w-0">
-          <div class="flex items-center gap-1">
-            <span class="font-extrabold text-xs text-white tracking-tight">FlowSense</span>
-            <span class="text-[10px] text-slate-400 font-light">&amp;</span>
-            <span class="font-extrabold text-xs text-emerald-400 tracking-tight">TrustGraph</span>
-            <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[8px] px-1 py-0.2 rounded font-bold">K+</span>
+          <div class="flex items-center gap-1.5">
+            <span class="font-extrabold text-xs sm:text-sm text-white tracking-tight">FlowSense</span>
+            <span class="text-xs text-slate-400 font-light">&amp;</span>
+            <span class="font-extrabold text-xs sm:text-sm text-emerald-400 tracking-tight">TrustGraph</span>
+            <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-1.5 py-0.5 rounded font-bold">K+</span>
           </div>
-          <p class="text-[9px] text-slate-400 truncate">K PLUS Copilot</p>
+          <p class="text-[10px] text-slate-400 truncate hidden sm:block">K PLUS Copilot for First Jobbers</p>
         </div>
       </a>
-      
-      <!-- Collapse Sidebar Button -->
-      <button onclick="toggleSidebar()" id="btn-sidebar-collapse" title="ซ่อนแถบเมนู [B] (Hide Sidebar)" class="w-6 h-6 rounded-md bg-white/5 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-400 border border-transparent hover:border-emerald-500/30 flex items-center justify-center transition-all duration-200 shrink-0 group">
-        <i data-lucide="panel-left-close" class="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform duration-200"></i>
-      </button>
-    </div>
 
-    <!-- 1. Navigation Menu (4 Single-Line Sleek Tabs) -->
-    <div class="space-y-1">
-      <div class="text-[9px] uppercase font-bold tracking-wider text-slate-500 px-1">เมนูหลัก (NAV)</div>
-      <nav class="space-y-1">
-        <button onclick="switchView('mobile')" id="nav-btn-mobile" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-600 text-white shadow-sm shadow-emerald-600/25">
+      <!-- 1. Center Navigation Tabs (Horizontal Segmented Control) -->
+      <nav class="flex items-center gap-1 bg-[#090E1A] p-1 rounded-xl border border-white/[0.08] shadow-inner overflow-x-auto max-w-full">
+        <button onclick="switchView('mobile')" id="nav-btn-mobile" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 bg-emerald-600 text-white shadow-sm shadow-emerald-600/25 shrink-0">
           <i data-lucide="smartphone" class="w-3.5 h-3.5 shrink-0"></i>
-          <span class="truncate">1. ลูกค้า (K PLUS)</span>
+          <span>1. หน้าแอป (K PLUS)</span>
         </button>
-        <button onclick="switchView('secops')" id="nav-btn-secops" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition-all flex items-center gap-2 hover:bg-white/[0.06]">
+        <button onclick="switchView('secops')" id="nav-btn-secops" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition-all flex items-center gap-1.5 hover:bg-white/[0.06] shrink-0">
           <i data-lucide="shield-alert" class="w-3.5 h-3.5 shrink-0"></i>
-          <span class="truncate">2. บัญชีม้า (SecOps)</span>
+          <span>2. บัญชีม้า (SecOps)</span>
         </button>
-        <button onclick="switchView('casa')" id="nav-btn-casa" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition-all flex items-center gap-2 hover:bg-white/[0.06]">
+        <button onclick="switchView('casa')" id="nav-btn-casa" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white transition-all flex items-center gap-1.5 hover:bg-white/[0.06] shrink-0">
           <i data-lucide="trending-up" class="w-3.5 h-3.5 shrink-0"></i>
-          <span class="truncate">3. ธุรกิจ &amp; SLA</span>
+          <span>3. ธุรกิจ &amp; SLA</span>
         </button>
-        <a href="/" class="w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all flex items-center justify-between border border-transparent hover:border-white/10 group" title="กลับสู่หน้าหลัก (Home Overview)">
-          <div class="flex items-center gap-2 truncate">
-            <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform"></i>
-            <span class="truncate">หน้าหลัก (Home)</span>
-          </div>
-          <span class="text-[8px] bg-emerald-500/20 text-emerald-300 px-1 py-0.2 rounded border border-emerald-500/30">Home</span>
+        <a href="/" class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/[0.06] transition-all flex items-center gap-1.5 border border-transparent hover:border-white/10 group shrink-0" title="กลับสู่หน้าหลัก Overview">
+          <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-400 shrink-0 group-hover:scale-110 transition-transform"></i>
+          <span>หน้าหลัก (Home)</span>
         </a>
       </nav>
-    </div>
 
-    <!-- 2. Persona Selector (Single-Line Compact) -->
-    <div class="space-y-1.5 pt-2 border-t border-white/[0.08]">
-      <div class="flex items-center justify-between text-[10px] font-semibold text-slate-400 px-1">
-        <span>โปรไฟล์จำลอง (Persona)</span>
-      </div>
-      <select id="user-selector" onchange="onUserSelectChange(this.value)" class="w-full bg-[#141E33] border border-white/[0.1] text-white text-xs rounded-lg px-2 py-1.5 focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all cursor-pointer">
-        <!-- Dynamic via JS -->
-      </select>
-      <div id="persona-summary-badge" class="flex items-center gap-1.5 bg-[#0E1524] px-2 py-1.5 rounded-lg border border-white/[0.06] text-[10px]">
-        <div id="persona-indicator" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></div>
-        <div id="persona-title" class="font-bold text-white truncate text-[11px]">Paycheck-to-Paycheck Spender</div>
-        <div id="persona-desc" class="hidden"></div>
-      </div>
-    </div>
+      <!-- 2. Right Utilities: Persona, Reset & Status -->
+      <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <!-- Persona Selector -->
+        <div class="flex items-center gap-2 bg-[#141E33] border border-white/[0.1] rounded-xl px-2.5 py-1">
+          <div id="persona-indicator" class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></div>
+          <select id="user-selector" onchange="onUserSelectChange(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer pr-1">
+            <!-- Dynamic via JS -->
+          </select>
+        </div>
 
-    <!-- 3. Footer Utilities & Reset -->
-    <div class="pt-2 border-t border-white/[0.08] space-y-2 mt-auto">
-      <button onclick="resetAccountState()" title="รีเซ็ตยอดเงินและข้อมูลบัญชีกลับเป็นค่าเริ่มต้น" class="w-full py-1.5 px-2 rounded-lg bg-[#141E33] hover:bg-[#1C2942] border border-white/[0.1] text-[11px] font-bold text-slate-200 hover:text-emerald-400 flex items-center justify-center gap-1.5 transition-all shadow-sm">
-        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>
-        <span>รีเซ็ตข้อมูล (Reset)</span>
-      </button>
+        <div id="persona-summary-badge" class="hidden xl:flex items-center gap-1.5 bg-[#0E1524] px-2.5 py-1.5 rounded-xl border border-white/[0.06] text-[11px]">
+          <span class="text-slate-400 text-[10px]">โปรไฟล์:</span>
+          <span id="persona-title" class="font-bold text-white truncate max-w-[130px] text-xs">Paycheck Spender</span>
+          <div id="persona-desc" class="hidden"></div>
+        </div>
 
-      <div class="flex items-center justify-between px-1">
-        <button onclick="toggleAudioHaptics()" id="audio-toggle-btn" title="เปิด/ปิดเสียงเอฟเฟกต์" class="flex items-center gap-1 text-[10px] text-slate-400 hover:text-white transition-colors">
-          <i data-lucide="volume-2" id="audio-icon" class="w-3 h-3 text-emerald-400"></i>
-          <span>เสียง</span>
+        <!-- Reset Button -->
+        <button onclick="resetAccountState()" title="รีเซ็ตยอดเงินและข้อมูลบัญชีกลับเป็นค่าเริ่มต้น" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#141E33] hover:bg-[#1C2942] border border-white/[0.1] text-xs font-semibold text-slate-200 hover:text-emerald-400 transition-all shadow-sm">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="hidden sm:inline">รีเซ็ต</span>
         </button>
-        <div class="flex items-center gap-1 text-[9px] text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-500/30 font-medium">
+
+        <!-- Audio Toggle Button -->
+        <button onclick="toggleAudioHaptics()" id="audio-toggle-btn" title="เปิด/ปิดเสียงเอฟเฟกต์" class="w-8 h-8 rounded-xl bg-[#141E33] hover:bg-[#1C2942] border border-white/[0.1] flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+          <i data-lucide="volume-2" id="audio-icon" class="w-3.5 h-3.5 text-emerald-400"></i>
+        </button>
+
+        <!-- Live Status Pill -->
+        <div class="hidden md:flex items-center gap-1.5 text-[10px] text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/30 font-medium">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Online</span>
         </div>
       </div>
+
     </div>
-
-  </aside>
+  </header>
 
   <!-- ============================================================================== -->
-  <!-- [MAIN] MAIN CONTENT WORKSPACE (Roomy, Clean Margins & Proportional Grid)       -->
+  <!-- [MAIN] MAIN CONTENT WORKSPACE (Full Width & Proportional Grid)                 -->
   <!-- ============================================================================== -->
-  <main class="flex-1 min-w-0 flex flex-col h-full md:h-screen overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 relative">
-
-    <!-- Universal Floating Expand Sidebar Button (Always visible across all tabs when sidebar is collapsed) -->
-    <button onclick="toggleSidebar()" id="btn-sidebar-expand" title="แสดงแถบเมนู [B] (Show Sidebar)" class="hidden fixed top-3.5 left-4 z-50 items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#0A0F1D]/95 backdrop-blur-xl border border-emerald-500/50 text-xs font-semibold text-white shadow-2xl hover:bg-[#141E33] hover:border-emerald-400 transition-all group">
-      <div class="w-5 h-5 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30 group-hover:scale-110 transition-transform">
-        <i data-lucide="panel-left-open" class="w-3.5 h-3.5"></i>
-      </div>
-      <span>แสดงแถบเมนู</span>
-      <span class="text-[9px] font-mono text-emerald-300 bg-emerald-500/20 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">[B]</span>
-    </button>
+  <main class="flex-1 min-w-0 p-3 sm:p-5 lg:p-6 space-y-6">
 
     <!-- ============================================================================ -->
     <!-- VIEW 1: K PLUS CUSTOMER EXPERIENCE                                           -->
     <!-- ============================================================================ -->
-    <section id="view-mobile" class="transition-opacity duration-300 max-w-4xl mx-auto space-y-8 pb-16">
+    <section id="view-mobile" class="transition-opacity duration-300 w-full max-w-[1700px] mx-auto pb-12">
       
-      <!-- Clean Section Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0E1524]/60 p-4 rounded-2xl border border-white/[0.06]">
+      <!-- Top Overview Banner -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0E1524]/70 p-3.5 sm:px-5 rounded-2xl border border-white/[0.06] mb-6">
         <div class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
             <i data-lucide="smartphone" class="w-4 h-4"></i>
           </div>
           <div>
-            <h2 class="text-base font-bold text-white">ระบบจำลองการใช้งานแอป K PLUS และ AI Copilot สำหรับ First Jobbers</h2>
+            <h2 class="text-sm sm:text-base font-bold text-white">ระบบจำลองการใช้งานแอป K PLUS และ AI Copilot สำหรับ First Jobbers</h2>
             <p class="text-xs text-slate-400">ทดลองโอนเงินหรือทดสอบระบบ FlowSense เพื่อดูการทำงานของ AI แบบเรียลไทม์</p>
           </div>
         </div>
@@ -190,359 +170,423 @@
         </div>
       </div>
 
-      <!-- 1. The Interactive K PLUS Mobile Device (Centered Hero) -->
-      <div class="flex flex-col items-center justify-center">
+      <!-- 2-Column Responsive Workspace: Left = Realistic Phone, Right = Telemetry & Scenarios -->
+      <div class="grid grid-cols-1 lg:grid-cols-[400px_1fr] xl:grid-cols-[420px_1fr] gap-6 xl:gap-8 items-start">
+        
+        <!-- ============================================================ -->
+        <!-- LEFT COLUMN: Realistic Smartphone Mockup (Sticky on Desktop) -->
+        <!-- ============================================================ -->
+        <div class="flex flex-col items-center lg:sticky lg:top-20">
           
           <div class="w-full max-w-[392px] mb-2.5 flex items-center justify-between px-2">
             <span class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
               <i data-lucide="smartphone" class="w-3.5 h-3.5 text-emerald-400"></i>
               <span>หน้าจอจำลองแอป K PLUS</span>
             </span>
-            <button onclick="resetAccountState()" title="รีเซ็ตยอดเงินและข้อมูลบัญชีกลับเป็นค่าเริ่มต้น" class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[#141E33] hover:bg-[#1C2942] border border-white/[0.1] text-xs font-semibold text-slate-200 hover:text-emerald-400 transition-all shadow-sm">
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-emerald-400"></i>
-              <span>รีเซ็ตข้อมูล</span>
-            </button>
+            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              iPhone 16 Pro Frame
+            </span>
           </div>
 
-          <div class="iphone-frame relative">
-            
-            <!-- Real-Time Radar Screen Sweep (Shown during pre-screening) -->
-            <div id="phone-radar-sweep" class="hidden screen-radar-sweep"></div>
-
-            <!-- Dynamic Island Pill (Interactive & Spring-Morphing) -->
-            <div id="main-dynamic-island" class="dynamic-island" onclick="toggleDynamicIslandDetails()" title="คลิกเพื่อดูสถานะความปลอดภัยแบบ Real-time">
-              <!-- Compact View -->
-              <div id="island-compact-view" class="flex items-center justify-between w-full">
-                <div class="sensor-indicator">
-                  <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400"></i>
-                  <span class="text-[10px] text-emerald-400 font-mono font-bold tracking-tight">TRUSTGRAPH</span>
-                </div>
-                <div class="camera-dot"></div>
-                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-              </div>
-              <!-- Expanded Morph View -->
-              <div id="island-expanded-view" class="hidden items-center justify-between w-full h-full px-1">
-                <div class="flex items-center gap-2">
-                  <div class="flex items-center gap-0.5 h-4">
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                    <div class="waveform-bar"></div>
-                  </div>
-                  <span id="island-title" class="text-[11px] font-bold text-white tracking-tight">TrustGraph Shield Active (&lt; 80ms)</span>
-                </div>
-                <div class="flex items-center gap-1.5">
-                  <span id="island-badge" class="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 rounded-full">&lt; 80ms</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- iPhone Status Bar -->
-            <div class="flex justify-between items-center px-7 pt-1 pb-3 text-xs text-slate-300 font-medium">
-              <span id="mobile-live-clock" class="font-semibold tracking-tight">09:41</span>
-              <div class="flex items-center gap-2 text-slate-400">
-                <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 rounded">5G</span>
-                <i data-lucide="wifi" class="w-3.5 h-3.5 text-slate-300"></i>
-                <div class="flex items-center gap-0.5">
-                  <span class="text-[10px] font-mono text-slate-300">98%</span>
-                  <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
-                </div>
-              </div>
-            </div>
-
-            <!-- Inside Mobile Content Area -->
-            <div class="px-5 py-3 space-y-4">
+          <!-- Realistic Phone Chassis Wrapper with Hardware Side Buttons -->
+          <div class="phone-chassis w-full max-w-[392px]">
+            <div class="iphone-frame relative">
               
-              <!-- App Top Profile Bar with Eye Toggle -->
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-600 to-green-500 flex items-center justify-center font-bold text-xs text-white shadow-md shadow-emerald-500/20 border border-white/20">
-                    KP
-                  </div>
-                  <div>
-                    <div class="text-[11px] text-slate-400">สวัสดี, บัญชีผู้ใช้งาน</div>
-                    <div id="user-display-name" class="text-sm font-bold text-white">First Jobber • ACC_0100</div>
-                  </div>
-                </div>
-                
-                <div class="flex items-center gap-2">
-                  <button onclick="toggleBalanceVisibility()" title="ซ่อน/แสดงยอดเงินคงเหลือ" class="w-8 h-8 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-all">
-                    <i data-lucide="eye" id="eye-icon" class="w-4 h-4"></i>
-                  </button>
-                  <div class="relative">
-                    <div class="w-8 h-8 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300">
-                      <i data-lucide="bell" class="w-4 h-4"></i>
+              <!-- Real-Time Radar Screen Sweep (Shown during pre-screening) -->
+              <div id="phone-radar-sweep" class="hidden screen-radar-sweep"></div>
+
+              <!-- Top Hardware Chrome: Ear-piece speaker + Dynamic Island + Status Bar -->
+              <div class="iphone-top-chrome">
+                <!-- Speaker Ear-Piece Grill -->
+                <div class="iphone-speaker-grill"></div>
+
+                <!-- Dynamic Island Pill (Interactive & Spring-Morphing) -->
+                <div id="main-dynamic-island" class="dynamic-island" onclick="toggleDynamicIslandDetails()" title="คลิกเพื่อดูสถานะความปลอดภัยแบบ Real-time">
+                  <!-- Compact View -->
+                  <div id="island-compact-view" class="flex items-center justify-between w-full">
+                    <div class="sensor-indicator">
+                      <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400"></i>
+                      <span class="text-[10px] text-emerald-400 font-mono font-bold tracking-tight">TRUSTGRAPH</span>
                     </div>
-                    <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#0B0F19]"></span>
+                    <div class="camera-dot"></div>
+                    <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
                   </div>
-                </div>
-              </div>
-
-              <!-- Authentic K-eSavings Digital Card (with 3D Parallax & Holographic Glint) -->
-              <div class="card-3d-wrap">
-                <div class="kplus-card relative" id="interactive-kplus-card">
-                  <!-- Holographic Glint Light Reflection -->
-                  <div class="card-glint" id="card-glint-reflection"></div>
-
-                  <div class="flex justify-between items-start relative z-10">
-                    <div>
-                      <span class="text-xs font-semibold tracking-wide text-white/90">K-eSavings Digital</span>
-                      <div class="text-[10px] text-white/70 font-mono mt-0.5">PromptPay Linked</div>
-                    </div>
-                    <div class="flex items-center gap-1.5 bg-black/25 backdrop-blur-sm px-2 py-0.5 rounded-md border border-white/15">
-                      <span class="font-extrabold tracking-widest text-xs">K PLUS</span>
-                    </div>
-                  </div>
-
-                  <!-- EMV Chip & Contactless Waves -->
-                  <div class="mt-4 flex items-center justify-between relative z-10">
-                    <div class="emv-chip"></div>
-                    <i data-lucide="rss" class="w-5 h-5 text-white/70 rotate-90"></i>
-                  </div>
-
-                  <!-- Account Number & Balance -->
-                  <div class="mt-3 relative z-10">
-                    <div class="flex items-center justify-between text-xs text-white/80 font-mono">
-                      <span id="card-acc-num">ACC_0100 •••• 4291</span>
-                      <button onclick="copyAccNumber()" class="hover:text-white transition-colors" title="คัดลอกเลขบัญชี">
-                        <i data-lucide="copy" class="w-3 h-3"></i>
-                      </button>
-                    </div>
-                    <div class="mt-1 text-2xl font-black tracking-tight" id="card-main-balance">฿ 24,500.00</div>
-                  </div>
-
-                  <!-- Monthly Salary Footer -->
-                  <div class="mt-3 flex justify-between items-center text-[11px] text-white/85 border-t border-white/15 pt-2 font-medium relative z-10">
-                    <span>เงินเดือน: <b id="card-monthly-salary">฿ 28,000.00</b></span>
-                    <span class="bg-white/15 px-2 py-0.5 rounded-full text-[10px]">รอบเงินเดือน: 28</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- K PLUS Quick Actions Bar -->
-              <div class="grid grid-cols-4 gap-2 pt-1 pb-1">
-                <div class="kplus-action-btn" onclick="switchMobileTab('transfer')">
-                  <div class="kplus-action-icon">
-                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-emerald-400"></i>
-                  </div>
-                  <span class="text-[10px] font-medium text-slate-300">โอนเงิน</span>
-                </div>
-                <div class="kplus-action-btn" onclick="triggerMicroSweep()">
-                  <div class="kplus-action-icon">
-                    <i data-lucide="sparkles" class="w-5 h-5 text-amber-400"></i>
-                  </div>
-                  <span class="text-[10px] font-medium text-slate-300">กวาดออม</span>
-                </div>
-                <div class="kplus-action-btn" onclick="triggerOneTapRecall()">
-                  <div class="kplus-action-icon">
-                    <i data-lucide="rotate-ccw" class="w-5 h-5 text-teal-400"></i>
-                  </div>
-                  <span class="text-[10px] font-medium text-slate-300">1-Tap Undo</span>
-                </div>
-                <div class="kplus-action-btn" onclick="showFeatureAlert('QR Scan')">
-                  <div class="kplus-action-icon">
-                    <i data-lucide="qr-code" class="w-5 h-5 text-slate-300"></i>
-                  </div>
-                  <span class="text-[10px] font-medium text-slate-300">สแกน</span>
-                </div>
-              </div>
-
-              <!-- In-Mobile Sub Navigation Tabs -->
-              <div class="flex bg-[#141E33] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
-                <button onclick="switchMobileTab('sts')" id="m-tab-btn-sts" class="flex-1 py-2 text-center rounded-lg bg-emerald-600 text-white transition-all shadow-sm">
-                  FlowSense (Horizon &amp; Savings)
-                </button>
-                <button onclick="switchMobileTab('transfer')" id="m-tab-btn-transfer" class="flex-1 py-2 text-center rounded-lg text-slate-400 hover:text-white transition-all">
-                  TrustGraph (โอนเงิน)
-                </button>
-              </div>
-
-              <!-- SUB-TAB 1: FlowSense (Status Horizon Bar & Sub-Account with 1-Tap Undo) -->
-              <div id="mobile-tab-sts" class="space-y-3.5">
-                
-                <!-- Status Horizon Bar Card (No Rigid Daily Budgets) -->
-                <div class="bg-[#141E33]/90 p-4 rounded-2xl border border-white/[0.08] relative overflow-hidden">
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
-                        <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span>คาดการณ์สภาพคล่องสิ้นเดือน (Status Horizon)</span>
-                      </span>
-                      <div class="text-2xl font-black text-emerald-400 mt-1 font-mono" id="sts-daily-limit">฿ 8,433.75</div>
-                      <p class="text-[10px] text-slate-400 mt-0.5">ฉายภาพสภาพคล่องสิ้นเดือน ไม่ต้องจดบันทึกรายวัน</p>
-                    </div>
-                    <div class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider" id="sts-status-badge">
-                      HEALTHY RUNWAY
-                    </div>
-                  </div>
-
-                  <!-- Horizon Progress Runway Bar -->
-                  <div class="mt-3">
-                    <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-                      <span>ความคืบหน้ารอบเดือน: <b class="text-white" id="sts-spent-today">14/30 วัน</b></span>
-                      <span>อัตราเผาผลาญ: <b class="text-emerald-400" id="sts-burn-rate-text">45% (ปกติ)</b></span>
-                    </div>
-                    <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                      <div id="sts-burn-rate-bar" class="bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-500" style="width: 45%;"></div>
-                    </div>
-                  </div>
-
-                  <!-- Fixed Commitments Mini Grid inside Phone -->
-                  <div class="mt-3 pt-2.5 border-t border-white/[0.06] space-y-1.5">
-                    <div class="flex justify-between items-center text-[10px]">
-                      <span class="text-slate-400 font-medium">ภาระผูกพันล่วงหน้า (Fixed Commitments):</span>
-                      <span class="text-emerald-400 font-bold font-mono">฿ 11,760.00</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-1.5 text-[9px] text-center font-mono">
-                      <div class="bg-black/30 p-1.5 rounded-lg border border-white/5">
-                        <div class="text-slate-400">ค่าเช่า</div>
-                        <div class="text-white font-bold mt-0.5">฿7,000</div>
-                      </div>
-                      <div class="bg-black/30 p-1.5 rounded-lg border border-white/5">
-                        <div class="text-slate-400">หนี้ผ่อน</div>
-                        <div class="text-white font-bold mt-0.5">฿3,360</div>
-                      </div>
-                      <div class="bg-black/30 p-1.5 rounded-lg border border-white/5">
-                        <div class="text-slate-400">ค่าน้ำไฟ</div>
-                        <div class="text-white font-bold mt-0.5">฿1,400</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Commitment Warnings Pill & Alert Suppression -->
-                  <div class="mt-2.5 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[10px]">
-                    <div class="flex items-center gap-1.5 text-emerald-400">
-                      <i data-lucide="bell-off" class="w-3.5 h-3.5"></i>
-                      <span>Alerts Suppressed During Normal Dips</span>
-                    </div>
-                    <span class="text-slate-400">เหลืออีก: <b class="text-emerald-400 font-mono" id="sts-safe-remaining">14 วัน</b></span>
-                  </div>
-                </div>
-
-                <!-- FlowSense Sub-Account (Micro-Sweep & 1-Tap Undo) -->
-                <div class="bg-[#141E33]/90 p-4 rounded-2xl border border-white/[0.08]">
-                  <div class="flex justify-between items-start">
+                  <!-- Expanded Morph View -->
+                  <div id="island-expanded-view" class="hidden items-center justify-between w-full h-full px-1">
                     <div class="flex items-center gap-2">
-                      <div class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center">
-                        <i data-lucide="piggy-bank" class="w-4 h-4"></i>
+                      <div class="flex items-center gap-0.5 h-4">
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
+                        <div class="waveform-bar"></div>
                       </div>
-                      <div>
-                        <div class="text-xs font-bold text-white">FlowSense Sub-Account (บัญชีเงินออมแยก)</div>
-                        <div class="text-[10px] text-slate-400">ดอกเบี้ย 1.50% ต่อปี • กวาดส่วนเกินเฉพาะช่วงเงินเหลือ</div>
-                      </div>
-                    </div>
-                    <span class="text-[10px] font-bold text-teal-400 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-500/30">
-                      1.50% p.a.
-                    </span>
-                  </div>
-
-                  <div class="mt-3 flex items-center justify-between">
-                    <div>
-                      <div class="text-[10px] text-slate-400">ยอดเงินใน Sub-Account</div>
-                      <div class="text-xl font-black text-white font-mono" id="disp-vault-balance">฿ 15,240.00</div>
+                      <span id="island-title" class="text-[11px] font-bold text-white tracking-tight">TrustGraph Shield Active (&lt; 80ms)</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                      <button onclick="triggerMicroSweep()" class="px-2.5 py-1.5 rounded-xl bg-teal-600/30 hover:bg-teal-600/40 border border-teal-500/40 text-teal-300 text-[11px] font-semibold flex items-center gap-1 transition-all">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                        <span>กวาดออม</span>
+                      <span id="island-badge" class="text-[9px] font-mono font-bold text-emerald-400 bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 rounded-full">&lt; 80ms</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- iPhone Status Bar -->
+                <div class="flex justify-between items-center px-6 pt-0.5 pb-2 text-xs text-slate-300 font-medium">
+                  <span id="mobile-live-clock" class="font-semibold tracking-tight text-[11px]">09:41</span>
+                  <div class="flex items-center gap-1.5 text-slate-400">
+                    <span class="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1 rounded">5G</span>
+                    <i data-lucide="wifi" class="w-3 h-3 text-slate-300"></i>
+                    <div class="flex items-center gap-0.5">
+                      <span class="text-[9px] font-mono text-slate-300">98%</span>
+                      <i data-lucide="battery-charging" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inner Screen Scrollable Content (Simulates actual touchable mobile screen) -->
+              <div class="iphone-screen-scroll space-y-4">
+                
+                <!-- App Top Profile Bar with Eye Toggle -->
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-600 to-green-500 flex items-center justify-center font-bold text-xs text-white shadow-md shadow-emerald-500/20 border border-white/20">
+                      KP
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-slate-400">สวัสดี, บัญชีผู้ใช้งาน</div>
+                      <div id="user-display-name" class="text-xs font-bold text-white truncate max-w-[170px]">First Jobber • ACC_0100</div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="toggleBalanceVisibility()" title="ซ่อน/แสดงยอดเงินคงเหลือ" class="w-7 h-7 rounded-full bg-slate-800/80 hover:bg-slate-700 flex items-center justify-center text-slate-300 hover:text-white transition-all">
+                      <i data-lucide="eye" id="eye-icon" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <div class="relative">
+                      <div class="w-7 h-7 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-300">
+                        <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                      </div>
+                      <span class="absolute top-0 right-0 w-2 h-2 bg-emerald-400 rounded-full border-2 border-[#0B0F19]"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Authentic K-eSavings Digital Card (with 3D Parallax & Holographic Glint) -->
+                <div class="card-3d-wrap">
+                  <div class="kplus-card relative" id="interactive-kplus-card">
+                    <!-- Holographic Glint Light Reflection -->
+                    <div class="card-glint" id="card-glint-reflection"></div>
+
+                    <div class="flex justify-between items-start relative z-10">
+                      <div>
+                        <span class="text-xs font-semibold tracking-wide text-white/90">K-eSavings Digital</span>
+                        <div class="text-[9px] text-white/70 font-mono mt-0.5">PromptPay Linked</div>
+                      </div>
+                      <div class="flex items-center gap-1.5 bg-black/25 backdrop-blur-sm px-2 py-0.5 rounded-md border border-white/15">
+                        <span class="font-extrabold tracking-widest text-xs">K PLUS</span>
+                      </div>
+                    </div>
+
+                    <!-- EMV Chip & Contactless Waves -->
+                    <div class="mt-3 flex items-center justify-between relative z-10">
+                      <div class="emv-chip"></div>
+                      <i data-lucide="rss" class="w-4 h-4 text-white/70 rotate-90"></i>
+                    </div>
+
+                    <!-- Account Number & Balance -->
+                    <div class="mt-2.5 relative z-10">
+                      <div class="flex items-center justify-between text-[11px] text-white/80 font-mono">
+                        <span id="card-acc-num">ACC_0100 •••• 4291</span>
+                        <button onclick="copyAccNumber()" class="hover:text-white transition-colors" title="คัดลอกเลขบัญชี">
+                          <i data-lucide="copy" class="w-3 h-3"></i>
+                        </button>
+                      </div>
+                      <div class="mt-1 text-2xl font-black tracking-tight" id="card-main-balance">฿ 24,500.00</div>
+                    </div>
+
+                    <!-- Monthly Salary Footer -->
+                    <div class="mt-2.5 flex justify-between items-center text-[10px] text-white/85 border-t border-white/15 pt-2 font-medium relative z-10">
+                      <span>เงินเดือน: <b id="card-monthly-salary">฿ 28,000.00</b></span>
+                      <span class="bg-white/15 px-2 py-0.5 rounded-full text-[9px]">รอบเงินเดือน: 28</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- K PLUS Quick Actions Bar -->
+                <div class="grid grid-cols-4 gap-2 pt-0.5 pb-0.5">
+                  <div class="kplus-action-btn" onclick="switchMobileTab('transfer')">
+                    <div class="kplus-action-icon">
+                      <i data-lucide="arrow-up-right" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <span class="text-[10px] font-medium text-slate-300">โอนเงิน</span>
+                  </div>
+                  <div class="kplus-action-btn" onclick="triggerMicroSweep()">
+                    <div class="kplus-action-icon">
+                      <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <span class="text-[10px] font-medium text-slate-300">กวาดออม</span>
+                  </div>
+                  <div class="kplus-action-btn" onclick="triggerOneTapRecall()">
+                    <div class="kplus-action-icon">
+                      <i data-lucide="rotate-ccw" class="w-4 h-4 text-teal-400"></i>
+                    </div>
+                    <span class="text-[10px] font-medium text-slate-300">1-Tap Undo</span>
+                  </div>
+                  <div class="kplus-action-btn" onclick="showFeatureAlert('QR Scan')">
+                    <div class="kplus-action-icon">
+                      <i data-lucide="qr-code" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                    <span class="text-[10px] font-medium text-slate-300">สแกน</span>
+                  </div>
+                </div>
+
+                <!-- In-Mobile Sub Navigation Tabs -->
+                <div class="flex bg-[#141E33] p-1 rounded-xl border border-white/[0.08] text-xs font-semibold">
+                  <button onclick="switchMobileTab('sts')" id="m-tab-btn-sts" class="flex-1 py-1.5 text-center rounded-lg bg-emerald-600 text-white transition-all shadow-sm text-[11px]">
+                    FlowSense (Horizon &amp; Savings)
+                  </button>
+                  <button onclick="switchMobileTab('transfer')" id="m-tab-btn-transfer" class="flex-1 py-1.5 text-center rounded-lg text-slate-400 hover:text-white transition-all text-[11px]">
+                    TrustGraph (โอนเงิน)
+                  </button>
+                </div>
+
+                <!-- SUB-TAB 1: FlowSense (Status Horizon Bar & Sub-Account with 1-Tap Undo) -->
+                <div id="mobile-tab-sts" class="space-y-3">
+                  
+                  <!-- Status Horizon Bar Card -->
+                  <div class="bg-[#141E33]/90 p-3.5 rounded-2xl border border-white/[0.08] relative overflow-hidden">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
+                          <i data-lucide="activity" class="w-3 h-3 text-emerald-400"></i>
+                          <span>คาดการณ์สภาพคล่องสิ้นเดือน</span>
+                        </span>
+                        <div class="text-xl font-black text-emerald-400 mt-1 font-mono" id="sts-daily-limit">฿ 8,433.75</div>
+                        <p class="text-[9px] text-slate-400 mt-0.5">ฉายภาพสภาพคล่องสิ้นเดือน ไม่ต้องจดรายวัน</p>
+                      </div>
+                      <div class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider" id="sts-status-badge">
+                        HEALTHY RUNWAY
+                      </div>
+                    </div>
+
+                    <!-- Horizon Progress Runway Bar -->
+                    <div class="mt-2.5">
+                      <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                        <span>ความคืบหน้ารอบเดือน: <b class="text-white" id="sts-spent-today">14/30 วัน</b></span>
+                        <span>อัตราเผาผลาญ: <b class="text-emerald-400" id="sts-burn-rate-text">45% (ปกติ)</b></span>
+                      </div>
+                      <div class="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                        <div id="sts-burn-rate-bar" class="bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-500" style="width: 45%;"></div>
+                      </div>
+                    </div>
+
+                    <!-- Fixed Commitments Mini Grid inside Phone -->
+                    <div class="mt-2.5 pt-2 border-t border-white/[0.06] space-y-1.5">
+                      <div class="flex justify-between items-center text-[9px]">
+                        <span class="text-slate-400 font-medium">ภาระผูกพันล่วงหน้า:</span>
+                        <span class="text-emerald-400 font-bold font-mono">฿ 11,760.00</span>
+                      </div>
+                      <div class="grid grid-cols-3 gap-1.5 text-[8.5px] text-center font-mono">
+                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
+                          <div class="text-slate-400">ค่าเช่า</div>
+                          <div class="text-white font-bold mt-0.5">฿7,000</div>
+                        </div>
+                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
+                          <div class="text-slate-400">หนี้ผ่อน</div>
+                          <div class="text-white font-bold mt-0.5">฿3,360</div>
+                        </div>
+                        <div class="bg-black/30 p-1 rounded-lg border border-white/5">
+                          <div class="text-slate-400">ค่าน้ำไฟ</div>
+                          <div class="text-white font-bold mt-0.5">฿1,400</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Commitment Warnings Pill & Alert Suppression -->
+                    <div class="mt-2 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[9px]">
+                      <div class="flex items-center gap-1 text-emerald-400">
+                        <i data-lucide="bell-off" class="w-3 h-3"></i>
+                        <span>Alerts Suppressed In Normal Dips</span>
+                      </div>
+                      <span class="text-slate-400">เหลือ: <b class="text-emerald-400 font-mono" id="sts-safe-remaining">14 วัน</b></span>
+                    </div>
+                  </div>
+
+                  <!-- FlowSense Sub-Account (Micro-Sweep & 1-Tap Undo) -->
+                  <div class="bg-[#141E33]/90 p-3.5 rounded-2xl border border-white/[0.08]">
+                    <div class="flex justify-between items-start">
+                      <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center">
+                          <i data-lucide="piggy-bank" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <div>
+                          <div class="text-[11px] font-bold text-white">FlowSense Sub-Account</div>
+                          <div class="text-[9px] text-slate-400">ดอกเบี้ย 1.50% ต่อปี • กวาดออมส่วนเกิน</div>
+                        </div>
+                      </div>
+                      <span class="text-[9px] font-bold text-teal-400 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-500/30">
+                        1.50% p.a.
+                      </span>
+                    </div>
+
+                    <div class="mt-2.5 flex items-center justify-between">
+                      <div>
+                        <div class="text-[9px] text-slate-400">ยอดเงินใน Sub-Account</div>
+                        <div class="text-lg font-black text-white font-mono" id="disp-vault-balance">฿ 15,240.00</div>
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <button onclick="triggerMicroSweep()" class="px-2.5 py-1.5 rounded-xl bg-teal-600/30 hover:bg-teal-600/40 border border-teal-500/40 text-teal-300 text-[10px] font-semibold flex items-center gap-1 transition-all">
+                          <i data-lucide="sparkles" class="w-3 h-3"></i>
+                          <span>กวาดออม</span>
+                        </button>
+                        <button onclick="triggerOneTapRecall()" class="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-bold flex items-center gap-1 transition-all shadow-md shadow-emerald-600/30">
+                          <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                          <span>1-Tap Undo</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="mt-2 text-[9px] text-slate-400 flex items-center gap-1">
+                      <i data-lucide="check" class="w-2.5 h-2.5 text-emerald-400 shrink-0"></i>
+                      <span>ดึงเงินกลับเข้าบัญชีหลัก 100% ทันที ไร้ค่าปรับ</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- SUB-TAB 2: Transfer Flow (Shield Test) -->
+                <div id="mobile-tab-transfer" class="space-y-3 hidden">
+                  <div class="text-[11px] text-slate-400 font-medium">ทดลองโอนเงินเพื่อดูระบบตรวจจับของ AI (&lt; 80ms)</div>
+
+                  <!-- Recipient Selection Cards -->
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] text-slate-300 font-semibold block">เลือกบัญชีปลายทาง:</label>
+                    <div class="grid grid-cols-2 gap-2">
+                      <button onclick="selectRecipientPreset('safe')" id="btn-rcp-safe" class="p-2 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all">
+                        <div class="flex items-center gap-1 text-emerald-400 text-[11px] font-bold">
+                          <i data-lucide="check-circle-2" class="w-3 h-3"></i>
+                          <span>เพื่อนร่วมงาน</span>
+                        </div>
+                        <div class="text-[10px] text-slate-300 mt-0.5 font-mono">กิตติศักดิ์ ช.</div>
+                        <div class="text-[9px] text-slate-400 font-mono">ACC_0105 (KBank)</div>
                       </button>
-                      <button onclick="triggerOneTapRecall()" class="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center gap-1 transition-all shadow-md shadow-emerald-600/30">
-                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                        <span>1-Tap Undo</span>
+
+                      <button onclick="selectRecipientPreset('mule')" id="btn-rcp-mule" class="p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70">
+                        <div class="flex items-center gap-1 text-rose-400 text-[11px] font-bold">
+                          <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                          <span>ม้าต้องสงสัย</span>
+                        </div>
+                        <div class="text-[10px] text-slate-300 mt-0.5 font-mono">สมชาย (AOC List)</div>
+                        <div class="text-[9px] text-slate-400 font-mono">ACC_0001 (Mule)</div>
                       </button>
                     </div>
                   </div>
-                  <div class="mt-2 text-[10px] text-slate-400 flex items-center gap-1">
-                    <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i>
-                    <span>1-Tap Recall: ดึงเงินกลับเข้าบัญชีหลัก 100% ทันที ไร้ค่าปรับ ไร้ระยะเวลารอ</span>
+
+                  <!-- Transfer Amount with Quick Chips -->
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <label class="text-[10px] text-slate-300 font-semibold">จำนวนเงินที่ต้องการโอน (THB):</label>
+                      <span class="text-[9px] text-slate-400">ฟรีค่าธรรมเนียม</span>
+                    </div>
+                    <div class="relative">
+                      <span class="absolute left-2.5 top-2 text-xs font-bold text-slate-400 font-mono">฿</span>
+                      <input type="number" id="tx-input-amount" value="650" class="w-full bg-[#141E33] border border-white/[0.12] rounded-xl pl-6 pr-3 py-1.5 text-white font-mono text-sm font-bold focus:ring-1 focus:ring-emerald-500 focus:outline-none transition-all">
+                    </div>
+                    
+                    <!-- Quick Amount Chips -->
+                    <div class="flex gap-1 mt-1.5">
+                      <button onclick="setTransferAmount(100)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[9px] font-mono text-slate-300 transition-colors">+100</button>
+                      <button onclick="setTransferAmount(500)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[9px] font-mono text-slate-300 transition-colors">+500</button>
+                      <button onclick="setTransferAmount(1000)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[9px] font-mono text-slate-300 transition-colors">+1k</button>
+                      <button onclick="setTransferAmount(35000)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[9px] font-mono text-amber-400 transition-colors">+35k</button>
+                    </div>
                   </div>
+
+                  <!-- Simulation Params -->
+                  <div class="grid grid-cols-2 gap-2 pt-0.5">
+                    <div>
+                      <label class="text-[9px] text-slate-400 font-medium block mb-0.5">เวลาในหน้าจอ (วินาที):</label>
+                      <input type="number" id="tx-input-duration" value="45" min="2" max="300" class="w-full bg-[#141E33] border border-white/[0.1] rounded-xl px-2 py-1 text-white font-mono text-xs focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                      <span class="text-[8px] text-slate-500">&lt;15s = มิจฉาชีพเร่งรัด</span>
+                    </div>
+                    <div>
+                      <label class="text-[9px] text-slate-400 font-medium block mb-0.5">วิธียืนยันตัวตน:</label>
+                      <select id="tx-input-auth" class="w-full bg-[#141E33] border border-white/[0.1] rounded-xl px-2 py-1 text-white text-xs focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        <option value="pin">PIN 6 หลัก</option>
+                        <option value="face_scan">Face Scan</option>
+                        <option value="none">None (ไม่มี)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Confirm Transfer Button -->
+                  <button onclick="executeTransferEvaluation()" class="w-full bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-2 text-xs">
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    <span>ยืนยันการโอนเงิน (Pre-Screening)</span>
+                  </button>
+
                 </div>
 
               </div>
 
-              <!-- SUB-TAB 2: Transfer Flow (Shield Test) -->
-              <div id="mobile-tab-transfer" class="space-y-3.5 hidden">
-                <div class="text-xs text-slate-400 font-medium">ทดลองโอนเงินเพื่อดูระบบตรวจจับของ AI (&lt; 80ms)</div>
-
-                <!-- Recipient Selection Cards -->
-                <div class="space-y-1.5">
-                  <label class="text-[11px] text-slate-300 font-semibold block">เลือกบัญชีปลายทาง:</label>
-                  <div class="grid grid-cols-2 gap-2">
-                    <button onclick="selectRecipientPreset('safe')" id="btn-rcp-safe" class="p-2.5 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all">
-                      <div class="flex items-center gap-1.5 text-emerald-400 text-xs font-bold">
-                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                        <span>เพื่อนร่วมงาน</span>
-                      </div>
-                      <div class="text-[10px] text-slate-300 mt-1 font-mono">กิตติศักดิ์ ช.</div>
-                      <div class="text-[9px] text-slate-400 font-mono">ACC_0105 (KBank)</div>
-                    </button>
-
-                    <button onclick="selectRecipientPreset('mule')" id="btn-rcp-mule" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70">
-                      <div class="flex items-center gap-1.5 text-rose-400 text-xs font-bold">
-                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
-                        <span>ม้าต้องสงสัย</span>
-                      </div>
-                      <div class="text-[10px] text-slate-300 mt-1 font-mono">สมชาย (AOC List)</div>
-                      <div class="text-[9px] text-slate-400 font-mono">ACC_0001 (Mule)</div>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Transfer Amount with Quick Chips -->
-                <div>
-                  <div class="flex justify-between items-center mb-1">
-                    <label class="text-[11px] text-slate-300 font-semibold">จำนวนเงินที่ต้องการโอน (THB):</label>
-                    <span class="text-[10px] text-slate-400">ฟรีค่าธรรมเนียม</span>
-                  </div>
-                  <div class="relative">
-                    <span class="absolute left-3 top-2.5 text-sm font-bold text-slate-400 font-mono">฿</span>
-                    <input type="number" id="tx-input-amount" value="650" class="w-full bg-[#141E33] border border-white/[0.12] rounded-xl pl-7 pr-3 py-2 text-white font-mono text-base font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all">
-                  </div>
-                  
-                  <!-- Quick Amount Chips -->
-                  <div class="flex gap-1.5 mt-2">
-                    <button onclick="setTransferAmount(100)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[10px] font-mono text-slate-300 transition-colors">+100</button>
-                    <button onclick="setTransferAmount(500)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[10px] font-mono text-slate-300 transition-colors">+500</button>
-                    <button onclick="setTransferAmount(1000)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[10px] font-mono text-slate-300 transition-colors">+1,000</button>
-                    <button onclick="setTransferAmount(35000)" class="flex-1 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-[10px] font-mono text-amber-400 transition-colors">+35k</button>
-                  </div>
-                </div>
-
-                <!-- Simulation Params -->
-                <div class="grid grid-cols-2 gap-2 pt-1">
-                  <div>
-                    <label class="text-[10px] text-slate-400 font-medium block mb-1">เวลาในหน้าจอ (วินาที):</label>
-                    <input type="number" id="tx-input-duration" value="45" min="2" max="300" class="w-full bg-[#141E33] border border-white/[0.1] rounded-xl px-2.5 py-1.5 text-white font-mono text-xs focus:ring-1 focus:ring-emerald-500 focus:outline-none">
-                    <span class="text-[9px] text-slate-500">&lt;15s = มิจฉาชีพเร่งรัด</span>
-                  </div>
-                  <div>
-                    <label class="text-[10px] text-slate-400 font-medium block mb-1">วิธียืนยันตัวตน:</label>
-                    <select id="tx-input-auth" class="w-full bg-[#141E33] border border-white/[0.1] rounded-xl px-2 py-1.5 text-white text-xs focus:ring-1 focus:ring-emerald-500 focus:outline-none">
-                      <option value="pin">PIN 6 หลัก</option>
-                      <option value="face_scan">Face Scan</option>
-                      <option value="none">None (ไม่มี)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- Confirm Transfer Button -->
-                <button onclick="executeTransferEvaluation()" class="w-full bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-2">
-                  <i data-lucide="send" class="w-4 h-4"></i>
-                  <span>ยืนยันการโอนเงิน (Pre-Screening)</span>
-                </button>
-
+              <!-- iPhone Bottom Home Indicator (Pinned at bottom) -->
+              <div class="iphone-bottom-chrome">
+                <div class="iphone-home-indicator"></div>
               </div>
 
             </div>
-
-            <!-- iPhone Bottom Home Indicator -->
-            <div class="iphone-home-indicator"></div>
-
           </div>
         </div>
 
-        <!-- 2. STORY CARD 1: FlowSense — Flexible Liquidity & Autonomous Saving -->
-        <div class="fintech-panel p-6 sm:p-7 space-y-5">
+        <!-- ============================================================ -->
+        <!-- RIGHT COLUMN: Story Cards, Cashflow Chart, Shield Telemetry  -->
+        <!-- ============================================================ -->
+        <div class="min-w-0 space-y-6">
+          
+          <!-- QUICK SCENARIOS ACTION TRIGGER BAR -->
+          <div class="fintech-panel p-4 sm:p-5 space-y-3 bg-gradient-to-r from-[#0F172A] to-[#111C33] border-emerald-500/25">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-xs font-bold text-white">
+                <div class="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                </div>
+                <span>ทดสอบสถานการณ์จำลองด่วน (Interactive Fast Triggers)</span>
+              </div>
+              <span class="text-[10px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">1-Click Trigger</span>
+            </div>
+            <p class="text-xs text-slate-400">กดปุ่มด้านล่างเพื่อสั่งจำลองเหตุการณ์ไปยังหน้าจอโทรศัพท์ K PLUS อัตโนมัติ:</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button onclick="triggerScenarioPreset('safe_tx')" class="p-2.5 rounded-xl bg-[#141E33] hover:bg-emerald-950/50 border border-white/[0.08] hover:border-emerald-500/40 text-left transition-all group">
+                <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <i data-lucide="zap" class="w-3 h-3 text-emerald-400"></i>
+                  <span>1. โอนเงินปลอดภัย</span>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">฿650 (Zero-Delay)</div>
+              </button>
+              <button onclick="triggerScenarioPreset('mule_tx')" class="p-2.5 rounded-xl bg-[#141E33] hover:bg-rose-950/50 border border-white/[0.08] hover:border-rose-500/40 text-left transition-all group">
+                <div class="text-[11px] font-bold text-rose-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <i data-lucide="shield-alert" class="w-3 h-3 text-rose-400"></i>
+                  <span>2. สกัดบัญชีม้า</span>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">฿35k (AOC Scam 5s)</div>
+              </button>
+              <button onclick="triggerScenarioPreset('micro_sweep')" class="p-2.5 rounded-xl bg-[#141E33] hover:bg-teal-950/50 border border-white/[0.08] hover:border-teal-500/40 text-left transition-all group">
+                <div class="text-[11px] font-bold text-teal-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <i data-lucide="sparkles" class="w-3 h-3 text-teal-400"></i>
+                  <span>3. กวาดออมเงิน</span>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">Micro-Sweep Vault</div>
+              </button>
+              <button onclick="triggerScenarioPreset('undo_recall')" class="p-2.5 rounded-xl bg-[#141E33] hover:bg-emerald-950/50 border border-white/[0.08] hover:border-emerald-500/40 text-left transition-all group">
+                <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <i data-lucide="rotate-ccw" class="w-3 h-3 text-emerald-400"></i>
+                  <span>4. 1-Tap Undo</span>
+                </div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">ดึงเงินคืนเข้า 100%</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- STORY CARD 1: FlowSense — Flexible Liquidity & Autonomous Saving -->
+          <div class="fintech-panel p-5 sm:p-6 space-y-5">
             <div class="flex items-center justify-between border-b border-white/[0.08] pb-4">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500/25 to-teal-500/20 text-emerald-400 flex items-center justify-center shadow-inner border border-emerald-500/30">
@@ -722,7 +766,7 @@
           </div>
 
           <!-- STORY CARD 2: TrustGraph — Targeted Anti-Scam Verification -->
-          <div class="fintech-panel p-6 sm:p-7 space-y-5">
+          <div class="fintech-panel p-5 sm:p-6 space-y-5">
             <div class="flex items-center justify-between border-b border-white/[0.08] pb-4">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500/25 to-rose-500/20 text-amber-400 flex items-center justify-center shadow-inner border border-amber-500/30">
@@ -780,6 +824,10 @@
               </div>
             </div>
           </div>
+
+        </div>
+
+      </div>
 
     </section>
 

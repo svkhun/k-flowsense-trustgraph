@@ -2270,3 +2270,33 @@ function showToast(type, message) {
     setTimeout(() => toast.remove(), 300);
   }, 3500);
 }
+
+// ==============================================================================
+// QUICK INTERACTIVE SCENARIO TRIGGER CONTROLLER
+// ==============================================================================
+function triggerScenarioPreset(type) {
+  if (type === 'safe_tx') {
+    switchMobileTab('transfer');
+    selectRecipientPreset('safe');
+    setTransferAmount(650);
+    showToast('info', 'กำลังจำลองการโอนเงินปกติ (Zero-Delay Baseline)...');
+    setTimeout(() => {
+      executeTransferEvaluation();
+    }, 250);
+  } else if (type === 'mule_tx') {
+    switchMobileTab('transfer');
+    selectRecipientPreset('mule');
+    setTransferAmount(35000);
+    showToast('warning', 'ตรวจพบคำสั่งโอนเงินเข้าบัญชีม้า! ส่งการทดสอบ Micro-Auth...');
+    setTimeout(() => {
+      executeTransferEvaluation();
+    }, 250);
+  } else if (type === 'micro_sweep') {
+    switchMobileTab('sts');
+    triggerMicroSweep();
+  } else if (type === 'undo_recall') {
+    switchMobileTab('sts');
+    triggerOneTapRecall();
+  }
+}
+

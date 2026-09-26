@@ -61,7 +61,7 @@ export default function SimulatorPage() {
       </div>
 
       {/* Simulator Viewport Container */}
-      <div className="w-full h-[calc(100vh-140px)] min-h-[750px] rounded-2xl overflow-hidden border border-white/10 bg-[#070B14] relative shadow-2xl">
+      <div className="w-full h-[calc(100vh-120px)] min-h-[900px] rounded-2xl overflow-hidden border border-white/10 bg-[#070B14] relative shadow-2xl">
         <iframe
           ref={iframeRef}
           src="/simulator.html"
