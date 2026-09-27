@@ -9,7 +9,7 @@ export default function PersonasPage() {
       
       {/* Header Banner */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
@@ -35,7 +35,7 @@ export default function PersonasPage() {
 
       {/* Navigation CTA */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
+        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#18191D]/75">
           <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">กลับไปยังหน้า Overview เพื่อดูภาพรวมทั้งระบบ</h3>
             <p className="text-xs text-slate-400 leading-[1.7]">สัมผัสประสบการณ์ FlowSense และ TrustGraph ที่ออกแบบมาเพื่อคนรุ่นใหม่อย่างแท้จริง</p>

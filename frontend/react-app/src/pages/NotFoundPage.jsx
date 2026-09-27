@@ -5,7 +5,7 @@ import { Home, AlertCircle } from 'lucide-react';
 export default function NotFoundPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
-      <div className="bento-card rounded-2xl p-8 sm:p-12 max-w-md text-center space-y-5 border border-white/10 bg-[#0B132B]/85 shadow-2xl">
+      <div className="bento-card rounded-2xl p-8 sm:p-12 max-w-md text-center space-y-5 border border-white/10 bg-[#18191D]/85 shadow-2xl">
         <div className="w-14 h-14 rounded-2xl bg-white/5 text-slate-400 flex items-center justify-center mx-auto border border-white/10">
           <AlertCircle className="w-7 h-7 text-emerald-400" />
         </div>

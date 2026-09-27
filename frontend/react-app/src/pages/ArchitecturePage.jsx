@@ -40,7 +40,7 @@ export default function ArchitecturePage() {
       
       {/* 1. Unified Master Header (Zero Redundant Double-Headers) */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
@@ -86,7 +86,7 @@ export default function ArchitecturePage() {
 
       {/* 3. Interactive Throughput & Scalability Radar for KBTG Judges */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl">
+        <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#18191D]/85 backdrop-blur-xl shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 tech-label text-xs mb-1">
@@ -174,7 +174,7 @@ export default function ArchitecturePage() {
 
       {/* 4. Navigation CTA */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
+        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#18191D]/75">
           <div className="space-y-1.5">
             <h3 className="text-base sm:text-lg font-bold text-white leading-[1.4]">ศึกษาผลกระทบที่มีต่อกลุ่มเป้าหมาย First Jobber</h3>
             <p className="text-xs sm:text-sm text-slate-400 leading-[1.7]">สำรวจกลุ่มผู้ใช้งานเป้าหมาย 2 กลุ่มหลักและความคุ้มค่าทางธุรกิจ (Business Value)</p>

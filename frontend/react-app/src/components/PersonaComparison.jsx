@@ -110,7 +110,7 @@ export default function PersonaComparison() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl">
+            <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PRIMARY TARGET</span>
                 <span className="font-mono text-xs text-slate-400 tabular-nums">18k–35k THB Income</span>
@@ -124,7 +124,7 @@ export default function PersonaComparison() {
               </div>
             </div>
 
-            <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl">
+            <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <span className="text-[10px] font-mono tracking-wider text-cyan-400 font-bold uppercase">SECONDARY TARGET</span>
                 <span className="font-mono text-xs text-slate-400">High Frequency Transactor</span>
@@ -151,7 +151,7 @@ export default function PersonaComparison() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="bento-card rounded-2xl p-6 space-y-2.5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl">
+            <div className="bento-card rounded-2xl p-6 space-y-2.5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl">
               <div className="text-[10px] font-mono tracking-wider text-slate-400 uppercase font-bold">PILLAR 01</div>
               <h4 className="text-base font-bold text-white leading-[1.4]">User Retention (-88% Churn)</h4>
               <p className="text-xs text-slate-300 leading-[1.8] font-normal">
@@ -167,7 +167,7 @@ export default function PersonaComparison() {
               </p>
             </div>
 
-            <div className="bento-card rounded-2xl p-6 space-y-2.5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl">
+            <div className="bento-card rounded-2xl p-6 space-y-2.5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl">
               <div className="text-[10px] font-mono tracking-wider text-slate-400 uppercase font-bold">PILLAR 03</div>
               <h4 className="text-base font-bold text-white leading-[1.4]">Precision Fraud Defense (&lt;80ms)</h4>
               <p className="text-xs text-slate-300 leading-[1.8] font-normal">

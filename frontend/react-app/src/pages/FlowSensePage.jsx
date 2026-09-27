@@ -10,7 +10,7 @@ export default function FlowSensePage() {
       
       {/* Header Banner */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
@@ -60,7 +60,7 @@ export default function FlowSensePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pillar 1 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Compass className="w-5 h-5 text-emerald-400" />
@@ -84,7 +84,7 @@ export default function FlowSensePage() {
           </div>
 
           {/* Pillar 3 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <BellOff className="w-5 h-5 text-slate-400" />
@@ -99,7 +99,7 @@ export default function FlowSensePage() {
 
       {/* Data Science Table Preview */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#0B132B]/75">
+        <div className="bento-card rounded-2xl p-6 space-y-3 border border-white/10 bg-[#18191D]/75">
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
             <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">DATA SCIENCE ARCHITECTURE</span>
             <span className="font-mono text-xs text-slate-400 tabular-nums">30-Day Liquidity Margin</span>
@@ -113,7 +113,7 @@ export default function FlowSensePage() {
 
       {/* Navigation CTA */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
+        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#18191D]/75">
           <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-bold text-white">ต้องการทดสอบการตรวจจับมิจฉาชีพด้วย TrustGraph?</h3>
             <p className="text-xs text-slate-400">สัมผัสเกราะสกัดบัญชีม้าความเร็วสูงระดับ &lt; 80ms SLA ด้วย R-GCN</p>

@@ -94,7 +94,7 @@ export default function HomePage({ onOpenScamModal }) {
 
         {/* Tab 3: Embedded K PLUS Simulator */}
         {activeEngineTab === 'simulator' && (
-          <div className="bento-card rounded-2xl overflow-hidden border border-white/10 p-4 space-y-3 bg-[#0B132B]/80">
+          <div className="bento-card rounded-2xl overflow-hidden border border-white/10 p-4 space-y-3 bg-[#18191D]/80">
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -108,7 +108,7 @@ export default function HomePage({ onOpenScamModal }) {
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-            <div className="w-full h-[650px] rounded-xl overflow-hidden border border-white/10 bg-[#070B14]">
+            <div className="w-full h-[650px] rounded-xl overflow-hidden border border-white/10 bg-[#121214]">
               <iframe
                 src="/simulator.html"
                 title="Embedded K PLUS Simulator"
@@ -138,7 +138,7 @@ export default function HomePage({ onOpenScamModal }) {
           {/* Card 1: FlowSense */}
           <Link
             to="/flowsense"
-            className="md:col-span-7 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#0B132B]/75"
+            className="md:col-span-7 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#18191D]/75"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
@@ -161,7 +161,7 @@ export default function HomePage({ onOpenScamModal }) {
           {/* Card 2: TrustGraph */}
           <Link
             to="/trustgraph"
-            className="md:col-span-5 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#0B132B]/75"
+            className="md:col-span-5 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#18191D]/75"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
@@ -184,7 +184,7 @@ export default function HomePage({ onOpenScamModal }) {
           {/* Card 3: AI Architecture */}
           <Link
             to="/architecture"
-            className="md:col-span-6 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#0B132B]/75"
+            className="md:col-span-6 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#18191D]/75"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
@@ -207,7 +207,7 @@ export default function HomePage({ onOpenScamModal }) {
           {/* Card 4: Target Personas */}
           <Link
             to="/personas"
-            className="md:col-span-6 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#0B132B]/75"
+            className="md:col-span-6 bento-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between group border border-white/10 bg-[#18191D]/75"
           >
             <div className="space-y-2.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
@@ -232,7 +232,7 @@ export default function HomePage({ onOpenScamModal }) {
 
       {/* 4. Executive Scorecard Summary (Replaces redundant wall of text) */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 border border-white/10 bg-[#0B132B]/85 backdrop-blur-xl shadow-xl space-y-6">
+        <div className="bento-card rounded-2xl p-6 sm:p-7 border border-white/10 bg-[#18191D]/85 backdrop-blur-xl shadow-xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label text-xs mb-1">

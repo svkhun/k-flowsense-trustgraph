@@ -11,13 +11,13 @@
   --kplus-rose: #F43F5E;
   --kplus-sky: #0EA5E9;
   
-  /* Canvas & Elevated Surfaces (Linear / Stripe Inspired FinTech Palette) */
-  --bg-deep: #080C14;
-  --bg-surface: #0E1524;
-  --bg-card: rgba(17, 24, 39, 0.72);
-  --bg-card-hover: rgba(26, 36, 56, 0.85);
+  /* Canvas & Elevated Surfaces (Charcoal Black Luxury FinTech Palette) */
+  --bg-deep: #121214;
+  --bg-surface: #18191D;
+  --bg-card: rgba(24, 25, 29, 0.78);
+  --bg-card-hover: rgba(34, 36, 42, 0.85);
   --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-card: rgba(255, 255, 255, 0.1);
+  --border-card: rgba(255, 255, 255, 0.09);
   --border-active: rgba(0, 169, 80, 0.45);
   
   /* Typography */
@@ -31,7 +31,7 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #090A0F;
+  background-color: #121214;
   color: #F4F4F5;
   overflow-x: hidden;
   line-height: 1.75;
@@ -81,7 +81,7 @@ p {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #090A0F;
+  background: #121214;
 }
 ::-webkit-scrollbar-thumb {
   background: #27272A;
@@ -116,7 +116,7 @@ select {
 }
 
 select option {
-  background-color: #0E1524 !important;
+  background-color: #18191D !important;
   color: #F8FAFC !important;
   padding: 8px 12px;
 }
@@ -132,7 +132,7 @@ select option:checked {
 /* LUXURY FINTECH BENTO PANEL SYSTEM                                              */
 /* ============================================================================== */
 .fintech-panel {
-  background: #0E1017;
+  background: #18191D;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
@@ -141,7 +141,7 @@ select option:checked {
 
 .fintech-panel-hover:hover {
   border-color: rgba(255, 255, 255, 0.18);
-  background-color: #12151E;
+  background-color: #22242A;
 }
 
 /* ============================================================================== */
@@ -164,11 +164,11 @@ select option:checked {
   top: 80px;
   width: 3.5px;
   height: 22px;
-  background: #252D3F;
+  background: #2A2C32;
   border-radius: 3px 0 0 3px;
   box-shadow: 
-    0 34px 0 #252D3F, /* Volume Up */
-    0 76px 0 #252D3F; /* Volume Down */
+    0 34px 0 #2A2C32, /* Volume Up */
+    0 76px 0 #2A2C32; /* Volume Down */
   z-index: 10;
 }
 .phone-chassis::after {
@@ -178,7 +178,7 @@ select option:checked {
   top: 100px;
   width: 3.5px;
   height: 46px;
-  background: #252D3F;
+  background: #2A2C32;
   border-radius: 0 3px 3px 0;
   z-index: 10;
 }
@@ -188,12 +188,12 @@ select option:checked {
   max-width: 100%;
   height: min(705px, calc(100vh - 65px));
   max-height: 100%;
-  background: #0B0F19;
-  border: 9px solid #1A2234;
+  background: #0D0E10;
+  border: 9px solid #1E2025;
   border-radius: 44px;
   box-shadow: 
     0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 0 0 3px #0d1322,
+    0 0 0 3px #141518,
     0 20px 50px -10px rgba(0, 0, 0, 0.95),
     0 0 60px -15px rgba(0, 169, 80, 0.22);
   position: relative;
@@ -233,14 +233,14 @@ select option:checked {
   position: sticky;
   top: 0;
   z-index: 45;
-  background: #0B0F19;
+  background: #0D0E10;
   padding-bottom: 2px;
 }
 
 .iphone-speaker-grill {
   width: 46px;
   height: 4px;
-  background: #252D3F;
+  background: #2A2C32;
   border-radius: 4px;
   margin: 5px auto -2px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
@@ -273,7 +273,7 @@ select option:checked {
   width: 10px;
   height: 10px;
   background: #0B1120;
-  border: 1.5px solid #1E293B;
+  border: 1.5px solid #2A2C32;
   border-radius: 50%;
   position: relative;
 }
@@ -324,7 +324,7 @@ select option:checked {
   position: sticky;
   bottom: 0;
   z-index: 45;
-  background: linear-gradient(to top, #0B0F19 75%, rgba(11, 15, 25, 0));
+  background: linear-gradient(to top, #0D0E10 75%, rgba(11, 15, 25, 0));
   padding-top: 10px;
   padding-bottom: 4px;
 }
@@ -656,7 +656,7 @@ select option:checked {
 #mule-network-container {
   width: 100%;
   height: 520px;
-  background: radial-gradient(circle at 50% 50%, #111A2E 0%, #0B101D 100%);
+  background: radial-gradient(circle at 50% 50%, #202228 0%, #121214 100%);
   border-radius: 0px;
   border: 1px solid var(--border-card);
   position: relative;
@@ -670,7 +670,7 @@ select option:checked {
   z-index: 10;
   display: flex;
   gap: 6px;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(24, 25, 29, 0.88);
   backdrop-filter: blur(12px);
   padding: 5px;
   border-radius: 0px;
@@ -704,7 +704,7 @@ input[type="range"] {
   -webkit-appearance: none;
   height: 6px;
   border-radius: 9999px;
-  background: #1E293B;
+  background: #2A2C32;
   outline: none;
 }
 input[type="range"]::-webkit-slider-thumb {
@@ -726,7 +726,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 /* 1-CLICK INTERACTIVE SCENARIOS STYLING                                          */
 /* ============================================================================== */
 .scenario-banner {
-  background: linear-gradient(135deg, rgba(14, 21, 36, 0.95) 0%, rgba(20, 30, 51, 0.85) 100%);
+  background: linear-gradient(135deg, rgba(24, 25, 29, 0.95) 0%, rgba(32, 34, 40, 0.85) 100%);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 0px;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
@@ -745,7 +745,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .scenario-card-btn {
-  background: rgba(14, 21, 36, 0.75);
+  background: rgba(24, 25, 29, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 0px;
   padding: 16px 18px;
@@ -861,7 +861,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   width: 290px !important;
   height: 42px !important;
   border-radius: 24px;
-  background: #060A12 !important;
+  background: #0A0A0C !important;
   padding: 0 14px;
   box-shadow: 0 0 28px rgba(0, 169, 80, 0.4), 0 0 0 1.5px rgba(0, 169, 80, 0.45) !important;
 }
@@ -1135,7 +1135,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   gap: 7px;
   padding: 6px 16px;
   border-radius: 0px;
-  background: rgba(10, 15, 29, 0.92);
+  background: rgba(20, 21, 24, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(0, 169, 80, 0.35);
@@ -1146,7 +1146,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .drawer-pill-btn:hover {
-  background: rgba(14, 22, 42, 0.98);
+  background: rgba(28, 29, 34, 0.98);
   border-color: rgba(0, 169, 80, 0.6);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 169, 80, 0.45);
   transform: translateY(1px) scale(1.02);

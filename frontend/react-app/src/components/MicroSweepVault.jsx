@@ -30,7 +30,7 @@ export default function MicroSweepVault() {
   return (
     <div className="space-y-4">
       {/* High-Interest Sub-Account Card */}
-      <div className="bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
+      <div className="bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl">
         <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function MicroSweepVault() {
       </div>
 
       {/* Micro-Sweep Status Card */}
-      <div className="bento-card rounded-2xl p-5 sm:p-6 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
+      <div className="bento-card rounded-2xl p-5 sm:p-6 space-y-4 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">

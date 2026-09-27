@@ -146,7 +146,7 @@ export default function Hero({ onOpenScamModal }) {
         {/* ========================================================================= */}
         {/* INTERACTIVE SCENARIO CONSOLE                                             */}
         {/* ========================================================================= */}
-        <div className="bento-card-active rounded-2xl p-5 sm:p-7 space-y-5 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-5 sm:p-7 space-y-5 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,169,80,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,169,80,0.03)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
 
@@ -202,7 +202,7 @@ export default function Hero({ onOpenScamModal }) {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 pt-1">
             
             {/* Live Pipeline Flow Card (Col 7) */}
-            <div className="lg:col-span-7 bg-[#070B17]/90 rounded-xl p-4 sm:p-5 border border-white/10 space-y-3.5">
+            <div className="lg:col-span-7 bg-[#121214]/90 rounded-xl p-4 sm:p-5 border border-white/10 space-y-3.5">
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <span className="tech-label text-slate-400 text-xs">TRANSACTION TRACE</span>
                 <span className="font-mono text-xs font-bold text-emerald-400">
@@ -250,7 +250,7 @@ export default function Hero({ onOpenScamModal }) {
             </div>
 
             {/* Live Core Telemetry Strip (Col 5) */}
-            <div className="lg:col-span-5 bg-[#070B17]/90 rounded-xl p-4 sm:p-5 border border-white/10 flex flex-col justify-between space-y-3">
+            <div className="lg:col-span-5 bg-[#121214]/90 rounded-xl p-4 sm:p-5 border border-white/10 flex flex-col justify-between space-y-3">
               <div className="space-y-2.5 font-mono text-xs">
                 <span className="tech-label text-slate-400 text-xs block pb-1.5 border-b border-white/10">
                   REAL-TIME BENCHMARKS

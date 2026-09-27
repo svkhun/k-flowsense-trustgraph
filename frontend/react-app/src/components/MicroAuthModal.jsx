@@ -52,7 +52,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="bg-[#0B1224] rounded-2xl max-w-lg w-full p-6 sm:p-7 space-y-5 border border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.25)] text-slate-100 relative overflow-hidden">
+      <div className="bg-[#18191D] rounded-2xl max-w-lg w-full p-6 sm:p-7 space-y-5 border border-rose-500/50 shadow-[0_0_50px_rgba(244,63,94,0.25)] text-slate-100 relative overflow-hidden">
         
         {/* Subtle Ambient Red Glow */}
         <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 blur-3xl pointer-events-none"></div>
@@ -87,7 +87,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
             <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
             <span>Direct Risk Reasoning (เหตุผลความเสี่ยงตรงจุด):</span>
           </div>
-          <p className="text-xs text-slate-200 leading-[1.85] font-sans bg-[#060A14] p-3.5 rounded-lg border border-white/10">
+          <p className="text-xs text-slate-200 leading-[1.85] font-sans bg-[#121214] p-3.5 rounded-lg border border-white/10">
             &ldquo;Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีปลายทางเพิ่งเปิดได้เพียง 48 ชม. พร้อมพฤติกรรมเงินเข้าแล้วหมุนเวียนโอนออกทันทีภายใน 24 วินาที)&rdquo;
           </p>
           <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400 pt-0.5">

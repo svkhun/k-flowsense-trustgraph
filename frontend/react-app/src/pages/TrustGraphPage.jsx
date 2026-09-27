@@ -9,7 +9,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
       
       {/* Header Banner */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-rose-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-rose-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 blur-3xl pointer-events-none"></div>
 
@@ -71,7 +71,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Pillar 1 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
               <Zap className="w-5 h-5 text-emerald-400" />
@@ -95,7 +95,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
           </div>
 
           {/* Pillar 3 */}
-          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#0B132B]/75">
+          <div className="bento-card rounded-2xl p-6 space-y-3.5 border border-white/10 bg-[#18191D]/75">
             <div className="flex items-center justify-between pb-2 border-b border-white/10">
               <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
               <AlertTriangle className="w-5 h-5 text-slate-400" />
@@ -110,7 +110,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
 
       {/* Latency Benchmark SLA Table with Visual Bars */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 shadow-xl">
+        <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#18191D]/75 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
             <div>
               <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label mb-1">
@@ -188,7 +188,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
 
       {/* Navigation CTA */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-2">
-        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#0B132B]/75">
+        <div className="bento-card rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10 bg-[#18191D]/75">
           <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-bold text-white">สนใจศึกษาสถาปัตยกรรมระดับ Production ของระบบ?</h3>
             <p className="text-xs text-slate-400">ดูแผนภาพสถาปัตยกรรม Kafka, Feast Feature Store, Triton Inference Server, และ R-GCN</p>

@@ -22,7 +22,7 @@ export default function StatusHorizonBar() {
   };
 
   return (
-    <div className="bento-card rounded-2xl p-5 sm:p-6 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
+    <div className="bento-card rounded-2xl p-5 sm:p-6 space-y-5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl">
       
       {/* Header with Technical Tag */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">

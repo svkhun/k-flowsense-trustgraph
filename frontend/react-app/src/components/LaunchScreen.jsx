@@ -111,7 +111,7 @@ export default function LaunchScreen({ onComplete }) {
 
   return (
     <div 
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050814] select-none transition-all duration-500 ease-out ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#121214] select-none transition-all duration-500 ease-out ${
         isExiting 
           ? 'opacity-0 scale-[1.02] filter blur-[2px] pointer-events-none' 
           : 'opacity-100 scale-100'
@@ -153,7 +153,7 @@ export default function LaunchScreen({ onComplete }) {
           <div className="absolute -inset-4 rounded-3xl bg-emerald-500/10 blur-xl animate-pulse" />
           
           {/* Minimalist Logo Mark */}
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#091122]/90 border border-emerald-500/30 p-3 sm:p-4 shadow-2xl shadow-emerald-950/60 flex items-center justify-center">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#1E2025]/90 border border-emerald-500/30 p-3 sm:p-4 shadow-2xl shadow-emerald-950/60 flex items-center justify-center">
             <svg 
               viewBox="0 0 32 32" 
               fill="none" 

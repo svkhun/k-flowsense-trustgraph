@@ -22,7 +22,7 @@ export default function Navbar({ onOpenScamModal, onReplayIntro }) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#050814]/85 backdrop-blur-2xl border-b border-white/10 transition-all duration-200">
+    <header className="sticky top-0 z-40 bg-[#121214]/85 backdrop-blur-2xl border-b border-white/10 transition-all duration-200">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex items-center justify-between h-16">
           

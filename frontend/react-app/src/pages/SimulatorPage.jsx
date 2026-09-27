@@ -12,9 +12,9 @@ export default function SimulatorPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-64px)] w-full flex flex-col overflow-hidden bg-[#070B14]">
+    <div className="h-[calc(100vh-64px)] w-full flex flex-col overflow-hidden bg-[#121214]">
       {/* Sleek Minimal Studio Bar */}
-      <div className="h-10 px-4 sm:px-6 flex items-center justify-between border-b border-white/10 bg-[#0B132B]/90 backdrop-blur-xl shrink-0 text-xs z-20">
+      <div className="h-10 px-4 sm:px-6 flex items-center justify-between border-b border-white/10 bg-[#18191D]/90 backdrop-blur-xl shrink-0 text-xs z-20">
         <div className="flex items-center gap-3">
           <Link
             to="/"

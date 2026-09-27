@@ -141,7 +141,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
       </div>
 
       {/* Interactive Active Stage Deep-Dive Inspector */}
-      <div className="bento-card rounded-2xl p-5 sm:p-6 border border-emerald-500/30 bg-[#070B17]/90 space-y-3.5">
+      <div className="bento-card rounded-2xl p-5 sm:p-6 border border-emerald-500/30 bg-[#121214]/90 space-y-3.5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-white/10">
           <div className="flex items-center gap-2">
             <CurrentIcon className="w-4 h-4 text-emerald-400" />
@@ -173,7 +173,7 @@ export default function ArchitecturePipeline({ showHeader = true }) {
       </div>
 
       {/* Section 5 Table from Pitch Verbatim */}
-      <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl">
+      <div className="bento-card rounded-2xl p-5 sm:p-7 space-y-5 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
           <div>
             <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">

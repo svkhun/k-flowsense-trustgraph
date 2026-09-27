@@ -138,7 +138,7 @@ export default function DatasetAnalyticsPage() {
       
       {/* 1. Header Banner & Executive Context */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#0B132B]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
@@ -188,7 +188,7 @@ export default function DatasetAnalyticsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           
           {/* Card 1: Total & Class Distribution */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#0B132B]/75 space-y-2">
+          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
             <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
               <span>DATASET SAMPLE</span>
               <PieChart className="w-4 h-4 text-emerald-400" />
@@ -208,7 +208,7 @@ export default function DatasetAnalyticsPage() {
           </div>
 
           {/* Card 2: Discriminative Velocity Ratio */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#0B132B]/75 space-y-2">
+          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
             <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
               <span>PASS-THROUGH VELOCITY</span>
               <Clock className="w-4 h-4 text-amber-400" />
@@ -223,7 +223,7 @@ export default function DatasetAnalyticsPage() {
           </div>
 
           {/* Card 3: Account Age Differential */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#0B132B]/75 space-y-2">
+          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
             <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
               <span>AVG ACCOUNT AGE</span>
               <Layers className="w-4 h-4 text-cyan-400" />
@@ -238,7 +238,7 @@ export default function DatasetAnalyticsPage() {
           </div>
 
           {/* Card 4: Model Precision & SLA */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#0B132B]/75 space-y-2">
+          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
             <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
               <span>MODEL PERFORMANCE</span>
               <Zap className="w-4 h-4 text-emerald-400" />
@@ -323,7 +323,7 @@ export default function DatasetAnalyticsPage() {
         <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-6">
           
           {/* Controls Bar: Filters, Search & Download */}
-          <div className="bento-card rounded-2xl p-4 sm:p-5 border border-white/10 bg-[#0B132B]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="bento-card rounded-2xl p-4 sm:p-5 border border-white/10 bg-[#18191D]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             
             {/* Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
@@ -409,7 +409,7 @@ export default function DatasetAnalyticsPage() {
           </div>
 
           {/* Accounts Interactive Table */}
-          <div className="bento-card rounded-2xl border border-white/10 bg-[#0B132B]/85 overflow-hidden shadow-xl">
+          <div className="bento-card rounded-2xl border border-white/10 bg-[#18191D]/85 overflow-hidden shadow-xl">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
@@ -693,7 +693,7 @@ export default function DatasetAnalyticsPage() {
         <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-8">
           
           {/* Executive Judge Pitch */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-[#0B132B] to-slate-900/80 border border-emerald-500/30 space-y-3">
+          <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-[#18191D] to-slate-900/80 border border-emerald-500/30 space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>HACKATHON &amp; VENTURE EVALUATOR CRITERIA</span>
@@ -710,7 +710,7 @@ export default function DatasetAnalyticsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Panel 1: Class Imbalance Resilience */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/80 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/80 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">CRITERION 01</span>
                 <PieChart className="w-5 h-5 text-emerald-400" />
@@ -747,7 +747,7 @@ export default function DatasetAnalyticsPage() {
             </div>
 
             {/* Panel 2: Top Discriminative Features */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/80 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/80 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">CRITERION 02</span>
                 <SlidersHorizontal className="w-5 h-5 text-amber-400" />
@@ -807,7 +807,7 @@ export default function DatasetAnalyticsPage() {
             </div>
 
             {/* Panel 3: Confusion Matrix & Cost of Error */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/80 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/80 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">CRITERION 03</span>
                 <BarChart3 className="w-5 h-5 text-cyan-400" />
@@ -866,7 +866,7 @@ export default function DatasetAnalyticsPage() {
             </div>
 
             {/* Panel 4: Compliance with BOT & AOC 1441 */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/80 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/80 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <span className="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider">CRITERION 04</span>
                 <ShieldCheck className="w-5 h-5 text-rose-400" />
@@ -911,7 +911,7 @@ export default function DatasetAnalyticsPage() {
       {activeTab === 'transactions' && (
         <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-6">
           
-          <div className="bento-card rounded-2xl p-4 sm:p-5 border border-white/10 bg-[#0B132B]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="bento-card rounded-2xl p-4 sm:p-5 border border-white/10 bg-[#18191D]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             
             {/* Filter Pills */}
             <div className="flex flex-wrap items-center gap-2">
@@ -976,7 +976,7 @@ export default function DatasetAnalyticsPage() {
           </div>
 
           {/* Transactions Table */}
-          <div className="bento-card rounded-2xl border border-white/10 bg-[#0B132B]/85 overflow-hidden shadow-xl">
+          <div className="bento-card rounded-2xl border border-white/10 bg-[#18191D]/85 overflow-hidden shadow-xl">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
@@ -1050,7 +1050,7 @@ export default function DatasetAnalyticsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Raw sentinel_users_v2.csv preview */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/85 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/85 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-emerald-400" />
@@ -1088,7 +1088,7 @@ export default function DatasetAnalyticsPage() {
             </div>
 
             {/* Raw sentinel_transactions_v2.csv preview */}
-            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#0B132B]/85 space-y-4">
+            <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/85 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-cyan-400" />

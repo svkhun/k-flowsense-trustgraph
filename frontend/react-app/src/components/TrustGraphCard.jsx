@@ -24,7 +24,7 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Card 1: Relational Graph Inspector */}
-        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
           <div className="space-y-4">
             
             {/* Title & Badge */}
@@ -168,7 +168,7 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
         </div>
 
         {/* Card 2: Direct Risk Reasoning & Autonomy */}
-        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#0B132B]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+        <div className="lg:col-span-6 bento-card rounded-2xl p-5 sm:p-7 space-y-4 border border-white/10 bg-[#18191D]/75 backdrop-blur-xl shadow-xl flex flex-col justify-between">
           <div className="space-y-4">
             
             <div className="flex items-center justify-between pb-3 border-b border-white/10">

@@ -34,7 +34,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white ${isSimulatorRoute ? 'h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen flex flex-col font-sans text-slate-100 bg-[#121214] relative selection:bg-emerald-500 selection:text-white ${isSimulatorRoute ? 'h-screen overflow-hidden' : ''}`}>
       {/* Opening Intro Launch Loading Animation */}
       {showIntro && (
         <LaunchScreen onComplete={() => setShowIntro(false)} />

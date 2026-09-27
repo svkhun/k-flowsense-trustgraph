@@ -5,7 +5,7 @@ import MinimalLogo from './MinimalLogo';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#03060E] border-t border-white/10 text-slate-400 text-xs py-12 relative z-10">
+    <footer className="bg-[#141518] border-t border-white/10 text-slate-400 text-xs py-12 relative z-10">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-8">
         
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/5">
