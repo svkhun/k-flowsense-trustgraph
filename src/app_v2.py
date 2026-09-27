@@ -70,12 +70,13 @@ def serve_spa():
 
 @app.get("/simulator.html", response_class=FileResponse)
 def serve_simulator_page():
+    no_cache_headers = {"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"}
     dist_sim = os.path.join(REACT_DIST_DIR, "simulator.html")
     if os.path.exists(dist_sim):
-        return FileResponse(dist_sim)
+        return FileResponse(dist_sim, headers=no_cache_headers)
     idx = os.path.join(FRONTEND_DIR, "index.html")
     if os.path.exists(idx):
-        return FileResponse(idx)
+        return FileResponse(idx, headers=no_cache_headers)
     return {"status": "Simulator not found"}
 
 @app.get("/favicon.ico", include_in_schema=False)

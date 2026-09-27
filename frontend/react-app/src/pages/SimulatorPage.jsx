@@ -7,7 +7,7 @@ export default function SimulatorPage() {
 
   const handleRefresh = () => {
     if (iframeRef.current) {
-      iframeRef.current.src = iframeRef.current.src;
+      iframeRef.current.src = `/simulator.html?t=${Date.now()}`;
     }
   };
 
@@ -61,7 +61,7 @@ export default function SimulatorPage() {
       <div className="flex-1 w-full h-full overflow-hidden relative">
         <iframe
           ref={iframeRef}
-          src="/simulator.html"
+          src="/simulator.html?v=3.2"
           title="FlowSense & TrustGraph Simulator"
           className="w-full h-full border-0 block"
         />
