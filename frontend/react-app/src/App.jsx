@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -21,6 +21,17 @@ export default function App() {
   const [showIntro, setShowIntro] = useState(true);
   const location = useLocation();
   const isSimulatorRoute = location.pathname === '/app' || location.pathname === '/simulator';
+
+  // Frame Buster: If the main SPA is loaded inside any iframe, breakout to the top window immediately
+  useEffect(() => {
+    try {
+      if (window.top && window.top !== window.self) {
+        window.top.location.href = window.location.href;
+      }
+    } catch (e) {
+      console.warn("Frame breakout error:", e);
+    }
+  }, []);
 
   return (
     <div className={`min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white ${isSimulatorRoute ? 'h-screen overflow-hidden' : ''}`}>
