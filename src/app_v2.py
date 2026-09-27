@@ -176,7 +176,7 @@ class RecallRequest(BaseModel):
 
 class VaultWithdrawalRequest(BaseModel):
     account_id: str
-    amount: float = Field(..., gt=0)
+    amount: Optional[float] = Field(None, description="Amount to recall. If None or 0, recalls 100% of swept funds.")
     intent_reason: Optional[str] = Field("1-Tap Recall", example="1-Tap Recall for emergency liquidity")
     bypass_cooldown: bool = Field(True)
 
@@ -690,11 +690,11 @@ def trigger_micro_sweep(payload: MicroSweepRequest):
         sweep_amount = min(sweep_amount, 500.0)
 
     if state["main_balance"] - sweep_amount < 500.0:
-        raise HTTPException(status_code=400, detail="Cannot sweep: Main balance would fall below liquidity safety threshold ฿ 500.00")
+        raise HTTPException(status_code=400, detail="ไม่สามารถกวาดเงินออมได้: ยอดคงเหลือในบัญชีหลักต้องไม่ต่ำกว่าเกณฑ์สภาพคล่องปลอดภัย ฿ 500.00")
 
-    state["main_balance"] -= sweep_amount
-    state["vault_balance"] += sweep_amount
-    state["total_swept"] += sweep_amount
+    state["main_balance"] = round(state["main_balance"] - sweep_amount, 2)
+    state["vault_balance"] = round(state["vault_balance"] + sweep_amount, 2)
+    state["total_swept"] = round(state["total_swept"] + sweep_amount, 2)
     state["last_sweep_ts"] = time.time()
 
     return {
@@ -703,6 +703,7 @@ def trigger_micro_sweep(payload: MicroSweepRequest):
         "swept_amount": sweep_amount,
         "new_main_balance": round(state["main_balance"], 2),
         "new_subaccount_balance": round(state["vault_balance"], 2),
+        "new_vault_balance": round(state["vault_balance"], 2),
         "total_accumulated_swept": round(state["total_swept"], 2),
         "one_tap_undo_available": True,
         "message": f"กวาดเงินส่วนเกิน ฿ {sweep_amount:,.2f} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50% เรียบร้อยแล้ว (สามารถกด 1-Tap Undo เรียกคืนได้ทันที 100% ไร้ค่าปรับ)"
@@ -723,20 +724,34 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest):
 
     state = LIVE_ACCOUNT_STATES[acc_id]
     recall_amount = payload.amount
+    if recall_amount is None or recall_amount <= 0:
+        recall_amount = state.get("total_swept", 0.0)
+        if recall_amount <= 0 or recall_amount > state["vault_balance"]:
+            recall_amount = min(state["vault_balance"], 1500.0 if state["vault_balance"] >= 1500.0 else state["vault_balance"])
+        if recall_amount <= 0 and state["vault_balance"] > 0:
+            recall_amount = state["vault_balance"]
+
+    if recall_amount <= 0:
+        raise HTTPException(status_code=400, detail="ไม่มีเงินในบัญชีย่อยที่สามารถดึงคืนได้ในขณะนี้")
+
     if recall_amount > state["vault_balance"]:
-        raise HTTPException(status_code=400, detail="Insufficient funds in high-interest savings sub-account.")
+        raise HTTPException(status_code=400, detail=f"ยอดเงินในบัญชีย่อยไม่เพียงพอ (มี ฿ {state['vault_balance']:,.2f})")
 
     # Instant 1-tap return without penalty or waiting period!
-    state["vault_balance"] -= recall_amount
-    state["main_balance"] += recall_amount
+    state["vault_balance"] = round(state["vault_balance"] - recall_amount, 2)
+    state["main_balance"] = round(state["main_balance"] + recall_amount, 2)
+    state["total_swept"] = max(0.0, round(state.get("total_swept", 0.0) - recall_amount, 2))
+
     return {
         "status": "RECALL_SUCCESS",
         "account_id": acc_id,
-        "recalled_amount": recall_amount,
+        "recalled_amount": round(recall_amount, 2),
         "penalty_fee": 0.0,
         "waiting_time_sec": 0,
         "new_main_balance": round(state["main_balance"], 2),
         "new_subaccount_balance": round(state["vault_balance"], 2),
+        "new_vault_balance": round(state["vault_balance"], 2),
+        "total_accumulated_swept": round(state["total_swept"], 2),
         "message": f"1-Tap Undo สำเร็จ! ดึงเงิน ฿ {recall_amount:,.2f} คืนเข้าบัญชีหลักเรียบร้อยแล้วทันที 100% ไร้ค่าปรับ"
     }
 

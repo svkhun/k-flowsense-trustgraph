@@ -636,10 +636,14 @@ function updateProfileUI(prof) {
   }
 
   const vBalEl = document.getElementById("disp-vault-balance") || document.getElementById("vault-balance-display");
-  if (vBalEl) vBalEl.textContent = `฿ ${prof.vault_balance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  if (vBalEl && prof.vault_balance !== undefined && prof.vault_balance !== null) {
+    vBalEl.textContent = `฿ ${Number(prof.vault_balance).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  }
 
   const vSwpEl = document.getElementById("disp-vault-swept") || document.getElementById("vault-swept-total");
-  if (vSwpEl) vSwpEl.textContent = `฿ ${prof.total_swept.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  if (vSwpEl && prof.total_swept !== undefined && prof.total_swept !== null) {
+    vSwpEl.textContent = `฿ ${Number(prof.total_swept).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+  }
 
   // Persona Badge
   const p = prof.persona;
@@ -733,6 +737,16 @@ function runScenario(num) {
 
     setTimeout(() => {
       triggerMicroSweep();
+    }, 500);
+  } else if (num === 4) {
+    if (activeBtn) activeBtn.classList.add("ring-2", "ring-emerald-500", "bg-[#1E2C4A]");
+    if (activeInd) activeInd.classList.remove("hidden");
+
+    showToast("success", "จำลอง: 1-Tap Undo ดึงเงินคืนเข้าบัญชีหลัก 100% ทันทีไร้ค่าปรับ...");
+    switchMobileTab('sts');
+
+    setTimeout(() => {
+      triggerOneTapRecall();
     }, 500);
   }
 }
@@ -1254,7 +1268,12 @@ async function triggerMicroSweep() {
     const res = await resp.json();
     if (resp.ok) {
       playSound("coin");
-      showToast("success", `${res.message} (ยอด Vault: ฿ ${res.new_vault_balance.toLocaleString('en-US', {minimumFractionDigits: 2})})`);
+      const vaultBal = (res.new_vault_balance !== undefined)
+        ? res.new_vault_balance
+        : (res.new_subaccount_balance !== undefined ? res.new_subaccount_balance : 0);
+      const sweptAmt = res.swept_amount || 120;
+
+      showToast("success", `${res.message} (ยอด Vault: ฿ ${vaultBal.toLocaleString('en-US', {minimumFractionDigits: 2})})`);
       
       // Calculate origin for celebratory coin burst (center of phone or vault card)
       let originX = window.innerWidth / 2;
@@ -1266,11 +1285,11 @@ async function triggerMicroSweep() {
         originY = rect.top + rect.height / 2;
       }
       triggerCoinBurst(originX, originY);
-      expandDynamicIsland("กวาดเงินออม +฿120 -> Vault", "1.50% p.a.", 3000);
+      expandDynamicIsland(`กวาดเงินออม +฿${sweptAmt.toLocaleString('en-US', {minimumFractionDigits: 2})} -> Vault`, "1.50% p.a.", 3000);
 
       // Update displayed balance on the card
       const balanceEl = document.getElementById("card-main-balance");
-      if (balanceEl) {
+      if (balanceEl && res.new_main_balance !== undefined) {
         balanceEl.setAttribute("data-raw-balance", res.new_main_balance);
         if (!isBalanceHidden) {
           balanceEl.textContent = `฿ ${res.new_main_balance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
@@ -1280,17 +1299,19 @@ async function triggerMicroSweep() {
       // Update Vault balance display and pulse it
       const vaultEl = document.getElementById("disp-vault-balance") || document.getElementById("vault-savings-balance");
       if (vaultEl) {
-        vaultEl.textContent = `฿ ${res.new_vault_balance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        vaultEl.textContent = `฿ ${vaultBal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
         vaultEl.classList.add("text-emerald-300", "scale-105");
         setTimeout(() => vaultEl.classList.remove("text-emerald-300", "scale-105"), 1500);
       }
 
-      loadAllUserData(currentAccountId);
+      await loadAllUserData(currentAccountId);
     } else {
       playSound("alert");
-      showToast("error", res.detail || "ไม่สามารถทำรายการกวาดเงินออมได้");
+      const errMsg = typeof res.detail === 'string' ? res.detail : (Array.isArray(res.detail) ? res.detail[0]?.msg : null);
+      showToast("error", errMsg || "ไม่สามารถทำรายการกวาดเงินออมได้");
     }
   } catch (err) {
+    console.error("Micro-sweep error:", err);
     playSound("alert");
     showToast("error", "Failed to connect to WealthPilot API");
   }
@@ -1776,9 +1797,11 @@ async function triggerOneTapRecall() {
       await loadAllUserData(currentAccountId);
     } else {
       playSound("alert");
-      showToast("error", res.detail || "ไม่สามารถดึงเงินคืนได้");
+      const errMsg = typeof res.detail === 'string' ? res.detail : (Array.isArray(res.detail) ? res.detail[0]?.msg : null);
+      showToast("error", errMsg || "ไม่สามารถดึงเงินคืนได้");
     }
   } catch (err) {
+    console.error("Recall error:", err);
     showToast("error", "Error connecting to FlowSense recall API");
   }
 }
