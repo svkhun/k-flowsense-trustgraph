@@ -362,9 +362,9 @@
                     <div class="mt-2.5 pt-2 border-t border-white/[0.06] flex items-center justify-between text-[9px]">
                       <div class="flex items-center gap-1.5 text-slate-400">
                         <i data-lucide="lock" class="w-3 h-3 text-emerald-400/80 shrink-0"></i>
-                        <span>ล็อคบิลคงที่: <span class="text-slate-300 font-mono">เช่า 7K • หนี้ 3.4K • น้ำไฟ 1.4K</span></span>
+                        <span>ล็อคบิลคงที่: <span class="text-slate-300 font-mono" id="phone-commitments-label">เช่า 7K • หนี้ 3.4K • น้ำไฟ 1.4K</span></span>
                       </div>
-                      <span class="text-white font-bold font-mono whitespace-nowrap">฿ 11,760</span>
+                      <span class="text-white font-bold font-mono whitespace-nowrap" id="phone-commitments-total">฿ 11,760</span>
                     </div>
 
                   </div>
@@ -570,7 +570,7 @@
                     <span class="w-4 h-4 rounded-md bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
                       <i data-lucide="home" class="w-2.5 h-2.5"></i>
                     </span>
-                    <span>ค่าเช่าห้อง (25%)</span>
+                    <span id="lbl-rent-pct">ค่าเช่าห้อง (25%)</span>
                   </span>
                   <b class="text-white text-sm font-mono mt-1.5 block" id="bk-rent">฿ 7,000.00</b>
                 </div>
@@ -579,7 +579,7 @@
                     <span class="w-4 h-4 rounded-md bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
                       <i data-lucide="credit-card" class="w-2.5 h-2.5"></i>
                     </span>
-                    <span>หนี้ผ่อนชำระ (12%)</span>
+                    <span id="lbl-debt-pct">หนี้ผ่อนชำระ (12%)</span>
                   </span>
                   <b class="text-white text-sm font-mono mt-1.5 block" id="bk-debt">฿ 3,360.00</b>
                 </div>
@@ -588,7 +588,7 @@
                     <span class="w-4 h-4 rounded-md bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-300 shrink-0">
                       <i data-lucide="zap" class="w-2.5 h-2.5"></i>
                     </span>
-                    <span>ค่าน้ำ/ไฟ/เน็ต (5%)</span>
+                    <span id="lbl-util-pct">ค่าน้ำ/ไฟ/เน็ต (5%)</span>
                   </span>
                   <b class="text-white text-sm font-mono mt-1.5 block" id="bk-util">฿ 1,400.00</b>
                 </div>

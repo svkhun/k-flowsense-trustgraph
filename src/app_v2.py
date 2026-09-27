@@ -392,8 +392,8 @@ def get_flowsense_profile(account_id: str):
         "persona": {
             "cluster_id": int(prof["cluster_id"]),
             "name": prof["persona_name"],
-            "name_th": "กลุ่มเป้าหมายหลัก: รายได้ 18k–35k บาท (เดือนชนเดือน ต้องการออมอัตโนมัติแต่ต้องดึงเงินคืนได้ทันที)",
-            "description": "First jobber รายได้ 18k–35k ใช้ชีวิตเดือนชนเดือน ต้องการออมเงินแบบไม่ต้องจดบันทึก และสามารถดึงเงินคืนเข้าบัญชีหลักได้ทันที 100% เมื่อถึงกำหนดจ่ายค่าเช่าหรือบิล",
+            "name_th": prof.get("persona_th", "กลุ่มเป้าหมาย First Jobber"),
+            "description": prof.get("persona_desc", "First Jobber บริหารสภาพคล่องด้วย FlowSense และ Protected Vault"),
             "recommended_sweep_pct": prof["recommended_sweep_pct"],
             "scam_vulnerability": prof["scam_vulnerability"],
             "vault_friction_level": "1_TAP_RECALL_ZERO_PENALTY"
@@ -430,10 +430,13 @@ def get_flowsense_horizon_status(account_id: str):
     days_to_payday = max(1, days_to_payday)
 
     salary = float(prof["monthly_salary"])
-    fixed_rent = round(salary * 0.25, 2)
-    fixed_debt_emi = round(salary * 0.12, 2)
-    fixed_utilities = round(salary * 0.05, 2)
-    total_fixed_obligations = fixed_rent + fixed_debt_emi + fixed_utilities
+    fixed_rent = float(prof.get("fixed_rent", round(salary * 0.25, 2)))
+    fixed_debt_emi = float(prof.get("fixed_debt", round(salary * 0.12, 2)))
+    fixed_utilities = float(prof.get("fixed_utilities", round(salary * 0.05, 2)))
+    emergency_buffer = float(prof.get("emergency_buffer", round(salary * 0.12, 2)))
+    total_fixed_obligations = round(fixed_rent + fixed_debt_emi + fixed_utilities, 2)
+    living_type = str(prof.get("living_type", "ค่าเช่าห้อง/คอนโด"))
+    debt_type = str(prof.get("debt_type", "บิลผ่อนชำระ / บัตรเครดิต"))
 
     current_balance = state["main_balance"]
     spent_today = state["daily_spent_today"]
@@ -452,15 +455,15 @@ def get_flowsense_horizon_status(account_id: str):
         horizon_badge_th = "ภาระผูกพันมีความเสี่ยง"
         alert_suppressed = False
         warning_nudge = (
-            f"⚠️ แจ้งเตือนภาระผูกพัน: จากอัตราการใช้จ่ายปัจจุบัน ค่าเช่าห้อง/บิลสิ้นเดือน ฿{total_fixed_obligations:,.2f} "
-            f"อาจไม่เพียงพอในอีก {days_to_payday} วันข้างหน้า แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า"
+            f"⚠️ แจ้งเตือนภาระผูกพัน: จากอัตราการใช้จ่ายปัจจุบัน ค่าใช้จ่ายคงที่สิ้นเดือน ฿{total_fixed_obligations:,.2f} "
+            f"({living_type} ฿{fixed_rent:,.0f} • {debt_type} ฿{fixed_debt_emi:,.0f}) อาจไม่เพียงพอในอีก {days_to_payday} วันข้างหน้า แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า"
         )
     elif is_normal_dip:
         horizon_state = "NORMAL_DIP_SAFE"
         horizon_badge_th = "เงินลดปกติ (ไม่ส่งเสียงเตือน)"
         alert_suppressed = True  # Suppress alerts during normal dips!
         warning_nudge = (
-            f"Status Horizon: ยอดเงินลดลงตามวงจรปกติ แต่ครอบคลุมภาระผูกพันสิ้นเดือนเรียบร้อย "
+            f"Status Horizon: ยอดเงินลดลงตามวงจรปกติ แต่ครอบคลุมภาระผูกพันสิ้นเดือน ฿{total_fixed_obligations:,.2f} เรียบร้อย "
             f"(ระบบระงับการแจ้งเตือนเพื่อป้องกัน Alert Fatigue และ Budget Burnout)"
         )
     else:
@@ -468,7 +471,7 @@ def get_flowsense_horizon_status(account_id: str):
         horizon_badge_th = "สภาพคล่องแข็งแรง"
         alert_suppressed = True
         warning_nudge = (
-            f"Status Horizon: สภาพคล่องเพียงพอครอบคลุมค่าเช่าห้องและบิลประจำเดือน 100% คาดการณ์เหลือเงิน ฿{max(0.0, projected_end_balance):,.2f} ณ วันเงินเดือนออก"
+            f"Status Horizon: สภาพคล่องเพียงพอครอบคลุมภาระคงที่ ฿{total_fixed_obligations:,.2f} 100% คาดการณ์เหลือเงิน ฿{max(0.0, projected_end_balance):,.2f} ณ วันเงินเดือนออก"
         )
 
     # Status Horizon Bar Percentage (0-100% indicating month-end liquidity runway health)
@@ -488,15 +491,27 @@ def get_flowsense_horizon_status(account_id: str):
         "alert_suppressed": alert_suppressed,
         "commitment_at_risk": is_commitment_at_risk,
         "total_recurring_commitments": total_fixed_obligations,
+        "breakdown": {
+            "rent": fixed_rent,
+            "rent_pct": round((fixed_rent / salary) * 100, 1),
+            "debt_emi": fixed_debt_emi,
+            "debt_pct": round((fixed_debt_emi / salary) * 100, 1),
+            "utilities": fixed_utilities,
+            "util_pct": round((fixed_utilities / salary) * 100, 1),
+            "emergency_buffer": emergency_buffer,
+            "living_type": living_type,
+            "debt_type": debt_type,
+            "total_fixed_obligations": total_fixed_obligations
+        },
         "recurring_commitments": [
             {
-                "name": "ค่าเช่าห้อง/คอนโด",
+                "name": living_type,
                 "amount": fixed_rent,
                 "due_days": max(1, days_to_payday - 2),
                 "is_at_risk": is_commitment_at_risk and (current_balance < fixed_rent)
             },
             {
-                "name": "บิลผ่อนชำระ / บัตรเครดิต",
+                "name": debt_type,
                 "amount": fixed_debt_emi,
                 "due_days": max(1, days_to_payday - 6),
                 "is_at_risk": False

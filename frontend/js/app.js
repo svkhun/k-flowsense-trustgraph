@@ -861,16 +861,40 @@ function updateSafeToSpendUI(sts) {
   const bk = sts.breakdown;
   if (bk) {
     const rentEl = document.getElementById("bk-rent");
-    if (rentEl) rentEl.textContent = `฿ ${bk.rent.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    if (rentEl && bk.rent !== undefined) rentEl.textContent = `฿ ${Number(bk.rent).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
     const debtEl = document.getElementById("bk-debt");
-    if (debtEl) debtEl.textContent = `฿ ${bk.debt_emi.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    if (debtEl && bk.debt_emi !== undefined) debtEl.textContent = `฿ ${Number(bk.debt_emi).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
     const utilEl = document.getElementById("bk-util");
-    if (utilEl) utilEl.textContent = `฿ ${bk.utilities.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    if (utilEl && bk.utilities !== undefined) utilEl.textContent = `฿ ${Number(bk.utilities).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
     const buffEl = document.getElementById("bk-buffer");
-    if (buffEl) buffEl.textContent = `฿ ${bk.emergency_buffer.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    if (buffEl && bk.emergency_buffer !== undefined) buffEl.textContent = `฿ ${Number(bk.emergency_buffer).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+
+    // Update dynamic percentage badges in cards
+    const rentLbl = document.getElementById("lbl-rent-pct");
+    if (rentLbl && bk.rent_pct !== undefined) rentLbl.textContent = `ค่าเช่าห้อง (${bk.rent_pct}%)`;
+
+    const debtLbl = document.getElementById("lbl-debt-pct");
+    if (debtLbl && bk.debt_pct !== undefined) debtLbl.textContent = `หนี้ผ่อนชำระ (${bk.debt_pct}%)`;
+
+    const utilLbl = document.getElementById("lbl-util-pct");
+    if (utilLbl && bk.util_pct !== undefined) utilLbl.textContent = `ค่าน้ำ/ไฟ/เน็ต (${bk.util_pct}%)`;
+
+    // Update phone commitments strip inside K PLUS mobile simulator
+    const phoneCommitLabel = document.getElementById("phone-commitments-label");
+    if (phoneCommitLabel) {
+      const rK = (Number(bk.rent) / 1000).toFixed(1).replace(/\.0$/, '');
+      const dK = (Number(bk.debt_emi) / 1000).toFixed(1).replace(/\.0$/, '');
+      const uK = (Number(bk.utilities) / 1000).toFixed(1).replace(/\.0$/, '');
+      phoneCommitLabel.textContent = `เช่า ${rK}K • หนี้ ${dK}K • น้ำไฟ ${uK}K`;
+    }
+
+    const phoneCommitTotal = document.getElementById("phone-commitments-total");
+    if (phoneCommitTotal && bk.total_fixed_obligations !== undefined) {
+      phoneCommitTotal.textContent = `฿ ${Number(bk.total_fixed_obligations).toLocaleString('en-US', {minimumFractionDigits: 0})}`;
+    }
   }
 
   const nudgeEl = document.getElementById("nudge-message-display");
