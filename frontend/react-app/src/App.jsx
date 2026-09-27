@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import MicroAuthModal from './components/MicroAuthModal';
+import LaunchScreen from './components/LaunchScreen';
 
 // Route Pages
 import HomePage from './pages/HomePage';
@@ -17,16 +18,25 @@ import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   const [isMicroAuthOpen, setIsMicroAuthOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
   const location = useLocation();
   const isSimulatorRoute = location.pathname === '/app' || location.pathname === '/simulator';
 
   return (
     <div className={`min-h-screen flex flex-col font-sans text-slate-100 bg-[#050814] relative selection:bg-emerald-500 selection:text-white ${isSimulatorRoute ? 'h-screen overflow-hidden' : ''}`}>
+      {/* Opening Intro Launch Loading Animation */}
+      {showIntro && (
+        <LaunchScreen onComplete={() => setShowIntro(false)} />
+      )}
+
       {/* Auto scroll to top on route change */}
       <ScrollToTop />
 
       {/* Global Navigation */}
-      <Navbar onOpenScamModal={() => setIsMicroAuthOpen(true)} />
+      <Navbar 
+        onOpenScamModal={() => setIsMicroAuthOpen(true)} 
+        onReplayIntro={() => setShowIntro(true)} 
+      />
 
       {/* Dynamic Viewport Container via React Router */}
       <main className="flex-1 relative z-10">

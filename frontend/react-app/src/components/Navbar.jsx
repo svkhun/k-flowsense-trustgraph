@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShieldCheck, Cpu, Smartphone, Menu, X, Zap } from 'lucide-react';
+import { ShieldCheck, Cpu, Smartphone, Menu, X, Zap, Sparkles } from 'lucide-react';
+import MinimalLogo from './MinimalLogo';
 
-export default function Navbar({ onOpenScamModal }) {
+export default function Navbar({ onOpenScamModal, onReplayIntro }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -25,24 +26,9 @@ export default function Navbar({ onOpenScamModal }) {
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="flex items-center justify-between h-16">
           
-          {/* Brand Logo & Title */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00602E] via-[#00A950] to-[#00F59B] flex items-center justify-center text-white shadow-lg shadow-emerald-500/25 border border-emerald-400/40 transition-transform duration-200 group-hover:scale-105">
-              <ShieldCheck className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-bold text-sm text-white tracking-tight group-hover:text-emerald-300 transition-colors">
-                  FlowSense <span className="text-emerald-400 font-light">&amp;</span> TrustGraph
-                </span>
-                <span className="text-[9px] font-mono tracking-wider font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 rounded shadow-xs">
-                  K+
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-mono tracking-tight hidden sm:block">
-                KBTG Tech Flagship • Autonomous Engine
-              </p>
-            </div>
+          {/* Brand Minimal Logo & Title */}
+          <Link to="/" className="group focus:outline-none">
+            <MinimalLogo size="md" showText={true} />
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -67,6 +53,18 @@ export default function Navbar({ onOpenScamModal }) {
 
           {/* Right Action: SLA Monitor & Launch App */}
           <div className="hidden lg:flex items-center gap-3">
+            {/* Replay Intro Animation Trigger */}
+            {onReplayIntro && (
+              <button
+                onClick={onReplayIntro}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-slate-300 hover:text-white transition-colors"
+                title="เล่นอนิเมชั่นเปิดตัวเว็บอีกครั้ง (Replay Intro Animation)"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="hidden xl:inline">เปิดตัวเว็บ</span>
+              </button>
+            )}
+
             {/* Real-time SLA telemetry badge */}
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -110,6 +108,22 @@ export default function Navbar({ onOpenScamModal }) {
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Triton Engine Active • SLA &lt; 80ms</span>
           </div>
+
+          {onReplayIntro && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onReplayIntro();
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-white/5 border border-white/10 transition-colors mb-2"
+            >
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                <span>เล่นอนิเมชั่นเปิดตัวเว็บ (Intro)</span>
+              </span>
+              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Replay</span>
+            </button>
+          )}
 
           {navLinks.map((link) => {
             const active = isActive(link.path);

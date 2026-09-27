@@ -321,29 +321,36 @@
             
             {/* Logo & Brand */}
             <a href="/" className="flex items-center gap-3.5 group" title="หน้าแรก (Home)">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#006837] via-[#00A950] to-[#22C55E] flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 border border-white/20 group-hover:scale-105 transition-transform relative overflow-hidden">
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L4 5V11C4 16.52 7.41 21.61 12 23C16.59 21.61 20 16.52 20 11V5L12 2Z" fill="url(#landing-brand-shield-glow)" stroke="#A7F3D0" strokeWidth="1.5" strokeLinejoin="round"/>
-                  <path d="M9 11.5L11 13.5L15.5 9" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="12" cy="18" r="1.2" fill="#34D399"/>
+              <div className="w-10 h-10 rounded-xl bg-slate-900/90 border border-emerald-500/30 flex items-center justify-center p-1.5 shadow-sm group-hover:border-emerald-400/60 transition-colors shrink-0">
+                <svg viewBox="0 0 32 32" fill="none" className="w-full h-full">
                   <defs>
-                    <linearGradient id="landing-brand-shield-glow" x1="4" y1="2" x2="20" y2="23" gradientUnits="userSpaceOnUse">
-                      <stop stopColor="#047857"/>
-                      <stop offset="1" stopColor="#10B981"/>
+                    <linearGradient id="landing-k-emerald" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#00F59B" />
+                      <stop offset="0.55" stopColor="#00A950" />
+                      <stop offset="1" stopColor="#005227" />
+                    </linearGradient>
+                    <linearGradient id="landing-k-mint" x1="12" y1="6" x2="28" y2="24" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#6EE7B7" />
+                      <stop offset="1" stopColor="#10B981" />
                     </linearGradient>
                   </defs>
+                  <rect x="8.5" y="7.5" width="2.8" height="17" rx="1.4" fill="url(#landing-k-emerald)" />
+                  <path d="M13.5 16 C15.2 13.8 17.5 10.8 22 7.8 C22.8 7.2 24.1 7.6 24.4 8.7 C24.7 9.8 24 10.9 23 11.6 C19.8 14 17.8 16.2 15.8 17.6" stroke="url(#landing-k-mint)" strokeWidth="2.4" strokeLinecap="round" />
+                  <path d="M13.8 15.2 L23.5 24.5" stroke="url(#landing-k-emerald)" strokeWidth="2.5" strokeLinecap="round" />
+                  <circle cx="13.8" cy="15.8" r="1.6" fill="#FFFFFF" />
+                  <circle cx="13.8" cy="15.8" r="0.9" fill="#00A950" />
                 </svg>
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white">
-                    K-Sentinel <span className="text-slate-400 font-light">&amp;</span> <span className="text-[#00A950]">WealthPilot</span>
+                  <span className="font-bold text-xl sm:text-2xl tracking-tight text-white">
+                    FlowSense <span className="text-emerald-400 font-normal">·</span> <span className="text-emerald-400">TrustGraph</span>
                   </span>
-                  <span className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs px-2.5 py-0.5 rounded-full font-bold">
-                    React 18
+                  <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 text-xs px-2.5 py-0.5 rounded-full font-mono font-medium">
+                    K+ 2026
                   </span>
                 </div>
-                <span className="text-xs text-slate-400">KBTG Kampus Hackathon 2026 — Track 2: Data Science</span>
+                <span className="text-xs text-slate-400 font-mono">Autonomous Financial Intelligence Engine • KBTG</span>
               </div>
             </a>
 

@@ -1,6 +1,7 @@
 import React from 'react';
-import { ShieldCheck, Cpu, Database, Activity } from 'lucide-react';
+import { Cpu, Database, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import MinimalLogo from './MinimalLogo';
 
 export default function Footer() {
   return (
@@ -9,18 +10,8 @@ export default function Footer() {
         
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/5">
           <div className="space-y-2">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <span className="font-bold text-sm text-white tracking-tight">
-                FlowSense &amp; TrustGraph Enterprise
-              </span>
-              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-1.5 py-0.5 rounded">
-                KBTG 2026
-              </span>
-            </div>
-            <p className="text-xs text-slate-500 max-w-md">
+            <MinimalLogo size="sm" showText={true} />
+            <p className="text-xs text-slate-500 max-w-md pt-1">
               ระบบสถาปัตยกรรมจัดการสภาพคล่องและสกัดกั้นบัญชีม้าความเร็วสูงระดับ Core Banking ออกแบบเฉพาะสำหรับ K PLUS
             </p>
           </div>
