@@ -169,3 +169,39 @@
   }
 }
 
+/* ============================================================================== */
+/* SHARP SQUARE BORDERS FOR WEB UI (EXCEPT SMARTPHONE MOCKUP)                     */
+/* ============================================================================== */
+
+/* All web cards, containers, buttons, inputs, dropdowns, modals */
+.bento-card,
+.glass-card,
+.bento-card-active,
+.btn-kplus,
+header,
+nav,
+footer,
+button:not(.phone-element),
+input,
+select,
+textarea,
+[class*="bento-"],
+[class*="glass-"],
+[class*="card"] {
+  border-radius: 0px !important;
+}
+
+/* Force all Tailwind rounded classes outside phone chassis to square */
+:not(.phone-chassis, .phone-chassis *, .iphone-frame, .iphone-frame *)[class*="rounded"]:not([class*="w-2 h-2"]):not([class*="w-1.5 h-1.5"]):not([class*="w-1 h-1"]):not([class*="w-2.5 h-2.5"]):not([class*="w-3 h-3"]):not(.status-dot):not(.animate-pulse) {
+  border-radius: 0px !important;
+}
+
+/* Ensure any phone mockup retains its curved/rounded corners */
+.phone-chassis,
+.phone-chassis *,
+.iphone-frame,
+.iphone-frame * {
+  /* Phone retains natural smartphone rounding */
+}
+
+
