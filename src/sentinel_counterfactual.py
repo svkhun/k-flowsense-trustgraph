@@ -1,3 +1,4 @@
+import os
 import lightgbm as lgb
 import pandas as pd
 import numpy as np
@@ -6,7 +7,8 @@ import numpy as np
 bst = lgb.Booster(model_file="models/k_sentinel_lgbm.txt")
 
 # โหลด Embedding จริงที่เซฟไว้
-df_embeddings = pd.read_csv("data/sentinel_node_embeddings.csv").set_index("account_id")
+emb_path = "data/05_sentinel_graph_node_embeddings.csv" if os.path.exists("data/05_sentinel_graph_node_embeddings.csv") else "data/sentinel_node_embeddings.csv"
+df_embeddings = pd.read_csv(emb_path).set_index("account_id")
 
 def generate_counterfactual_advice(tx_payload: dict, target_acc_id: str, threshold=0.5):
     # 1. ดึง Embedding จริงของบัญชีปลายทาง
@@ -74,7 +76,8 @@ def generate_counterfactual_advice(tx_payload: dict, target_acc_id: str, thresho
     }
 
 if __name__ == "__main__":
-    df_users = pd.read_csv("data/sentinel_users_v2.csv")
+    users_path = "data/03_sentinel_users_and_mule_labels.csv" if os.path.exists("data/03_sentinel_users_and_mule_labels.csv") else "data/sentinel_users_v2.csv"
+    df_users = pd.read_csv(users_path)
     mule_id = df_users[df_users["is_mule"] == 1].iloc[0]["account_id"]
     normal_id = df_users[df_users["is_mule"] == 0].iloc[0]["account_id"]
 

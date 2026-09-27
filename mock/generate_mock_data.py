@@ -204,9 +204,11 @@ def generate_enhanced_wealthpilot_data(n_users=150, days=90):
 df_users, df_tx = generate_enhanced_sentinel_data()
 df_cashflow = generate_enhanced_wealthpilot_data()
 
-df_users.to_csv("sentinel_users_v2.csv", index=False)
-df_tx.to_csv("sentinel_transactions_v2.csv", index=False)
-df_cashflow.to_csv("wealthpilot_cashflow_v2.csv", index=False)
+import os
+out_dir = "data" if os.path.exists("data") else "."
+df_users.to_csv(os.path.join(out_dir, "03_sentinel_users_and_mule_labels.csv"), index=False)
+df_tx.to_csv(os.path.join(out_dir, "04_sentinel_fraud_transactions.csv"), index=False)
+df_cashflow.to_csv(os.path.join(out_dir, "02_flowsense_cashflow_transactions.csv"), index=False)
 
 print(f"Generated {len(df_users)} users and {len(df_tx)} transactions for K-Sentinel.")
 print(f"Generated {len(df_cashflow)} cashflow logs for WealthPilot.")

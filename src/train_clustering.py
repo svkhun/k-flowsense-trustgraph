@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
@@ -5,8 +6,10 @@ from sklearn.preprocessing import StandardScaler
 import joblib
 
 def extract_user_behavior():
-    df_cf = pd.read_csv("data/wealthpilot_cashflow_v2.csv")
-    df_users = pd.read_csv("data/sentinel_users_v2.csv")
+    cf_path = "data/02_flowsense_cashflow_transactions.csv" if os.path.exists("data/02_flowsense_cashflow_transactions.csv") else "data/wealthpilot_cashflow_v2.csv"
+    users_path = "data/03_sentinel_users_and_mule_labels.csv" if os.path.exists("data/03_sentinel_users_and_mule_labels.csv") else "data/sentinel_users_v2.csv"
+    df_cf = pd.read_csv(cf_path)
+    df_users = pd.read_csv(users_path)
     
     # Filter normal users (non-mules)
     normal_users = df_users[df_users["is_mule"] == 0]["account_id"].values
@@ -114,11 +117,12 @@ def train_behavioral_clustering():
     # Save model and artifacts
     joblib.dump(kmeans, "models/behavioral_kmeans.pkl")
     joblib.dump(scaler, "models/behavioral_scaler.pkl")
-    df_prof.to_csv("data/user_behavioral_profiles.csv", index=False)
+    out_path = "data/01_flowsense_user_profiles.csv"
+    df_prof.to_csv(out_path, index=False)
     
     print("=== Behavioral Clustering Complete ===")
     print(df_prof["persona_name"].value_counts(normalize=True).apply(lambda x: f"{x*100:.1f}%"))
-    print("Saved profiles to data/user_behavioral_profiles.csv")
+    print(f"Saved profiles to {out_path}")
     print("Saved models to models/behavioral_kmeans.pkl and models/behavioral_scaler.pkl")
 
 if __name__ == "__main__":

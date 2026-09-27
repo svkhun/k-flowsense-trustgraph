@@ -102,22 +102,32 @@ wealth_sess = rt.InferenceSession("models/wealthpilot.onnx")
 wealth_in_name = wealth_sess.get_inputs()[0].name
 wealth_out_name = wealth_sess.get_outputs()[0].name
 
+def load_data_csv(primary_file: str, fallback_file: str = None) -> pd.DataFrame:
+    p_primary = os.path.join("data", primary_file)
+    if os.path.exists(p_primary):
+        return pd.read_csv(p_primary)
+    if fallback_file:
+        p_fallback = os.path.join("data", fallback_file)
+        if os.path.exists(p_fallback):
+            return pd.read_csv(p_fallback)
+    raise FileNotFoundError(f"Neither {p_primary} nor {fallback_file} could be found.")
+
 print("[Init] Caching In-Memory Feature Store (Redis Simulation)...")
-df_embeddings = pd.read_csv("data/sentinel_node_embeddings.csv").set_index("account_id")
+df_embeddings = load_data_csv("05_sentinel_graph_node_embeddings.csv", "sentinel_node_embeddings.csv").set_index("account_id")
 FEATURE_STORE_CACHE: Dict[str, np.ndarray] = {
     acc_id: df_embeddings.loc[acc_id].values.astype(np.float32)
     for acc_id in df_embeddings.index
 }
 
-df_users_raw = pd.read_csv("data/sentinel_users_v2.csv").set_index("account_id")
+df_users_raw = load_data_csv("03_sentinel_users_and_mule_labels.csv", "sentinel_users_v2.csv").set_index("account_id")
 USERS_METADATA_CACHE: Dict[str, Dict[str, Any]] = df_users_raw.to_dict(orient="index")
 
 # Behavioral Profiles
-df_profiles = pd.read_csv("data/user_behavioral_profiles.csv").set_index("account_id")
+df_profiles = load_data_csv("01_flowsense_user_profiles.csv", "user_behavioral_profiles.csv").set_index("account_id")
 BEHAVIORAL_PROFILES_CACHE: Dict[str, Dict[str, Any]] = df_profiles.to_dict(orient="index")
 
 # Transactions for SecOps & Stream simulation
-df_tx = pd.read_csv("data/sentinel_transactions_v2.csv")
+df_tx = load_data_csv("04_sentinel_fraud_transactions.csv", "sentinel_transactions_v2.csv")
 TX_CACHE = df_tx.to_dict(orient="records")
 
 # Dynamic In-Memory Vault state store (simulating live banking core account balance)

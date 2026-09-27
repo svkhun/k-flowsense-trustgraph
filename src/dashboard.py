@@ -266,7 +266,8 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
     """, unsafe_allow_html=True)
 
     # Load behavioral users
-    df_profiles = pd.read_csv("data/user_behavioral_profiles.csv")
+    prof_path = "data/01_flowsense_user_profiles.csv" if os.path.exists("data/01_flowsense_user_profiles.csv") else "data/user_behavioral_profiles.csv"
+    df_profiles = pd.read_csv(prof_path)
     user_options = df_profiles["account_id"].tolist()[:40]
 
     c_sel, c_persona = st.columns([1, 2])

@@ -102,14 +102,14 @@ export default function DatasetAnalyticsPage() {
     let filename = '';
 
     if (type === 'users') {
-      filename = 'k_sentinel_users_v2.csv';
+      filename = '03_sentinel_users_and_mule_labels.csv';
       const headers = ['account_id', 'account_age_days', 'kyc_level', 'is_promptpay_linked', 'avg_inflow_velocity_sec', 'is_mule'];
       const rows = accounts.map(a => 
         [a.accountId, a.accountAgeDays, a.kycLevel, a.isPromptPay ? 1 : 0, a.avgVelocitySec, a.isMule].join(',')
       );
       content = [headers.join(','), ...rows].join('\n');
     } else {
-      filename = 'k_sentinel_transactions_v2.csv';
+      filename = '04_sentinel_fraud_transactions.csv';
       const headers = ['tx_id', 'source_id', 'target_id', 'amount', 'timestamp', 'session_duration_sec', 'ratio_to_daily_avg', 'auth_factor_used', 'channel', 'is_scam'];
       const rows = transactions.map(t => 
         [t.txId, t.sourceId, t.targetId, t.amount, t.timestamp, t.sessionDurationSec, t.ratioToDailyAvg, t.authFactor, t.channel, t.isScam].join(',')
@@ -157,7 +157,7 @@ export default function DatasetAnalyticsPage() {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
-              เปิดให้กรรมการและผู้ตรวจสอบเข้าดูข้อมูลจริงจากชุดข้อมูล <strong>sentinel_users_v2.csv</strong> และ <strong>sentinel_transactions_v2.csv</strong>: แยกความแตกต่างระหว่างบัญชีปกติ (Clean CASA 95%) กับบัญชีม้าฟอกเงิน (AOC Mules 5%) อย่างละเอียด พร้อมการวิเคราะห์เชิงลึกที่คณะกรรมการ FinTech มองหา
+              เปิดให้กรรมการและผู้ตรวจสอบเข้าดูข้อมูลจริงจากชุดข้อมูล <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: แยกความแตกต่างระหว่างบัญชีปกติ (Clean CASA 95%) กับบัญชีม้าฟอกเงิน (AOC Mules 5%) อย่างละเอียด พร้อมการวิเคราะห์เชิงลึกที่คณะกรรมการ FinTech มองหา
             </p>
 
             {/* Quick Live Telemetry Ribbon */}
@@ -1055,7 +1055,7 @@ export default function DatasetAnalyticsPage() {
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-emerald-400" />
                   <div>
-                    <h3 className="text-sm font-bold text-white font-mono">sentinel_users_v2.csv</h3>
+                    <h3 className="text-sm font-bold text-white font-mono">03_sentinel_users_and_mule_labels.csv</h3>
                     <p className="text-[11px] text-slate-400 font-mono">1,200 rows • 36.0 KB</p>
                   </div>
                 </div>
@@ -1093,7 +1093,7 @@ export default function DatasetAnalyticsPage() {
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-cyan-400" />
                   <div>
-                    <h3 className="text-sm font-bold text-white font-mono">sentinel_transactions_v2.csv</h3>
+                    <h3 className="text-sm font-bold text-white font-mono">04_sentinel_fraud_transactions.csv</h3>
                     <p className="text-[11px] text-slate-400 font-mono">6,400 rows • 742.0 KB</p>
                   </div>
                 </div>

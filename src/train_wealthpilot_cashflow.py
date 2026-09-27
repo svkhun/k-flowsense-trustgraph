@@ -1,10 +1,12 @@
+import os
 import pandas as pd
 import numpy as np
 import lightgbm as lgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 
-df_cf = pd.read_csv("data/wealthpilot_cashflow_v2.csv")
+cf_path = "data/02_flowsense_cashflow_transactions.csv" if os.path.exists("data/02_flowsense_cashflow_transactions.csv") else "data/wealthpilot_cashflow_v2.csv"
+df_cf = pd.read_csv(cf_path)
 df_cf["timestamp"] = pd.to_datetime(df_cf["timestamp"])
 
 # สกัดยอดใช้จ่ายที่ไม่ใช่เงินเดือน
