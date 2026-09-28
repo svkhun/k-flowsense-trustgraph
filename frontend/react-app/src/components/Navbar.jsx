@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShieldCheck, Cpu, Smartphone, Menu, X, Zap, Sparkles } from 'lucide-react';
+import { Smartphone, Menu, X } from 'lucide-react';
 import MinimalLogo from './MinimalLogo';
 
-export default function Navbar({ onOpenScamModal, onReplayIntro }) {
+export default function Navbar({ onOpenScamModal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -53,17 +53,6 @@ export default function Navbar({ onOpenScamModal, onReplayIntro }) {
 
           {/* Right Action: SLA Monitor & Launch App */}
           <div className="hidden lg:flex items-center gap-3">
-            {/* Replay Intro Animation Trigger */}
-            {onReplayIntro && (
-              <button
-                onClick={onReplayIntro}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[11px] font-mono text-slate-300 hover:text-white transition-colors"
-                title="เล่นอนิเมชั่นเปิดตัวเว็บอีกครั้ง (Replay Intro Animation)"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden xl:inline">เปิดตัวเว็บ</span>
-              </button>
-            )}
 
             {/* Real-time SLA telemetry badge */}
             <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
@@ -108,22 +97,6 @@ export default function Navbar({ onOpenScamModal, onReplayIntro }) {
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Triton Engine Active • SLA &lt; 80ms</span>
           </div>
-
-          {onReplayIntro && (
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onReplayIntro();
-              }}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-white/5 border border-white/10 transition-colors mb-2"
-            >
-              <span className="flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                <span>เล่นอนิเมชั่นเปิดตัวเว็บ (Intro)</span>
-              </span>
-              <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Replay</span>
-            </button>
-          )}
 
           {navLinks.map((link) => {
             const active = isActive(link.path);

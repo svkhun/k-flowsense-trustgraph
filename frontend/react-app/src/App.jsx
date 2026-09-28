@@ -46,7 +46,6 @@ export default function App() {
       {/* Global Navigation */}
       <Navbar 
         onOpenScamModal={() => setIsMicroAuthOpen(true)} 
-        onReplayIntro={() => setShowIntro(true)} 
       />
 
       {/* Dynamic Viewport Container via React Router */}
