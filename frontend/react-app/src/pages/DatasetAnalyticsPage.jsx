@@ -151,13 +151,13 @@ export default function DatasetAnalyticsPage() {
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
               <span className="block">Dataset Inspection:</span>
               <span className="block mt-1.5 sm:mt-2.5">
-                <span className="text-gradient-kplus">ใครปกติ ใครบัญชีม้า</span>{' '}
-                <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Hackathon Judge Audit</span>
+                <span className="text-gradient-kplus">การจำแนกบัญชีปกติและบัญชีม้า</span>{' '}
+                <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Enterprise Model Audit</span>
               </span>
             </h1>
 
             <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
-              เปิดให้กรรมการและผู้ตรวจสอบเข้าดูข้อมูลจริงจากชุดข้อมูล <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: แยกความแตกต่างระหว่างบัญชีปกติ (Clean CASA 95%) กับบัญชีม้าฟอกเงิน (AOC Mules 5%) อย่างละเอียด พร้อมการวิเคราะห์เชิงลึกที่คณะกรรมการ FinTech มองหา
+              แพลตฟอร์มตรวจสอบความถูกต้องของข้อมูลจริงและประสิทธิภาพโมเดล K-Sentinel จากชุดข้อมูลมาตรฐาน <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: พิสูจน์ขีดความสามารถในการแยกแยะระหว่างบัญชีลูกค้าสุจริต (Clean CASA 95%) และเครือข่ายบัญชีม้าฟอกเงิน (AOC Mules 5%) พร้อมรายงานวิเคราะห์เชิงลึกตามมาตรฐานการประเมินเทคโนโลยีการเงินระดับสถาบัน
             </p>
 
             {/* Quick Live Telemetry Ribbon */}
@@ -218,7 +218,7 @@ export default function DatasetAnalyticsPage() {
               <span className="text-xs text-rose-300">vs 60.1 ชม. (ปกติ)</span>
             </div>
             <div className="pt-2 text-xs text-slate-400 border-t border-white/5 leading-[1.6]">
-              บัญชีม้าโอนเงินออกเร็วกว่าคนปกติ <strong className="text-amber-300 font-mono">2,718 เท่า</strong> (เงินไม่อยู่นิ่ง)
+              บัญชีม้ามีรอบหมุนเวียนเงินเข้า-ออกเร็วกว่าปกติ <strong className="text-amber-300 font-mono">2,718 เท่า</strong> (พฤติกรรมเงินผ่านด่วน)
             </div>
           </div>
 
@@ -233,7 +233,7 @@ export default function DatasetAnalyticsPage() {
               <span className="text-xs text-slate-400">vs 1,045 วัน</span>
             </div>
             <div className="pt-2 text-xs text-slate-400 border-t border-white/5 leading-[1.6]">
-              ม้ามักเป็นบัญชีเปิดใหม่ &lt; 45 วัน แต่บัญชีปกติมีประวัติยาวนาน &gt; 2.8 ปี
+              บัญชีม้ามีอายุเฉลี่ยต่ำ (&lt; 45 วัน) ขณะที่บัญชีสุจริตมีประวัติการใช้งานต่อเนื่อง (&gt; 2.8 ปี)
             </div>
           </div>
 
@@ -268,7 +268,7 @@ export default function DatasetAnalyticsPage() {
             }`}
           >
             <UserCheck className="w-4 h-4 text-emerald-400" />
-            <span>ตารางตรวจสอบบัญชี (ใครปกติ vs ใครม้า)</span>
+            <span>ตารางตรวจสอบสถานะบัญชี (Clean Accounts vs. Mule Accounts)</span>
             <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-white/10 text-slate-300">
               {accounts.length} ตัวอย่าง
             </span>
@@ -283,7 +283,7 @@ export default function DatasetAnalyticsPage() {
             }`}
           >
             <BarChart3 className="w-4 h-4 text-cyan-400" />
-            <span>สิ่งที่กรรมการอยากเห็น (Judge Deep-Dive Evaluation)</span>
+            <span>การประเมินผลเชิงลึกระดับสถาบันการเงิน (Enterprise Audit &amp; Evaluation)</span>
             <span className="px-1.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
               Recommended
             </span>
@@ -696,13 +696,13 @@ export default function DatasetAnalyticsPage() {
           <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-[#18191D] to-slate-900/80 border border-emerald-500/30 space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 font-semibold uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>HACKATHON &amp; VENTURE EVALUATOR CRITERIA</span>
+              <span>ENTERPRISE EVALUATION &amp; BANKING BENCHMARKS</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white leading-[1.4]">
-              4 ประเด็นสำคัญที่คณะกรรมการและผู้เชี่ยวชาญ FinTech ให้คะแนนสูงสุด
+              4 มิติการประเมินทางวิศวกรรมและธุรกิจการเงิน สำหรับระบบตรวจจับบัญชีม้าเรียลไทม์
             </h2>
             <p className="text-sm text-slate-300 leading-[1.85]">
-              การสร้างระบบตรวจจับบัญชีม้าในระดับธนาคารพาณิชย์ไม่ได้วัดกันแค่ความแม่นยำ (Accuracy) แบบผิวเผิน แต่ต้องพิสูจน์ 4 มิติทางวิศวกรรมการเงิน: <strong>(1) การรับมือข้อมูลไม่สมดุล (Class Imbalance)</strong>, <strong>(2) สัญญาณทางพฤติกรรมที่ชัดเจน (Discriminative Features)</strong>, <strong>(3) ความสมดุลระหว่างความปลอดภัยและประสบการณ์ลูกค้า (Confusion Matrix &amp; Friction Reduction)</strong>, และ <strong>(4) ความถูกต้องตามเกณฑ์ ธปท. (Regulatory Compliance &amp; Latency SLA)</strong>
+              การประเมินระบบตรวจจับและสกัดกั้นบัญชีม้าในระดับธนาคารพาณิชย์ (Tier-1 Commercial Bank) ไม่สามารถพิจารณาเพียงค่าความแม่นยำโดยรวม (Overall Accuracy) เพียงอย่างเดียวได้ หากแต่ต้องผ่านการทดสอบครอบคลุม 4 มิติสำคัญตามหลักการกำกับดูแลและวิศวกรรมข้อมูลทางการเงิน: <strong>(1) การรับมือสภาวะข้อมูลไม่สมดุลขั้นวิกฤต (Severe Class Imbalance Resilience)</strong>, <strong>(2) พลังการจำแนกเชิงพฤติกรรมของฟีเจอร์ (High-Discriminative Behavioral Signals)</strong>, <strong>(3) ดุลยภาพระหว่างความปลอดภัยและประสบการณ์ผู้ใช้งาน (Confusion Matrix &amp; Friction Minimization)</strong>, และ <strong>(4) การปฏิบัติตามเกณฑ์ ธปท. ร่วมกับ SLA การประมวลผลระดับ Real-Time Switch (Regulatory Compliance &amp; 80ms Switch Latency)</strong>
             </p>
           </div>
 
@@ -717,12 +717,12 @@ export default function DatasetAnalyticsPage() {
               </div>
 
               <h3 className="text-lg font-bold text-white leading-[1.4]">
-                การแก้ปัญหา Class Imbalance ในข้อมูลธนาคารจริง
+                การรับมือสภาวะข้อมูลไม่สมดุลขั้นวิกฤต (Severe Class Imbalance Management)
               </h3>
 
               <div className="space-y-3 text-xs sm:text-sm text-slate-300 leading-[1.8]">
                 <p>
-                  ในระบบธนาคารจริงที่มี 40 ล้านบัญชี บัญชีม้ามีสัดส่วนไม่ถึง <strong>0.8%</strong> หากโมเดลทำนายว่า "ทุกคนเป็นบัญชีปกติ" โมเดลจะได้ค่า Accuracy สูงถึง 99.2% แต่จะ<strong>จับม้าไม่ได้เลยสักบัญชีเดียว (Accuracy Paradox)</strong>
+                  ในฐานข้อมูลธนาคารพาณิชย์ที่มีกว่า 40 ล้านบัญชี บัญชีม้าจริงมีสัดส่วนต่ำกว่า <strong>0.8%</strong> หากโมเดลตัดสินแบบไร้เดียงสา (Naive Baseline) โดยทำนายว่า "ทุกบัญชีเป็นบัญชีปกติ" ตัวเลข Accuracy จะสูงถึง 99.2% ทว่าระบบจะไม่สามารถสกัดกั้นบัญชีม้าได้เลยแม้แต่รายเดียว <strong>(Accuracy Paradox)</strong> ซึ่งก่อให้เกิดความเสียหายร้ายแรงต่อระบบการเงิน
                 </p>
                 
                 {/* Visual Ratio Comparison Bar */}
@@ -741,7 +741,7 @@ export default function DatasetAnalyticsPage() {
                 </div>
 
                 <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-xs text-emerald-300 leading-[1.7]">
-                  <strong className="text-white">แนวทางแก้ไขของเรา:</strong> ใช้ฟังก์ชัน <strong>Focal Loss (&gamma; = 2.0, &alpha; = 0.25)</strong> ผสานกับ <strong>Temporal Edge-Weighted Message Passing</strong> ใน R-GCN ทำให้โมเดลเพ่งเล็งโหนดบัญชีม้าที่เป็น Hard Example ได้อย่างแม่นยำโดยไม่ต้อง Oversample ข้อมูลจนเสีย Topology ของกราฟ
+                  <strong className="text-white">แนวทางแก้ไขเชิงสถาปัตยกรรม:</strong> เลือกใช้ฟังก์ชัน <strong>Focal Loss (&gamma; = 2.0, &alpha; = 0.25)</strong> ผสานกับ <strong>Temporal Edge-Weighted Message Passing</strong> บนโครงข่าย R-GCN ช่วยให้โมเดลโฟกัสการเรียนรู้ไปยังกลุ่มเสี่ยงสูง (Hard Negative Examples) ได้อย่างแม่นยำ โดยไม่ต้องทำ Synthetic Oversampling ที่อาจบิดเบือนโครงสร้างความสัมพันธ์จริงของกราฟธุรกรรม
                 </div>
               </div>
             </div>
@@ -754,7 +754,7 @@ export default function DatasetAnalyticsPage() {
               </div>
 
               <h3 className="text-lg font-bold text-white leading-[1.4]">
-                ฟีเจอร์เด่นที่แยกบัญชีม้าออกจากคนปกติอย่างสิ้นเชิง
+                สัญญาณเชิงพฤติกรรมที่มีพลังจำแนกความเสี่ยงสูงสุด (Key Discriminative Behavioral Signals)
               </h3>
 
               <div className="space-y-2.5 text-xs">
@@ -762,44 +762,44 @@ export default function DatasetAnalyticsPage() {
                 {/* Feature 1 */}
                 <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
                   <div className="flex justify-between font-mono font-semibold">
-                    <span className="text-white">1. Inflow-to-Outflow Velocity (ความเร็วเงินผ่าน)</span>
+                    <span className="text-white">1. Inflow-to-Outflow Velocity (ระยะเวลาพักเงินในบัญชี)</span>
                     <span className="text-amber-300">ความต่าง 2,718 เท่า</span>
                   </div>
                   <p className="text-slate-400 leading-[1.6]">
-                    บัญชีม้าเฉลี่ย <strong className="text-rose-400 font-mono">74.6 วินาที</strong> (เงินเข้าปุ๊บโอนต่อทันทีเพื่อเลี่ยงการอายัด) ส่วนคนปกติเฉลี่ย <strong className="text-emerald-400 font-mono">60.1 ชั่วโมง</strong> (เก็บไว้ใช้จ่ายและออม)
+                    บัญชีม้ามีระยะเวลาพักเงินเฉลี่ยเพียง <strong className="text-rose-400 font-mono">74.6 วินาที</strong> (พฤติกรรมเงินผ่าน: โอนกระจายออกทันทีเพื่อหลบเลี่ยงคำสั่งอายัดชั่วคราว) ขณะที่บัญชีสุจริตมีระยะเวลาพักเงินเฉลี่ย <strong className="text-emerald-400 font-mono">60.1 ชั่วโมง</strong> (เพื่อการใช้จ่ายในชีวิตประจำวันและการออม)
                   </p>
                 </div>
 
                 {/* Feature 2 */}
                 <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
                   <div className="flex justify-between font-mono font-semibold">
-                    <span className="text-white">2. อายุบัญชี (Account Age)</span>
+                    <span className="text-white">2. ประวัติอายุบัญชี (Account Age Differential)</span>
                     <span className="text-cyan-300">ความต่าง 48 เท่า</span>
                   </div>
                   <p className="text-slate-400 leading-[1.6]">
-                    บัญชีม้าเฉลี่ย <strong className="text-rose-400 font-mono">20.8 วัน</strong> (ส่วนใหญ่เปิดใหม่ &lt; 45 วัน) ขณะที่บัญชีคนปกติเฉลี่ย <strong className="text-emerald-400 font-mono">1,045 วัน</strong> (&gt; 2.8 ปี)
+                    บัญชีม้ามีอายุเฉลี่ย <strong className="text-rose-400 font-mono">20.8 วัน</strong> (ส่วนใหญ่เป็นบัญชีเปิดใหม่ไม่เกิน 45 วัน) แตกต่างจากบัญชีลูกค้าทั่วไปที่มีประวัติธุรกรรมยาวนานเฉลี่ย <strong className="text-emerald-400 font-mono">1,045 วัน</strong> (&gt; 2.8 ปี)
                   </p>
                 </div>
 
                 {/* Feature 3 */}
                 <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
                   <div className="flex justify-between font-mono font-semibold">
-                    <span className="text-white">3. KYC Level &amp; พร้อมเพย์</span>
+                    <span className="text-white">3. ระดับการยืนยันตัวตน (KYC Tier) และการผูกพร้อมเพย์</span>
                     <span className="text-emerald-300">AOC Correlation 85%</span>
                   </div>
                   <p className="text-slate-400 leading-[1.6]">
-                    บัญชีม้า 66.7% อยู่ที่ KYC Level 1 (e-KYC) และ 85% ผูกพร้อมเพย์ด้วยเบอร์โทรศัพท์ชั่วคราวเพื่อรับเงินโอนอัตโนมัติจากบอท
+                    พบว่า 66.7% ของบัญชีม้าหยุดอยู่ที่ KYC ระดับพื้นฐาน (Level 1) และกว่า 85% ผูกพร้อมเพย์ด้วยหมายเลขโทรศัพท์ชั่วคราว เพื่อรองรับการรับโอนอัตโนมัติจากเครือข่ายบอตฟิชชิ่ง
                   </p>
                 </div>
 
                 {/* Feature 4 */}
                 <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1">
                   <div className="flex justify-between font-mono font-semibold">
-                    <span className="text-white">4. Graph Centrality (Fan-in / Fan-out)</span>
+                    <span className="text-white">4. โครงสร้างกราฟความสัมพันธ์ (Topology Fan-In &amp; Fan-Out)</span>
                     <span className="text-indigo-300">R-GCN Structural Signal</span>
                   </div>
                   <p className="text-slate-400 leading-[1.6]">
-                    โหนดม้ามีลักษณะ Fan-in สูงจากเหยื่อหลายรายในช่วงเวลาใกล้เคียงกัน และโอนออกสู่โหนดรวมเงิน (Aggregator Mule) ภายในเวลาไม่กี่วินาที
+                    ตรวจพบรูปแบบ Fan-In ผิดปกติ โดยได้รับเงินโอนจากเหยื่อหลายรายพร้อมกันในช่วงเวลาสั้น ก่อนส่งต่อแบบ Fan-Out เข้าสู่โหนดบัญชีรวบรวม (Aggregator Mule) ภายในไม่กี่วินาที
                   </p>
                 </div>
 
@@ -814,7 +814,7 @@ export default function DatasetAnalyticsPage() {
               </div>
 
               <h3 className="text-lg font-bold text-white leading-[1.4]">
-                Confusion Matrix &amp; การลดต้นทุนทางธุรกิจ (Cost of Friction)
+                การประเมินประสิทธิภาพการจำแนก และการลดอุปสรรคทางธุรกิจ (Confusion Matrix &amp; Friction Minimization)
               </h3>
 
               {/* Confusion Matrix Table */}
@@ -857,10 +857,10 @@ export default function DatasetAnalyticsPage() {
 
               <div className="text-xs text-slate-300 leading-[1.8] space-y-2">
                 <p>
-                  <strong>ทำไมถึงเหนือกว่า Rule-based แบบดั้งเดิม?</strong> ในระบบธนาคารเดิม เมื่อสงสัยจะสั่งระงับโอน 15 นาที ซึ่งทำให้ลูกค้าปกติร้องเรียน (Customer Friction สูงถึง 42%)
+                  <strong>ข้อจำกัดของระบบกฎเกณฑ์แบบดั้งเดิม (Rule-Based Limitations):</strong> มาตรการระงับธุรกรรมแบบเหมารวม (Hard Block / 15-Minute Freeze) มักสร้างอุปสรรคต่อลูกค้าสุจริต (Customer Friction สูงถึง 42%) ส่งผลให้อัตราความพึงพอใจลดลงและศูนย์บริการลูกค้ามีภาระงานล้นเกิน
                 </p>
                 <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300">
-                  <strong className="text-white">โซลูชัน 5-Second Micro-Auth:</strong> เมื่อโมเดลพบความเสี่ยงสูง เราใช้การ <strong>สแกนหน้ายืนยันเพียง 5 วินาที</strong> ทำให้ลดอัตราลูกค้าร้องเรียนลง <strong>87%</strong> ในขณะที่สกัดบอทมิจฉาชีพได้ 100% เพราะบอทไม่สามารถสแกนใบหน้าเจ้าของบัญชีได้
+                  <strong className="text-white">นวัตกรรม Dynamic Step-Up Verification (5-Second Micro-Auth):</strong> เมื่อระบบประเมินความเสี่ยงอยู่ในระดับเฝ้าระวัง แทนที่จะบล็อกธุรกรรมทันที ระบบจะสั่งยืนยันตัวตนด้วยการสแกนใบหน้าแบบมีชีวิต (Liveness Biometric Prompt) ภายใน 5 วินาที ช่วยลดอัตราข้อร้องเรียนของลูกค้าลง <strong>87%</strong> พร้อมทั้งสกัดกั้นการสั่งโอนเงินผ่านระบบอัตโนมัติ (Automated Bot Injection) ได้อย่างเด็ดขาด
                 </div>
               </div>
             </div>
@@ -873,7 +873,7 @@ export default function DatasetAnalyticsPage() {
               </div>
 
               <h3 className="text-lg font-bold text-white leading-[1.4]">
-                การสอดคล้องกับเกณฑ์ ธปท. และศูนย์ AOC 1441
+                การปฏิบัติตามเกณฑ์ธนาคารแห่งประเทศไทย (ธปท.) และการบูรณาการร่วมกับศูนย์ AOC 1441
               </h3>
 
               <div className="space-y-3 text-xs sm:text-sm text-slate-300 leading-[1.8]">
@@ -881,21 +881,21 @@ export default function DatasetAnalyticsPage() {
                   <li className="p-3 rounded-xl bg-black/40 border border-white/5 flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white">เกณฑ์การตรวจจับก่อนหักบัญชี (Pre-Clearing Inspection):</strong> สถาปัตยกรรมทำงานในระดับ <strong className="text-emerald-400 font-mono">11.6ms (P99)</strong> ต่ำกว่าข้อกำหนด Core Banking Switch SLA 80ms ทำให้สามารถสกัดธุรกรรมได้ทันทีโดยไม่กระทบความเร็วของระบบโอนเงิน K PLUS
+                      <strong className="text-white">การตรวจสอบก่อนตัดบัญชีแบบเรียลไทม์ (Real-Time Pre-Clearing Inspection):</strong> สถาปัตยกรรมประมวลผลโมเดลสองชั้นเสร็จสิ้นในระดับ <strong className="text-emerald-400 font-mono">11.6ms (P99)</strong> ซึ่งต่ำกว่าเพดาน SLA ของ Core Banking Switch (80ms) อย่างมีนัยสำคัญ ทำให้สามารถสกัดกั้นธุรกรรมทุจริตได้ล่วงหน้าโดยไม่กระทบต่อประสบการณ์โอนเงินที่ลื่นไหลของลูกค้า K PLUS
                     </div>
                   </li>
 
                   <li className="p-3 rounded-xl bg-black/40 border border-white/5 flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white">ความโปร่งใสและตรวจสอบได้ (Explainable AI / XAI):</strong> มี Log ระบุฟีเจอร์ที่ทริกเกอร์ (เช่น Pass-Through &lt; 180s, New Account &lt; 45d) เพื่อให้เจ้าหน้าที่ฝ่าย Compliance และ DPO สามารถนำไปชี้แจงต่อธนาคารแห่งประเทศไทยและ AOC 1441 ได้อย่างถูกต้องตามกฎหมาย
+                      <strong className="text-white">ความโปร่งใสและหลักฐานทางกฎหมาย (Explainable AI &amp; Auditability):</strong> มีระบบบันทึก Audit Trail พร้อม Counterfactual Explanation แจกแจงปัจจัยความเสี่ยงที่สั่งระงับ (เช่น รอบการพักเงินผิดปกติ, พฤติกรรมโอนออกรวดเร็ว, อุปกรณ์เปลี่ยนผ่าน) เพื่อให้ฝ่ายกำกับการปฏิบัติตามกฎเกณฑ์ (Compliance) และเจ้าพนักงานตาม พ.ร.ก. มาตรการป้องกันและปราบปรามอาชญากรรมทางเทคโนโลยี นำไปใช้ประกอบการดำเนินคดีได้อย่างถูกต้องรวดเร็ว
                     </div>
                   </li>
 
                   <li className="p-3 rounded-xl bg-black/40 border border-white/5 flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white">การบูรณาการเข้ากับระบบ Safe-to-Spend:</strong> บัญชีที่ได้รับการประเมินว่าปกติจะได้รับสิทธิเปิดใช้ Safe-to-Spend และ Micro-Sweep อัตโนมัติ ช่วยสร้างวินัยทางการเงินและเพิ่ม CASA ให้กับธนาคารไปพร้อมกัน
+                      <strong className="text-white">การเชื่อมโยงระบบนิเวศความปลอดภัยและเงินฝาก (Security-to-CASA Ecosystem):</strong> บัญชีที่ผ่านการคัดกรองความปลอดภัยจะถูกปลดล็อกเข้าสู่กลไกบริหารความมั่งคั่ง FlowSense (Safe-to-Spend &amp; Micro-Sweep) อย่างราบรื่น เปลี่ยนระบบรักษาความปลอดภัยจากการเป็นต้นทุน ให้กลายเป็นตัวขับเคลื่อนการเติบโตของเงินฝากออมทรัพย์กระแสรายวัน (CASA Growth)
                     </div>
                   </li>
                 </ul>
