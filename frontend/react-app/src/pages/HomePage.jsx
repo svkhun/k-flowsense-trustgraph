@@ -4,10 +4,11 @@ import Hero from '../components/Hero';
 import StatusHorizonBar from '../components/StatusHorizonBar';
 import MicroSweepVault from '../components/MicroSweepVault';
 import TrustGraphCard from '../components/TrustGraphCard';
-import { ArrowRight, Compass, ShieldAlert, Cpu, Users, Smartphone, Sparkles, CheckCircle2, Server, TrendingUp, Zap } from 'lucide-react';
+import VelarisDemo from '../components/ui/demo';
+import { ArrowRight, Compass, ShieldAlert, Cpu, Users, Smartphone, Sparkles, CheckCircle2, Server, TrendingUp, Zap, Waves } from 'lucide-react';
 
 export default function HomePage({ onOpenScamModal }) {
-  const [activeEngineTab, setActiveEngineTab] = useState('flowsense'); // 'flowsense' | 'trustgraph' | 'simulator'
+  const [activeEngineTab, setActiveEngineTab] = useState('flowsense'); // 'flowsense' | 'trustgraph' | 'simulator' | 'velaris'
 
   return (
     <div className="space-y-16 pb-16">
@@ -70,6 +71,18 @@ export default function HomePage({ onOpenScamModal }) {
               <Smartphone className="w-3.5 h-3.5" />
               <span>K PLUS App</span>
             </button>
+
+            <button
+              onClick={() => setActiveEngineTab('velaris')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5 ${
+                activeEngineTab === 'velaris'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/30 border border-emerald-400/40'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Waves className="w-3.5 h-3.5" />
+              <span>Velaris WebGL</span>
+            </button>
           </div>
         </div>
 
@@ -114,6 +127,34 @@ export default function HomePage({ onOpenScamModal }) {
                 title="Embedded K PLUS Simulator"
                 className="w-full h-full border-0"
               />
+            </div>
+          </div>
+        )}
+
+        {/* Tab 4: Velaris WebGL Living Shader View */}
+        {activeEngineTab === 'velaris' && (
+          <div className="bento-card-active rounded-2xl overflow-hidden border border-emerald-500/40 p-4 sm:p-6 space-y-4 bg-[#18191D]/85 backdrop-blur-2xl">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label text-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>WebGL 2.0 Simplex-Noise Canvas</span>
+                </div>
+                <h3 className="text-lg font-bold text-white">
+                  Velaris: Living Gradients in Motion
+                </h3>
+                <p className="text-xs text-slate-300">
+                  Animated simplex-noise shader with GPU-accelerated vignette glow and film grain for FinTech aesthetics.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 font-mono text-xs text-emerald-400">
+                <span>GPU HARDWARE ACCELERATED</span>
+              </div>
+            </div>
+
+            <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+              <VelarisDemo />
             </div>
           </div>
         )}

@@ -27,6 +27,7 @@ import {
   Activity
 } from 'lucide-react';
 import { datasetAnalyticsData } from '../data/datasetAnalyticsData';
+import Velaris from '../components/ui/velaris';
 
 export default function DatasetAnalyticsPage() {
   const { summary, accounts, transactions, rawUsersCsvSample, rawTxCsvSample } = datasetAnalyticsData;
@@ -140,6 +141,18 @@ export default function DatasetAnalyticsPage() {
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
+          {/* Velaris Ambient WebGL Living Gradient Aura */}
+          <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
+            <Velaris
+              bg="#0C0D0E"
+              colors={["#34D399", "#10B981", "#0F766E", "#0C0D0E"]}
+              speed={0.8}
+              grain={0.2}
+              height="100%"
+              className="w-full h-full"
+            />
+          </div>
+
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
 
           <div className="max-w-4xl space-y-3 relative z-10">

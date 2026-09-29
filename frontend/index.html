@@ -51,8 +51,15 @@
 
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/static/css/style.css">
+
+  <!-- Velaris WebGL Shader Engine -->
+  <script src="/static/js/velaris-webgl.js"></script>
 </head>
 <body class="bg-[#121214] text-slate-100 h-screen max-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-white overflow-hidden">
+
+  <!-- Velaris Living WebGL Background Canvas -->
+  <canvas data-velaris data-bg="#121214" data-speed="0.6" data-grain="0.15" class="fixed inset-0 pointer-events-none -z-10 opacity-20 w-full h-full"></canvas>
+  <div class="velaris-vignette fixed inset-0 pointer-events-none -z-10 opacity-40"></div>
 
   <!-- ============================================================================== -->
   <!-- ============================================================================== -->

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Zap, RotateCcw, ScanFace, Activity, CheckCircle2, AlertTriangle, Sparkles, Smartphone, Terminal } from 'lucide-react';
+import Velaris from './ui/velaris';
 
 export default function Hero({ onOpenScamModal }) {
   const [activeScenario, setActiveScenario] = useState('routine'); // 'routine' | 'commitment' | 'mule' | 'recall'
@@ -89,6 +90,18 @@ export default function Hero({ onOpenScamModal }) {
   return (
     <section className="relative pt-8 pb-14 sm:pt-12 sm:pb-16 overflow-hidden border-b border-white/10">
       
+      {/* Velaris Living Simplex-Noise WebGL Gradient Aura */}
+      <div className="absolute inset-0 pointer-events-none -z-10 opacity-40 overflow-hidden">
+        <Velaris
+          bg="#0C0D0E"
+          colors={["#00F59B", "#00A950", "#059669", "#064E3B"]}
+          speed={0.9}
+          grain={0.2}
+          height="100%"
+          className="w-full h-full"
+        />
+      </div>
+
       {/* Ambient Lighting Gradients */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1600px] h-96 bg-gradient-to-b from-emerald-500/15 via-emerald-600/5 to-transparent blur-3xl pointer-events-none -z-10"></div>
       <div className="absolute top-1/3 right-10 w-80 h-80 bg-cyan-500/10 blur-3xl pointer-events-none -z-10"></div>

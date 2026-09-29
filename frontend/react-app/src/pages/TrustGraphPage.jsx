@@ -2,6 +2,7 @@ import React from 'react';
 import TrustGraphCard from '../components/TrustGraphCard';
 import { ArrowRight, Zap, ScanFace, AlertTriangle, ShieldCheck, Activity, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Velaris from '../components/ui/velaris';
 
 export default function TrustGraphPage({ onOpenScamModal }) {
   return (
@@ -11,6 +12,18 @@ export default function TrustGraphPage({ onOpenScamModal }) {
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-rose-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
           
+          {/* Velaris Ambient WebGL Living Gradient Aura */}
+          <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
+            <Velaris
+              bg="#0C0D0E"
+              colors={["#F43F5E", "#10B981", "#00A950", "#0C0D0E"]}
+              speed={0.8}
+              grain={0.2}
+              height="100%"
+              className="w-full h-full"
+            />
+          </div>
+
           <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/10 blur-3xl pointer-events-none"></div>
 
           <div className="max-w-3xl space-y-3 relative z-10">
