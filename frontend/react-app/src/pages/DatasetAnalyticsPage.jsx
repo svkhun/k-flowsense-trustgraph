@@ -24,10 +24,12 @@ import {
   TrendingDown,
   Info,
   SlidersHorizontal,
-  Activity
+  Activity,
+  ChevronDown
 } from 'lucide-react';
 import { datasetAnalyticsData } from '../data/datasetAnalyticsData';
 import Velaris from '../components/ui/velaris';
+import ScrollReveal from '../components/ScrollReveal';
 
 export default function DatasetAnalyticsPage() {
   const { summary, accounts, transactions, rawUsersCsvSample, rawTxCsvSample } = datasetAnalyticsData;
@@ -135,143 +137,152 @@ export default function DatasetAnalyticsPage() {
   };
 
   return (
-    <div className="py-8 sm:py-10 space-y-10">
+    <div className="space-y-16 pb-20">
       
-      {/* 1. Header Banner & Executive Context */}
-      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="bento-card-active rounded-2xl p-6 sm:p-8 space-y-4 border border-emerald-500/40 bg-[#18191D]/85 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+      {/* ========================================================================= */}
+      {/* 1. EXPANSIVE HERO HEADER (Living WebGL Atmosphere)                        */}
+      {/* ========================================================================= */}
+      <section className="relative min-h-[55vh] sm:min-h-[60vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
+        
+        {/* Full Viewport Velaris WebGL Canvas Background */}
+        <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+          <Velaris
+            bg="#070B12"
+            colors={["#34D399", "#10B981", "#0F766E", "#070B12"]}
+            speed={0.9}
+            grain={0.22}
+            height="100%"
+            className="w-full h-full"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center py-12">
+          {/* Pill Badge */}
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md shadow-lg shadow-emerald-500/10 mb-6">
+            <Database className="w-3.5 h-3.5 text-emerald-400" />
+            <span>K-Sentinel Ground Truth Dataset &amp; Model Audit</span>
+          </div>
           
-          {/* Velaris Ambient WebGL Living Gradient Aura */}
-          <div className="absolute inset-0 pointer-events-none opacity-25 overflow-hidden">
-            <Velaris
-              bg="#0C0D0E"
-              colors={["#34D399", "#10B981", "#0F766E", "#0C0D0E"]}
-              speed={0.8}
-              grain={0.2}
-              height="100%"
-              className="w-full h-full"
-            />
-          </div>
+          {/* Headline */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.25] sm:leading-[1.2] mb-6">
+            <span className="block">Dataset Inspection:</span>
+            <span className="block mt-2">
+              <span className="text-gradient-kplus">การจำแนกบัญชีปกติและบัญชีม้า</span>{' '}
+              <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Enterprise Audit</span>
+            </span>
+          </h1>
 
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+          {/* Subtitle */}
+          <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
+            แพลตฟอร์มตรวจสอบความถูกต้องของข้อมูลจริงและประสิทธิภาพโมเดล K-Sentinel จากชุดข้อมูลมาตรฐาน <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: พิสูจน์ขีดความสามารถในการแยกแยะระหว่างบัญชีลูกค้าสุจริต (Clean CASA 95%) และเครือข่ายบัญชีม้าฟอกเงิน (AOC Mules 5%)
+          </p>
 
-          <div className="max-w-4xl space-y-3 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 tech-label text-xs">
-              <Database className="w-3.5 h-3.5 text-emerald-400" />
-              <span>K-Sentinel Ground Truth Dataset &amp; Model Audit</span>
+          {/* Quick Live Telemetry Ribbon */}
+          <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-xs mb-8">
+            <div className="px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-slate-300 flex items-center gap-2 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Dataset: <strong className="text-white">1,200 Accounts</strong></span>
             </div>
-            
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.58] sm:leading-[1.52] pb-1">
-              <span className="block">Dataset Inspection:</span>
-              <span className="block mt-1.5 sm:mt-2.5">
-                <span className="text-gradient-kplus">การจำแนกบัญชีปกติและบัญชีม้า</span>{' '}
-                <span className="text-slate-400 text-lg sm:text-2xl font-normal font-mono">&amp; Enterprise Model Audit</span>
-              </span>
-            </h1>
-
-            <p className="text-sm sm:text-base text-slate-300 leading-[1.85] font-normal pt-1">
-              แพลตฟอร์มตรวจสอบความถูกต้องของข้อมูลจริงและประสิทธิภาพโมเดล K-Sentinel จากชุดข้อมูลมาตรฐาน <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: พิสูจน์ขีดความสามารถในการแยกแยะระหว่างบัญชีลูกค้าสุจริต (Clean CASA 95%) และเครือข่ายบัญชีม้าฟอกเงิน (AOC Mules 5%) พร้อมรายงานวิเคราะห์เชิงลึกตามมาตรฐานการประเมินเทคโนโลยีการเงินระดับสถาบัน
-            </p>
-
-            {/* Quick Live Telemetry Ribbon */}
-            <div className="pt-2 flex flex-wrap items-center gap-3 font-mono text-xs">
-              <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-slate-300 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Dataset: <strong className="text-white">1,200 Accounts</strong></span>
-              </div>
-              <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-slate-300">
-                Clean vs Mule: <strong className="text-emerald-400">95.0%</strong> vs <strong className="text-rose-400">5.0%</strong>
-              </div>
-              <div className="px-3 py-1.5 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300">
-                AUC-ROC: <strong className="text-emerald-200">0.994</strong>
-              </div>
-              <div className="px-3 py-1.5 rounded-xl bg-black/40 border border-white/10 text-slate-300">
-                P99 Latency: <strong className="text-emerald-400">11.6ms &lt; 80ms</strong>
-              </div>
-              <div className="px-3 py-1.5 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300">
-                False Positive Rate: <strong className="text-rose-200">0.08%</strong>
-              </div>
+            <div className="px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-slate-300 backdrop-blur-md">
+              Clean vs Mule: <strong className="text-emerald-400">95.0%</strong> vs <strong className="text-rose-400">5.0%</strong>
+            </div>
+            <div className="px-3.5 py-1.5 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 backdrop-blur-md">
+              AUC-ROC: <strong className="text-emerald-200">0.994</strong>
+            </div>
+            <div className="px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-slate-300 backdrop-blur-md">
+              P99 Latency: <strong className="text-emerald-400">11.6ms &lt; 80ms</strong>
             </div>
           </div>
+
+          <button
+            onClick={() => document.getElementById('dataset-workspace')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-colors group cursor-pointer"
+          >
+            <span>สำรวจชุดข้อมูลและสถิติการจำแนก</span>
+            <ChevronDown className="w-4 h-4 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
+          </button>
         </div>
       </section>
 
       {/* 2. Top-Level Summary Stats Cards */}
-      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          
-          {/* Card 1: Total & Class Distribution */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-              <span>DATASET SAMPLE</span>
-              <PieChart className="w-4 h-4 text-emerald-400" />
+      <section id="dataset-workspace" className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+        <ScrollReveal>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            {/* Card 1: Total & Class Distribution */}
+            <div className="rounded-3xl p-6 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl space-y-2">
+              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>DATASET SAMPLE</span>
+                <PieChart className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold font-mono text-white">1,200</span>
+                <span className="text-xs text-slate-400">Accounts</span>
+              </div>
+              <div className="pt-2 flex items-center justify-between text-xs border-t border-white/[0.04]">
+                <span className="text-emerald-400 flex items-center gap-1 font-mono">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400"></span> ปกติ: 1,140 (95%)
+                </span>
+                <span className="text-rose-400 flex items-center gap-1 font-mono">
+                  <span className="w-2 h-2 rounded-full bg-rose-400"></span> ม้า: 60 (5%)
+                </span>
+              </div>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-white">1,200</span>
-              <span className="text-xs text-slate-400">Accounts</span>
-            </div>
-            <div className="pt-2 flex items-center justify-between text-xs border-t border-white/5">
-              <span className="text-emerald-400 flex items-center gap-1 font-mono">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span> ปกติ: 1,140 (95%)
-              </span>
-              <span className="text-rose-400 flex items-center gap-1 font-mono">
-                <span className="w-2 h-2 rounded-full bg-rose-400"></span> ม้า: 60 (5%)
-              </span>
-            </div>
-          </div>
 
-          {/* Card 2: Discriminative Velocity Ratio */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-              <span>PASS-THROUGH VELOCITY</span>
-              <Clock className="w-4 h-4 text-amber-400" />
+            {/* Card 2: Discriminative Velocity Ratio */}
+            <div className="rounded-3xl p-6 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl space-y-2">
+              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>PASS-THROUGH VELOCITY</span>
+                <Clock className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold font-mono text-amber-300">74.6s</span>
+                <span className="text-xs text-rose-300">vs 60.1 ชม. (ปกติ)</span>
+              </div>
+              <div className="pt-2 text-xs text-slate-400 border-t border-white/[0.04] leading-relaxed">
+                บัญชีม้ามีรอบหมุนเวียนเงินเข้า-ออกเร็วกว่าปกติ <strong className="text-amber-300 font-mono">2,718 เท่า</strong> (พฤติกรรมเงินผ่านด่วน)
+              </div>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-amber-300">74.6s</span>
-              <span className="text-xs text-rose-300">vs 60.1 ชม. (ปกติ)</span>
-            </div>
-            <div className="pt-2 text-xs text-slate-400 border-t border-white/5 leading-[1.6]">
-              บัญชีม้ามีรอบหมุนเวียนเงินเข้า-ออกเร็วกว่าปกติ <strong className="text-amber-300 font-mono">2,718 เท่า</strong> (พฤติกรรมเงินผ่านด่วน)
-            </div>
-          </div>
 
-          {/* Card 3: Account Age Differential */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-              <span>AVG ACCOUNT AGE</span>
-              <Layers className="w-4 h-4 text-cyan-400" />
+            {/* Card 3: Account Age Differential */}
+            <div className="rounded-3xl p-6 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl space-y-2">
+              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>AVG ACCOUNT AGE</span>
+                <Layers className="w-4 h-4 text-cyan-400" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold font-mono text-cyan-300">20.8 วัน</span>
+                <span className="text-xs text-slate-400">vs 1,045 วัน</span>
+              </div>
+              <div className="pt-2 text-xs text-slate-400 border-t border-white/[0.04] leading-relaxed">
+                บัญชีม้ามีอายุเฉลี่ยต่ำ (&lt; 45 วัน) ขณะที่บัญชีสุจริตมีประวัติการใช้งานต่อเนื่อง (&gt; 2.8 ปี)
+              </div>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-cyan-300">20.8 วัน</span>
-              <span className="text-xs text-slate-400">vs 1,045 วัน</span>
-            </div>
-            <div className="pt-2 text-xs text-slate-400 border-t border-white/5 leading-[1.6]">
-              บัญชีม้ามีอายุเฉลี่ยต่ำ (&lt; 45 วัน) ขณะที่บัญชีสุจริตมีประวัติการใช้งานต่อเนื่อง (&gt; 2.8 ปี)
-            </div>
-          </div>
 
-          {/* Card 4: Model Precision & SLA */}
-          <div className="bento-card rounded-2xl p-5 border border-white/10 bg-[#18191D]/75 space-y-2">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
-              <span>MODEL PERFORMANCE</span>
-              <Zap className="w-4 h-4 text-emerald-400" />
+            {/* Card 4: Model Precision & SLA */}
+            <div className="rounded-3xl p-6 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl space-y-2">
+              <div className="flex items-center justify-between text-slate-400 text-xs font-mono">
+                <span>MODEL PERFORMANCE</span>
+                <Zap className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl sm:text-3xl font-bold font-mono text-emerald-300">0.994</span>
+                <span className="text-xs text-slate-400">AUC-ROC</span>
+              </div>
+              <div className="pt-2 flex items-center justify-between text-xs border-t border-white/[0.04] text-slate-400 font-mono">
+                <span>Recall: <strong className="text-emerald-400">98.4%</strong></span>
+                <span>P99: <strong className="text-emerald-400">11.6ms</strong></span>
+              </div>
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-bold font-mono text-emerald-300">0.994</span>
-              <span className="text-xs text-slate-400">AUC-ROC</span>
-            </div>
-            <div className="pt-2 flex items-center justify-between text-xs border-t border-white/5 text-slate-400 font-mono">
-              <span>Recall: <strong className="text-emerald-400">98.4%</strong></span>
-              <span>P99: <strong className="text-emerald-400">11.6ms</strong></span>
-            </div>
-          </div>
 
-        </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* 3. Main Navigation Switcher Tabs */}
       <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl">
+        <ScrollReveal delay={100}>
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-black/40 border border-white/[0.06] backdrop-blur-xl">
           <button
             onClick={() => setActiveTab('accounts')}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
@@ -329,6 +340,7 @@ export default function DatasetAnalyticsPage() {
             <span>Raw CSV &amp; ดาวน์โหลดไฟล์</span>
           </button>
         </div>
+        </ScrollReveal>
       </section>
 
       {/* 4. TAB CONTENT 1: ACCOUNTS EXPLORER (ใครปกติ vs ใครบัญชีม้า) */}
