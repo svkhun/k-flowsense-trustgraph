@@ -1,10 +1,11 @@
-from fastapi import FastAPI, HTTPException, Query, Header
+from fastapi import FastAPI, HTTPException, Query, Header, Path, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from starlette.middleware.base import BaseHTTPMiddleware
+from collections import defaultdict
 import onnxruntime as rt
 import pandas as pd
 import numpy as np
@@ -28,7 +29,7 @@ app = FastAPI(
 )
 
 # ------------------------------------------------------------------------------
-# KBTG SECURITY: Security Headers & CORS Policy
+# KBTG SECURITY: Security Headers & CORS Policy (OWASP Banking Hardening)
 # ------------------------------------------------------------------------------
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
@@ -41,18 +42,89 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(SecurityHeadersMiddleware)
 
+# CORS Policy: If ALLOWED_ORIGINS is wildcard or empty, define trusted banking origins
+# Avoid invalid wildcard with allow_credentials=True combination per Fetch CORS spec
+raw_origins = os.environ.get("ALLOWED_ORIGINS", "")
+if raw_origins and raw_origins.strip() != "*":
+    allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
+    allow_credentials = True
+elif raw_origins.strip() == "*":
+    allowed_origins = ["*"]
+    allow_credentials = False
+else:
+    allowed_origins = [
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8501",
+        "http://127.0.0.1:8501",
+        "http://localhost",
+        "http://k-sentinel.local",
+        "https://k-flowsense-trustgraph.onrender.com"
+    ]
+    allow_credentials = True
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.environ.get("ALLOWED_ORIGINS", "*").split(","),
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
 # ------------------------------------------------------------------------------
+# KBTG SECURITY: Rate Limiter Middleware (Anti-DDoS & Inference Flood Defense)
+# ------------------------------------------------------------------------------
+RATE_LIMIT_STORE: Dict[str, List[float]] = defaultdict(list)
+RATE_LIMIT_LOCK = threading.Lock()
+RATE_LIMIT_MAX_REQUESTS = 300  # Max 300 req/min per IP
+RATE_LIMIT_WINDOW_SEC = 60
+
+class RateLimitingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        client_host = request.client.host if request.client else "unknown"
+        path = request.url.path
+
+        # Exempt static assets and local test harnesses
+        if client_host == "testclient" or not path.startswith("/api/v2/"):
+            return await call_next(request)
+
+        # Sliding window check
+        now = time.time()
+        with RATE_LIMIT_LOCK:
+            timestamps = RATE_LIMIT_STORE[client_host]
+            cutoff = now - RATE_LIMIT_WINDOW_SEC
+            RATE_LIMIT_STORE[client_host] = [t for t in timestamps if t > cutoff]
+            if len(RATE_LIMIT_STORE[client_host]) >= RATE_LIMIT_MAX_REQUESTS:
+                return JSONResponse(
+                    status_code=429,
+                    content={
+                        "error": "TOO_MANY_REQUESTS",
+                        "message": "Banking API rate limit exceeded. Anti-DDoS protection triggered.",
+                        "retry_after_sec": 60
+                    },
+                    headers={"Retry-After": "60"}
+                )
+            RATE_LIMIT_STORE[client_host].append(now)
+
+        return await call_next(request)
+
+app.add_middleware(RateLimitingMiddleware)
+
+# ------------------------------------------------------------------------------
 # KBTG SECURITY: Cryptographic Token Engine & Concurrency Locks
 # ------------------------------------------------------------------------------
-HMAC_SECRET = os.environ.get("KBTG_JWT_SECRET", "kbtg-kplus-sentinel-trustgraph-hmac-secret-2026")
+_env_secret = os.environ.get("KBTG_JWT_SECRET")
+if not _env_secret:
+    if os.environ.get("RENDER") or os.environ.get("ENVIRONMENT") == "production":
+        HMAC_SECRET = secrets.token_hex(32)
+        print("[SecOps Alert] Production environment detected without KBTG_JWT_SECRET. Generated dynamic ephemeral HMAC secret.")
+    else:
+        HMAC_SECRET = "kbtg-kplus-sentinel-trustgraph-hmac-secret-2026"
+else:
+    HMAC_SECRET = _env_secret
+
 ACCOUNT_LOCKS: Dict[str, threading.Lock] = {}
 ACCOUNT_LOCKS_GUARD = threading.Lock()
 
@@ -291,12 +363,12 @@ for acc_id, prof in BEHAVIORAL_PROFILES_CACHE.items():
 START_TIME = time.time()
 
 # ==============================================================================
-# 2. PYDANTIC SCHEMAS
+# 2. PYDANTIC SCHEMAS (STRICT BANKING INPUT VALIDATION)
 # ==============================================================================
 class TransferEvaluationRequest(BaseModel):
-    source_account_id: str = Field(..., example="ACC_0100")
-    target_account_id: str = Field(..., example="ACC_0001")
-    amount: float = Field(..., gt=0, example=25000.0)
+    source_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$", example="ACC_0100")
+    target_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$", example="ACC_0001")
+    amount: float = Field(..., gt=0, le=10_000_000.0, example=25000.0)
     is_first_time_transfer: int = Field(1, ge=0, le=1)
     device_switch_last_24h: int = Field(0, ge=0, le=1)
     session_duration_sec: int = Field(12, ge=1)
@@ -304,41 +376,41 @@ class TransferEvaluationRequest(BaseModel):
     auth_factor_used: str = Field("pin", pattern="^(pin|face_scan|none)$")
 
 class FaceVerificationRequest(BaseModel):
-    source_account_id: str
-    target_account_id: str
-    amount: float
+    source_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    target_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    amount: float = Field(..., gt=0, le=10_000_000.0)
     liveness_score: float = Field(0.98, ge=0.0, le=1.0)
     auth_duration_sec: int = Field(5, ge=1)
 
 class MicroAuthRequest(BaseModel):
-    source_account_id: str
-    target_account_id: str
-    amount: float
+    source_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    target_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    amount: float = Field(..., gt=0, le=10_000_000.0)
     liveness_score: float = Field(0.98, ge=0.0, le=1.0)
     auth_duration_sec: int = Field(5, ge=1)
 
 class TransferConfirmRequest(BaseModel):
-    source_account_id: str
-    target_account_id: str
-    amount: float
+    source_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    target_account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    amount: float = Field(..., gt=0, le=10_000_000.0)
     decision: Optional[str] = Field(None, pattern="^(PROCEED|CANCEL|PROCEED_ANYWAY)$")
     user_decision: Optional[str] = Field(None)
     auth_token: Optional[str] = None
     idempotency_key: Optional[str] = None
 
 class MicroSweepRequest(BaseModel):
-    account_id: str
-    custom_sweep_amount: Optional[float] = None
+    account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    custom_sweep_amount: Optional[float] = Field(None, gt=0, le=1_000_000.0)
     idempotency_key: Optional[str] = None
 
 class RecallRequest(BaseModel):
-    account_id: str
-    amount: Optional[float] = None  # None means 100% full recall
+    account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    amount: Optional[float] = Field(None, gt=0, le=10_000_000.0)  # None means 100% full recall
     idempotency_key: Optional[str] = None
 
 class VaultWithdrawalRequest(BaseModel):
-    account_id: str
-    amount: Optional[float] = Field(None, description="Amount to recall. If None or 0, recalls 100% of swept funds.")
+    account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
+    amount: Optional[float] = Field(None, ge=0, le=10_000_000.0, description="Amount to recall. If None or 0, recalls 100% of swept funds.")
     intent_reason: Optional[str] = Field("1-Tap Recall", example="1-Tap Recall for emergency liquidity")
     bypass_cooldown: bool = Field(True)
     idempotency_key: Optional[str] = None
@@ -407,6 +479,7 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
             "status": "MICRO_AUTH_REQUIRED",
             "risk_tier": "REGULATORY_MANDATE_BOT",
             "current_risk_score": round(current_risk, 4),
+            "risk_score": round(current_risk, 4),
             "zero_delay_baseline": False,
             "step_up_required": True,
             "friction_type": "5_SECOND_LIVENESS",
@@ -414,6 +487,8 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
             "bot_mandated": True,
             "eliminates_arbitrary_waiting": True,
             "direct_risk_reasoning": "เกณฑ์ธนาคารแห่งประเทศไทย (ธปท.): การโอนเงินตั้งแต่ 50,000 บาทขึ้นไป ต้องยืนยันตัวตนด้วยการสแกนใบหน้าตามกฎหมาย",
+            "counterfactual_message": "เกณฑ์ธนาคารแห่งประเทศไทย (ธปท.): การโอนเงินตั้งแต่ 50,000 บาทขึ้นไป ต้องยืนยันตัวตนด้วยการสแกนใบหน้าตามกฎหมาย",
+            "reason_summary": "ยอดโอนตั้งแต่ 50,000 บาทขึ้นไป ต้องสแกนใบหน้าตามประกาศ ธปท.",
             "direct_risk_reasons_list": ["ยอดโอนตั้งแต่ 50,000 บาทขึ้นไป ต้องสแกนใบหน้าตามประกาศ ธปท."],
             "primary_reason_th": "ยอดโอนตั้งแต่ 50,000 บาทขึ้นไป ต้องยืนยันตัวตนด้วยใบหน้าตามประกาศ ธปท.",
             "actionable_warning": "⚠️ ข้อกำหนด ธปท.: การโอนเงินตั้งแต่ 50,000 บาทขึ้นไป ต้องยืนยันตัวตนด้วยใบหน้าเพื่อความปลอดภัย",
@@ -436,12 +511,15 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
             "status": "BLOCKED_MULE_INTERDICTION",
             "risk_tier": "CONFIRMED_MULE_RING",
             "current_risk_score": round(current_risk, 4),
+            "risk_score": round(current_risk, 4),
             "zero_delay_baseline": False,
             "step_up_required": False,
             "action": "BLOCK",
             "hard_blocked": True,
             "final_decision_left_to_user": False,
             "direct_risk_reasoning": "บัญชีปลายทางอยู่ในเครือข่ายบัญชีม้าความเสี่ยงสูงมาก (Mule Ring Tier-1) ธนาคารระงับการทำรายการตาม พ.ร.ก. ปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566",
+            "counterfactual_message": "บัญชีปลายทางอยู่ในเครือข่ายบัญชีม้าความเสี่ยงสูงมาก (Mule Ring Tier-1) ธนาคารระงับการทำรายการตาม พ.ร.ก. ปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566",
+            "reason_summary": "Relational GCN ตรวจพบลักษณะตรงกับเครือข่ายบัญชีม้าความเสี่ยงสูงมาก",
             "direct_risk_reasons_list": [
                 "Relational GCN ตรวจพบลักษณะตรงกับเครือข่ายบัญชีม้าความเสี่ยงสูงมาก",
                 "ระงับธุรกรรมเพื่อปกป้องความเสียหายตามกฎหมาย พ.ร.ก. 2566"
@@ -465,11 +543,14 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
             "status": "APPROVED",
             "risk_tier": "LOW_RISK",
             "risk_score": round(current_risk, 4),
+            "current_risk_score": round(current_risk, 4),
             "action": "ALLOW",
             "zero_delay_baseline": True,
             "step_up_required": False,
             "added_steps_count": 0,
             "direct_risk_reasoning": "Zero-Delay Baseline: บัญชีปลายทางและพฤติกรรมการโอนอยู่ในเกณฑ์ปกติ ดำเนินการโอนทันทีโดยไม่มีขั้นตอนเพิ่ม",
+            "counterfactual_message": "Zero-Delay Baseline: บัญชีปลายทางและพฤติกรรมการโอนอยู่ในเกณฑ์ปกติ ดำเนินการโอนทันทีโดยไม่มีขั้นตอนเพิ่ม",
+            "reason_summary": "Zero-Delay Baseline verified",
             "actionable_warning": "Zero-Delay Baseline verified. Instant transfer executed.",
             "target_meta": {
                 "account_id": payload.target_account_id,
@@ -505,12 +586,15 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
         "status": "MICRO_AUTH_REQUIRED",
         "risk_tier": "CRITICAL_ANOMALY",
         "current_risk_score": round(current_risk, 4),
+        "risk_score": round(current_risk, 4),
         "zero_delay_baseline": False,
         "step_up_required": True,
         "friction_type": "5_SECOND_LIVENESS",
         "auth_duration_sec": 5,
         "eliminates_arbitrary_waiting": True,
         "direct_risk_reasoning": f"Recipient account opened {account_age_days} days ago with rapid pass-through fund patterns ({int(inflow_velocity)}s)",
+        "counterfactual_message": f"Recipient account opened {account_age_days} days ago with rapid pass-through fund patterns ({int(inflow_velocity)}s)",
+        "reason_summary": reason_summary,
         "direct_risk_reasons_list": direct_reasons,
         "primary_reason_th": f"บัญชีปลายทางเพิ่งเปิดใหม่ {account_age_days} วัน พร้อมพฤติกรรมเงินเข้าแล้วโอนออกทันทีภายใน {int(inflow_velocity)} วินาที",
         "actionable_warning": f"⚠️ ตรวจพบความผิดปกติวิกฤต: {reason_summary}",
@@ -614,7 +698,7 @@ def confirm_transfer(payload: TransferConfirmRequest, x_idempotency_key: Optiona
 # ==============================================================================
 @app.get("/api/v2/flowsense/profile/{account_id}")
 @app.get("/api/v2/wealthpilot/profile/{account_id}")
-def get_flowsense_profile(account_id: str):
+def get_flowsense_profile(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30}$", description="Sanitized Banking Account ID")):
     """
     Get user profile, behavioral cluster persona (Pitch: Primary 18k-35k Living Month-to-Month
     vs Secondary Active Mobile Transactor), live balance, and high-interest sub-account statistics.
@@ -652,7 +736,7 @@ def get_flowsense_profile(account_id: str):
 
 @app.get("/api/v2/flowsense/horizon-status/{account_id}")
 @app.get("/api/v2/wealthpilot/safe-to-spend/{account_id}")
-def get_flowsense_horizon_status(account_id: str):
+def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30}$", description="Sanitized Banking Account ID")):
     """
     Module A: FlowSense — Status Horizon Bar & Commitment Warnings:
     - Status Horizon Bar: A single clean indicator on the account home screen projecting month-end liquidity
@@ -783,7 +867,7 @@ def get_flowsense_horizon_status(account_id: str):
 
 @app.get("/api/v2/flowsense/forecast-30d/{account_id}")
 @app.get("/api/v2/wealthpilot/forecast-30d/{account_id}")
-def forecast_cashflow_30d(account_id: str):
+def forecast_cashflow_30d(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30}$", description="Sanitized Banking Account ID")):
     """
     30-Day Liquidity Forecast via LightGBM:
     Method & Architecture: LightGBM with rolling-window lag features & transaction seasonality.
@@ -1036,6 +1120,7 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key:
         "status": "RECALL_SUCCESS",
         "account_id": acc_id,
         "recalled_amount": round(recall_amount, 2),
+        "friction_type": "1_TAP_RECALL_ZERO_PENALTY",
         "penalty_fee": 0.0,
         "waiting_time_sec": 0,
         "new_main_balance": res_main,
@@ -1050,7 +1135,7 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key:
 
 @app.post("/api/v2/flowsense/reset-state/{account_id}")
 @app.post("/api/v2/wealthpilot/reset-state/{account_id}")
-def reset_account_state(account_id: str):
+def reset_account_state(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30}$", description="Sanitized Banking Account ID")):
     """
     Reset live banking account balances & sub-account state back to initial profile defaults.
     """
@@ -1065,6 +1150,7 @@ def reset_account_state(account_id: str):
         "daily_spent_today": float(prof["avg_daily_spend"] * 0.45),
         "last_sweep_ts": time.time()
     }
+    audit_log("ACCOUNT_STATE_RESET", account_id, {"action": "reset_to_profile_defaults"})
     return {
         "status": "RESET_SUCCESS",
         "account_id": account_id,
@@ -1082,6 +1168,7 @@ def get_secops_kpis():
     Bank Operations & Executive Fraud Intelligence KPIs.
     Calculates CASA deposit growth, prevented fraud THB, and engine latency telemetry.
     """
+    audit_log("SECOPS_TELEMETRY_ACCESSED", "SecOps_Operator", {"endpoint": "/api/v2/secops/dashboard-kpis"})
     uptime_sec = time.time() - START_TIME
     total_tx = len(TX_CACHE)
     scam_tx = [tx for tx in TX_CACHE if tx.get("is_scam", 0) == 1]
@@ -1124,6 +1211,7 @@ def get_mule_graph(limit_nodes: int = Query(60, ge=10, le=200)):
     """
     Returns Relational Graph topology (Nodes & Edges) for interactive graph rendering.
     """
+    audit_log("SECOPS_MULE_GRAPH_ACCESSED", "SecOps_Operator", {"limit_nodes": limit_nodes})
     scam_txs = [tx for tx in TX_CACHE if tx.get("is_scam", 1) == 1][:limit_nodes]
     
     node_set = set()
@@ -1170,6 +1258,7 @@ def get_live_transaction_stream(count: int = Query(15, ge=5, le=50)):
     Simulated Distributed Event Stream (Kafka Consumer simulation).
     Returns real-time inbound transactions evaluated by TrustGraph.
     """
+    audit_log("SECOPS_STREAM_ACCESSED", "SecOps_Operator", {"count": count})
     sample_tx = df_tx.sample(n=min(count, len(df_tx))).copy()
     stream_records = []
     

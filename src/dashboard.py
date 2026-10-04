@@ -368,7 +368,8 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                         "intent_reason": "General expense",
                         "bypass_cooldown": False
                     })
-                    st.warning(f"⚠️ **{w_res['friction_type']}:** {w_res['message']}")
+                    f_type = w_res.get('friction_type', '1-Tap Recall')
+                    st.warning(f"⚠️ **{f_type}:** {w_res.get('message', 'ถอนเงินสำเร็จ')}")
 
         # TAB 2: TRANSFER & K-SENTINEL SCREENING
         with m_tab2:
@@ -411,7 +412,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
 
             if "last_eval" in st.session_state:
                 res = st.session_state["last_eval"]
-                status = res["status"]
+                status = res.get("status", "UNKNOWN")
                 latency = res.get("latency_ms", 0.0)
 
                 st.markdown(f"""
@@ -420,22 +421,26 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                 </div>
                 """, unsafe_allow_html=True)
 
-                if status == "APPROVED":
+                if status in ["APPROVED", "ALLOW"]:
+                    reason_msg = res.get('counterfactual_message', res.get('direct_risk_reasoning', 'Zero-Delay Baseline: บัญชีปลายทางและพฤติกรรมการโอนอยู่ในเกณฑ์ปกติ'))
+                    risk_sc = res.get('risk_score', res.get('current_risk_score', 0.0))
                     st.markdown(f"""
                     <div style="background: #064E3B; border-radius: 12px; padding: 14px; border: 1px solid #059669; color: #D1FAE5;">
                         <div style="font-weight: 700; font-size: 15px;">✅ ทำรายการสำเร็จ (APPROVED)</div>
-                        <div style="font-size: 12px; margin-top: 4px;">{res['counterfactual_message']}</div>
-                        <div style="font-size: 11px; opacity: 0.8; margin-top: 6px;">Risk Score: {res['risk_score']}</div>
+                        <div style="font-size: 12px; margin-top: 4px;">{reason_msg}</div>
+                        <div style="font-size: 11px; opacity: 0.8; margin-top: 6px;">Risk Score: {risk_sc}</div>
                     </div>
                     """, unsafe_allow_html=True)
 
-                elif status == "STEP_UP_REQUIRED":
+                elif status in ["STEP_UP_REQUIRED", "MICRO_AUTH_REQUIRED"]:
+                    warn_msg = res.get('actionable_warning', '⚠️ ตรวจพบความผิดปกติ กรุณายืนยันตัวตน')
+                    reason_msg = res.get('counterfactual_message', res.get('direct_risk_reasoning', ''))
                     st.markdown(f"""
                     <div style="background: #78350F; border-radius: 12px; padding: 14px; border: 1px solid #D97706; color: #FEF3C7;">
-                        <div style="font-weight: 700; font-size: 15px;">⚠️ ระงับชั่วคราว: ต้องยืนยันตัวตนขั้นสูง (STEP-UP)</div>
-                        <div style="font-size: 12px; margin-top: 4px;">{res['actionable_warning']}</div>
+                        <div style="font-weight: 700; font-size: 15px;">⚠️ ระงับชั่วคราว: ยืนยันตัวตน Micro-Auth (5s Face Liveness)</div>
+                        <div style="font-size: 12px; margin-top: 4px;">{warn_msg}</div>
                         <div style="font-size: 11px; margin-top: 6px; color: #FDE68A;">
-                            <b>Counterfactual XAI:</b> {res['counterfactual_message']}
+                            <b>Direct Risk Reasoning:</b> {reason_msg}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -447,20 +452,24 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                             "amount": float(transfer_amount),
                             "liveness_score": 0.98
                         })
-                        st.success(f"🎉 {v_res['message']} (Token: `{v_res['clearance_token']}`)")
+                        st.success(f"🎉 {v_res.get('message', 'ยืนยันตัวตนสำเร็จ')} (Token: `{v_res.get('clearance_token', '')}`)")
 
-                else: # CRITICAL_BLOCKED
+                elif status in ["BLOCKED_MULE_INTERDICTION", "CRITICAL_BLOCKED"]:
+                    warn_msg = res.get('actionable_warning', '⛔ ระงับการทำรายการ: พบบัญชีม้าในเครือข่ายอาชญากรรม')
+                    reason_msg = res.get('direct_risk_reasoning', res.get('reason_summary', 'ตรวจพบลักษณะตรงกับบัญชีม้า'))
                     st.markdown(f"""
                     <div style="background: #7F1D1D; border-radius: 12px; padding: 14px; border: 1px solid #DC2626; color: #FEE2E2;">
-                        <div style="font-weight: 700; font-size: 15px;">🚨 สกัดกั้นรายการฉุกเฉิน (CRITICAL BLOCKED)</div>
-                        <div style="font-size: 12px; margin-top: 4px;">{res['actionable_warning']}</div>
+                        <div style="font-weight: 700; font-size: 15px;">🚨 สกัดกั้นรายการฉุกเฉิน (MULE INTERDICTION)</div>
+                        <div style="font-size: 12px; margin-top: 4px;">{warn_msg}</div>
                         <div style="font-size: 11px; margin-top: 6px; color: #FECACA;">
-                            <b>XAI Risk Factor:</b> {res.get('reason_summary', '')}
+                            <b>XAI Risk Factor:</b> {reason_msg}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
 
-                    st.info("⏱️ **Dynamic 15-Minute Cool-Off Engaged:** ระบบเริ่มนับถอยหลัง 15:00 นาที เพื่อเปิดโอกาสให้เหยื่อมีสติและตัดสายมิจฉาชีพ")
+                    st.info("⛔ **Mule Account Interdiction:** ธนาคารระงับธุรกรรมเพื่อคุ้มครองทรัพย์สินของผู้ใช้งานตาม พ.ร.ก. ปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566")
+                else:
+                    st.warning(f"สถานะธุรกรรม: {status} - {res.get('actionable_warning', '')}")
 
     with col_detail:
         # 30-Day Liquidity Forecast Chart
