@@ -859,6 +859,8 @@ def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0
             }
         ],
         "projected_month_end_liquidity": round(max(0.0, projected_end_balance), 2),
+        "raw_projected_end_balance": round(projected_end_balance, 2),
+        "deficit_amount": round(abs(projected_end_balance), 2) if projected_end_balance < 0 else 0.0,
         "daily_safe_limit": daily_safe_limit,
         "spent_today": round(spent_today, 2),
         "remaining_today": max(0.0, round(daily_safe_limit - spent_today, 2)),

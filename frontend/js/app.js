@@ -808,10 +808,26 @@ function toggleDynamicIslandDetails() {
 function updateSafeToSpendUI(sts) {
   const limEl = document.getElementById("sts-daily-limit");
   if (limEl) {
+    const isAtRisk = sts.commitment_at_risk || sts.horizon_state === "COMMITMENT_AT_RISK" || sts.status === "OVERSPENT";
     const proj = sts.projected_month_end_liquidity !== undefined 
       ? sts.projected_month_end_liquidity 
       : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
-    limEl.textContent = `฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    const deficit = sts.deficit_amount || (sts.raw_projected_end_balance < 0 ? Math.abs(sts.raw_projected_end_balance) : 0);
+    const subLabel = limEl.nextElementSibling;
+
+    if (isAtRisk && deficit > 0) {
+      limEl.textContent = `฿ 0.00`;
+      limEl.className = "text-2xl font-black text-rose-400 font-mono tracking-tight";
+      if (subLabel) {
+        subLabel.innerHTML = `<span class="text-rose-400 font-medium">เสี่ยงเงินไม่พอ (ขาดอีก ฿${Math.round(deficit).toLocaleString('en-US')})</span>`;
+      }
+    } else {
+      limEl.textContent = `฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+      limEl.className = "text-2xl font-black text-emerald-400 font-mono tracking-tight";
+      if (subLabel) {
+        subLabel.textContent = "ยอดคาดการณ์เงินเหลือใช้สบายใจ";
+      }
+    }
   }
 
   const daysToPayday = sts.days_to_payday !== undefined ? sts.days_to_payday : 2;
