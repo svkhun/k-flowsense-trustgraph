@@ -900,10 +900,33 @@ function updateSafeToSpendUI(sts) {
 
   const nudgeEl = document.getElementById("nudge-message-display");
   if (nudgeEl) {
-    const proj = sts.projected_month_end_liquidity !== undefined 
-      ? sts.projected_month_end_liquidity 
-      : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
-    nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อป้องกันความเครียดสะสม</i>`;
+    const isAtRisk = sts.commitment_at_risk || sts.horizon_state === "COMMITMENT_AT_RISK" || sts.status === "OVERSPENT";
+    const nudgeContainer = nudgeEl.closest("div") || nudgeEl.parentElement;
+    
+    if (sts.nudge_message) {
+      nudgeEl.innerHTML = sts.nudge_message;
+    } else {
+      const proj = sts.projected_month_end_liquidity !== undefined 
+        ? sts.projected_month_end_liquidity 
+        : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
+      if (isAtRisk) {
+        nudgeEl.innerHTML = `⚠️ <b>แจ้งเตือนภาระผูกพัน:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} อาจไม่เพียงพอสำหรับบิลคงที่ แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า`;
+      } else {
+        nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อตัดความรำคาญ</i>`;
+      }
+    }
+
+    if (nudgeContainer) {
+      if (isAtRisk) {
+        nudgeContainer.className = "p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 flex items-start gap-2.5 text-xs text-rose-300 leading-relaxed shadow-sm transition-all";
+        const icon = nudgeContainer.querySelector("i");
+        if (icon) icon.className = "w-4 h-4 text-rose-400 shrink-0 mt-0.5";
+      } else {
+        nudgeContainer.className = "p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/25 flex items-start gap-2.5 text-xs text-emerald-300 leading-relaxed shadow-sm transition-all";
+        const icon = nudgeContainer.querySelector("i");
+        if (icon) icon.className = "w-4 h-4 text-emerald-400 shrink-0 mt-0.5";
+      }
+    }
   }
 }
 
@@ -1286,7 +1309,7 @@ async function triggerMicroSweep() {
   playSound("tap");
   const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-sweep-" + Date.now());
   try {
-    const resp = await fetch("/api/v2/wealthpilot/micro-sweep", {
+    const resp = await fetch("/api/v2/flowsense/micro-sweep", {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",

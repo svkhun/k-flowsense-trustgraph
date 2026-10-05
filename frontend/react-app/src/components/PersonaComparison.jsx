@@ -14,47 +14,47 @@ export default function PersonaComparison() {
               <span>1. Problem Statement &amp; Solution Impact</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-[1.4] pb-1">
-              เมื่อแอปเลิกทำตัวเป็นผู้ปกครอง (Parenting App) และกลายเป็นตัวช่วยที่แท้จริง
+              จากเพียงแอปทำธุรกรรมเชิงรับ สู่คู่หูทางการเงินอัจฉริยะ (From Reactive Utility to Intelligent Partner)
             </h2>
             <p className="text-sm text-slate-300 leading-[1.85] font-normal pt-1">
-              คนเริ่มทำงาน (First Jobbers อายุ 22–30 ปี) เบื่อหน่ายแอปการเงินที่ออกคำสั่งจุกจิก และหนีไปใช้แอปอื่นเมื่อถูกหน่วงเวลาโอนเงินอย่างไม่สมเหตุสมผล
+              คนเริ่มทำงาน (First Jobbers อายุ 20–30 ปี) เผชิญกับดักค่าใช้จ่ายตามอารมณ์ ขาดเงินสำรอง และตกเป็นเป้าหมายหลักของภัยไซเบอร์ ขณะที่โมบายแบงก์กิ้งปัจจุบันยังเป็นเพียงช่องทางทำธุรกรรมตั้งรับ
             </p>
           </div>
 
-          {/* Comparative Matrix: Anti-patterns vs Modern Enabler */}
+          {/* Comparative Matrix: Current Pain Points vs Modern Enabler */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             
-            {/* Left: Anti-Patterns / Conventional App */}
+            {/* Left: Empirical Problems / Conventional App Limitations */}
             <div className="bento-card rounded-2xl p-6 sm:p-7 space-y-5 border border-rose-500/30 bg-rose-950/10 backdrop-blur-xl">
               <div className="flex items-center justify-between pb-3 border-b border-rose-500/20">
                 <div className="flex items-center gap-2 text-rose-400">
                   <X className="w-5 h-5" />
-                  <h3 className="text-base font-bold text-white">ปัญหาเดิม (Conventional Anti-Patterns)</h3>
+                  <h3 className="text-base font-bold text-white">ข้อจำกัดและวิกฤตปัจจุบัน (Empirical Pain Points)</h3>
                 </div>
                 <span className="text-[10px] font-mono tracking-wider text-rose-300 bg-rose-950/60 border border-rose-500/40 px-2 py-0.5 rounded font-bold">
-                  DRIVES CHURN
+                  HIGH VULNERABILITY
                 </span>
               </div>
 
               <div className="space-y-4 text-xs">
                 <div className="space-y-1">
-                  <div className="font-bold text-rose-200">Budget Burnout (ความเหนื่อยล้าจากการคุมงบ):</div>
+                  <div className="font-bold text-rose-200">1. Discretionary Spending Trap &amp; Lack of Emergency Reserves:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    การบังคับบันทึกรายจ่ายเองและกำหนดวงเงินรายวันตายตัว ไม่สอดคล้องชีวิตจริง ผู้ใช้เกิด Alert Fatigue และเลือกที่จะลบแอปทิ้ง
+                    ข้อมูลเชิงประจักษ์จาก <strong>PIER</strong> และ <strong>SET</strong> ชี้ว่ากว่า <strong>60–68%</strong> ของคนทำงานรุ่นใหม่มีเงินสำรองฉุกเฉินไม่ถึง 3 เดือน และใช้ชีวิตเดือนชนเดือนจากการใช้จ่ายตามอารมณ์ ขาดเครื่องมืออัตโนมัติในการบริหารสภาพคล่องรายวัน
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-rose-200">Scam Vulnerability (เป้าหมายหลักของมิจฉาชีพ):</div>
+                  <div className="font-bold text-rose-200">2. Prime Targets for Modern Financial Scams:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    คนเริ่มทำงานถูกล่อลวงด้วยงานเสริม (Task Scams) และการหลอกลงทุน มิจฉาชีพสร้างแรงกดดันทางเวลาเร่งให้โอนเงินเร็วเพื่อไม่ให้ทันคิด
+                    สถิติจาก <strong>AOC 1441</strong> และ <strong>ตำรวจไซเบอร์</strong> พบว่ากว่า <strong>45% ของเหยื่ออายุ 20–30 ปี</strong> ตกเป็นเป้าหมายหลักของกลโกงหลอกทำงานเสริม (Task Scams) และหลอกลงทุนผลตอบแทนสูง สูญเสียเงินรวมกว่า <strong>2.0 พันล้านบาทต่อปี</strong>
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-rose-200">Security Friction Drives Churn (การล็อคที่ผลักลูกค้าหนี):</div>
+                  <div className="font-bold text-rose-200">3. Reactive Limitations of Mobile Banking:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    การสั่งระงับโอนเงินแบบตายตัว หรือการหน่วงเวลา 15 นาทีตามอำเภอใจ สร้างความหงุดหงิดเมื่อจำเป็นต้องจ่ายเงินด่วนจริง จนผลักดันให้ลูกค้าหนีไปใช้แอปคู่แข่ง
+                    K PLUS ในปัจจุบันยังทำหน้าที่เป็นเพียง <strong>Transactional Utility</strong> (เครื่องมือโอน-จ่ายเชิงรับ) ขาดระบบสะกิดพฤติกรรมเชิงรุก (Proactive Nudges) และขาดระบบคัดกรองก่อนโอน (Pre-Transaction Screening) เพื่อสกัดกั้นบัญชีม้าก่อนเกิดความเสียหายจริง
                   </p>
                 </div>
               </div>
@@ -68,7 +68,7 @@ export default function PersonaComparison() {
                   <h3 className="text-base font-bold text-white">แนวทางใหม่ (FlowSense &amp; TrustGraph)</h3>
                 </div>
                 <span className="text-[10px] font-mono tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-2 py-0.5 rounded font-bold">
-                  AUTONOMOUS
+                  INTELLIGENT PARTNER
                 </span>
               </div>
 
@@ -76,21 +76,21 @@ export default function PersonaComparison() {
                 <div className="space-y-1">
                   <div className="font-bold text-emerald-200">Status Horizon Bar &amp; Commitment Warnings:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    ตัวชี้วัดเดียวที่มองเห็นสภาพคล่องถึงสิ้นเดือน ตัดระบบแจ้งเตือนช่วงเงินลดปกติเพื่อป้องกัน Alert Fatigue เตือนเฉพาะเมื่อภาระคงที่ (ค่าเช่า/บิล) เสี่ยงจริง
+                    ฉายภาพสภาพคล่องถึงวันเงินเดือนออกอัตโนมัติ ตัดภาระคงที่จริง (ค่าเช่า/หนี้) สะกิดเตือนเชิงรุกเฉพาะเมื่อภาระเสี่ยง พร้อมระงับการเตือนช่วงเงินลดปกติเพื่อป้องกันความรำคาญ
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-emerald-200">Micro-Sweep with 1-Tap Undo:</div>
+                  <div className="font-bold text-emerald-200">Micro-Sweep with 1-Tap Undo (สร้างเงินสำรองไร้แรงต้าน):</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    ออมเศษเงินอัตโนมัติเฉพาะเมื่อกระแสเงินสดเอื้ออำนวย พร้อมปุ่ม 1-Tap Undo เรียกเงินคืนเข้าบัญชีหลักได้ 100% ทันที ไร้ค่าปรับ ไร้การหน่วงเวลา
+                    กวาดเศษเงินส่วนเกินสะสมเป็น Emergency Reserves ดอกเบี้ยสูงอัตโนมัติ โดยไม่สูญเสียสภาพคล่อง ด้วยปุ่ม 1-Tap Undo ดึงเงินคืนเข้าบัญชีหลักได้ 100% ทันที ไร้ค่าปรับ
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-emerald-200">Zero-Delay Baseline &amp; Micro-Auth 5s:</div>
+                  <div className="font-bold text-emerald-200">Pre-Transaction Screening &amp; Micro-Auth 5s:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    รายการปกติโอนผ่านทันทีใน 3.8ms ไร้ Pop-up หากพบม้าวิกฤตจะใช้ Micro-Auth สแกนหน้า 5 วินาที พร้อมชี้แจงเหตุผลตรงจุด และให้ผู้ใช้ตัดสินใจเอง
+                    ยกระดับ K PLUS สู่ Intelligent Partner: คัดกรองบัญชีม้าด้วย R-GCN ใน &lt;12ms รายการปกติผ่านทันที (Zero-Delay 3.8ms) หากพบม้าวิกฤตจะใช้ Micro-Auth สแกนหน้า 5s ตัดวงจรเร่งเร้าพร้อมชี้แจงเหตุผลชัดเจน
                   </p>
                 </div>
               </div>

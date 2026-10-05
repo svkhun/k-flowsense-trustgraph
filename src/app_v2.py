@@ -798,7 +798,7 @@ def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0
         alert_suppressed = True  # Suppress alerts during normal dips!
         warning_nudge = (
             f"Status Horizon: ยอดเงินลดลงตามวงจรปกติ แต่ครอบคลุมภาระผูกพันสิ้นเดือน ฿{total_fixed_obligations:,.2f} เรียบร้อย "
-            f"(ระบบระงับการแจ้งเตือนเพื่อป้องกัน Alert Fatigue และ Budget Burnout)"
+            f"(ระบบระงับการแจ้งเตือนเพื่อตัดความรำคาญ และช่วยบริหารสภาพคล่องรายวันอัตโนมัติ)"
         )
     else:
         horizon_state = "HEALTHY_HORIZON"
@@ -948,6 +948,10 @@ def forecast_cashflow_30d(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
     lag_7 = float(avg_spend * 1.05)
     cum_bal = cur_balance
 
+    fixed_rent = float(prof.get("fixed_rent", round(salary * 0.25, 2)))
+    fixed_debt_emi = float(prof.get("fixed_debt", round(salary * 0.12, 2)))
+    fixed_utilities = float(prof.get("fixed_utilities", round(salary * 0.05, 2)))
+
     for f_step in range(1, 23):
         target_date = now + timedelta(days=f_step)
         is_weekend = 1.0 if target_date.weekday() >= 5 else 0.0
@@ -963,8 +967,17 @@ def forecast_cashflow_30d(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
         pred_spend = float(wealth_sess.run([wealth_out_name], {wealth_in_name: feat})[0][0][0])
         pred_spend = max(150.0, pred_spend)
 
+        # Accurately reflect recurring commitments on due days
+        fixed_due_deduction = 0.0
+        if target_date.day == 22: # Debt EMI due
+            fixed_due_deduction += fixed_debt_emi
+        elif target_date.day == 26: # Rent due
+            fixed_due_deduction += fixed_rent
+        elif target_date.day == 27: # Utilities due
+            fixed_due_deduction += fixed_utilities
+
         inflow = salary if target_date.day == 28 else 0.0
-        cum_bal = cum_bal - pred_spend + inflow
+        cum_bal = cum_bal - pred_spend - fixed_due_deduction + inflow
 
         future_points.append({
             "date": target_date.strftime("%Y-%m-%d"),
@@ -987,7 +1000,7 @@ def forecast_cashflow_30d(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
 
     full_timeline = past_points + [today_point] + future_points
     min_proj_balance = min(p["projected_balance"] for p in full_timeline)
-    is_safe = min_proj_balance > 1500.0
+    is_safe = min_proj_balance >= 500.0
     payday_target = now + timedelta(days=int(dtp_today))
 
     return {
@@ -1095,11 +1108,12 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key:
         state = LIVE_ACCOUNT_STATES[acc_id]
         recall_amount = payload.amount
         if recall_amount is None or recall_amount <= 0:
-            recall_amount = state.get("total_swept", 0.0)
-            if recall_amount <= 0 or recall_amount > state["vault_balance"]:
-                recall_amount = min(state["vault_balance"], 1500.0 if state["vault_balance"] >= 1500.0 else state["vault_balance"])
-            if recall_amount <= 0 and state["vault_balance"] > 0:
-                recall_amount = state["vault_balance"]
+            # 1-Tap Undo (100% full recall of swept funds or sub-account balance)
+            if state.get("total_swept", 0.0) > 0:
+                recall_amount = state["total_swept"]
+            else:
+                recall_amount = state.get("vault_balance", 0.0)
+            recall_amount = min(recall_amount, state.get("vault_balance", 0.0))
 
         if recall_amount <= 0:
             raise HTTPException(status_code=400, detail="ไม่มีเงินในบัญชีย่อยที่สามารถดึงคืนได้ในขณะนี้")

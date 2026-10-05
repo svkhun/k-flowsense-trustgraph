@@ -14,11 +14,14 @@
 
 ## 1. Problem Statement
 
-First jobbers (22–30) drop personal finance tools when the app acts like a parent:
+Empirical research reveals a dual financial crisis confronting young Thai professionals (First Jobbers, aged 20–30):
 
-1. **Budget Burnout:** Manual expense tracking and rigid daily spending limits don't reflect real life; users get alert fatigue and delete the app.
-2. **Scam Vulnerability:** Scammers target younger workers with high-yield investment traps and fake remote jobs, pressuring them to move funds fast.
-3. **Security Friction Drives Churn:** Hard transaction freezes or arbitrary cooling-off delays (e.g., 15-minute locks) frustrate users during genuine urgent transfers, pushing them to competitors.
+1. **Discretionary Spending Trap & Lack of Emergency Reserves:**
+   Empirical data from the Puey Ungphakorn Institute for Economic Research (**PIER**) and the Stock Exchange of Thailand (**SET**) indicate that over **60–68% of young Thai professionals maintain less than 3 months of emergency buffer** and live paycheck-to-paycheck due to impulsive/discretionary spending, lacking an automated tool to manage daily liquidity without tedious manual tracking.
+2. **Prime Targets for Modern Financial Scams:**
+   Reports from the National Cyber Crime Bureau and **AOC 1441** reveal that **over 45% of cyber scam victims are aged 20–30**, heavily targeted by fraudulent task scams and high-yield investment schemes (Ponzi schemes), generating **over 2.0 billion THB in annual losses**.
+3. **Reactive Limitations of Mobile Banking:**
+   K PLUS currently functions primarily as a **transactional utility** (a passive payment and transfer tool) rather than an **intelligent financial partner**. It lacks proactive behavioral nudges to curb liquidity deficits and lacks real-time pre-transaction screening to intercept mule account transactions before losses occur.
 
 ---
 
@@ -176,8 +179,8 @@ npm run dev
 
 ## 10. Summary Checklist vs Pitch Requirements
 
-- [x] **Budget Burnout Solved:** Replaced rigid daily budget limits with the **Status Horizon Bar** and **Commitment Warnings (Alert Suppression during normal dips)**.
-- [x] **Autonomous Saving without Penalty:** Implemented **Micro-Sweep with 1-Tap Undo** (instant 100% fund recall, zero lockup/penalty).
-- [x] **Frictionless Security:** Routine transactions pass instantly via **Zero-Delay Baseline (0 added steps, 3.8ms)**.
-- [x] **Targeted Anomaly Defense:** Replaced arbitrary 15-minute lockouts with **Micro-Auth (5-second face liveness check)** and **Direct Risk Reasoning**, preserving user autonomy.
+- [x] **Discretionary Spending & Reserve Trap Solved:** Replaced manual budgeting with the **Status Horizon Bar**, **Commitment Warnings (Proactive Nudges with Alert Suppression during normal dips)**, and autonomous liquidity projection.
+- [x] **Autonomous Saving without Liquidity Fear:** Implemented **Micro-Sweep with 1-Tap Undo** (instant 100% fund recall, zero lockup/penalty) to build emergency reserves effortlessly.
+- [x] **Frictionless Routine Payments:** Routine transactions pass instantly via **Zero-Delay Baseline (0 added steps, 3.8ms)**.
+- [x] **Proactive Pre-Transaction Fraud Defense:** Replaced passive/reactive utility with **TrustGraph Pre-Transaction Screening**, triggering **Micro-Auth (5-second face liveness check)** and **Direct Risk Reasoning** against mule networks, preserving user autonomy.
 - [x] **Industrial Pipeline:** Documented and integrated **Kafka**, **Feast**, **Triton Inference Server**, **LightGBM**, and **R-GCN**.

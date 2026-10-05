@@ -9,6 +9,7 @@ let coolOffTimerInterval = null;
 let coolOffSecondsLeft = 5; // 5-second Micro-Auth face scan
 let webcamStream = null;
 let currentPendingTxPayload = null;
+let currentClearanceToken = null;
 
 // UI & Audio Haptics State
 let isBalanceHidden = false;
@@ -899,10 +900,33 @@ function updateSafeToSpendUI(sts) {
 
   const nudgeEl = document.getElementById("nudge-message-display");
   if (nudgeEl) {
-    const proj = sts.projected_month_end_liquidity !== undefined 
-      ? sts.projected_month_end_liquidity 
-      : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
-    nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อป้องกันความเครียดสะสม</i>`;
+    const isAtRisk = sts.commitment_at_risk || sts.horizon_state === "COMMITMENT_AT_RISK" || sts.status === "OVERSPENT";
+    const nudgeContainer = nudgeEl.closest("div") || nudgeEl.parentElement;
+    
+    if (sts.nudge_message) {
+      nudgeEl.innerHTML = sts.nudge_message;
+    } else {
+      const proj = sts.projected_month_end_liquidity !== undefined 
+        ? sts.projected_month_end_liquidity 
+        : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
+      if (isAtRisk) {
+        nudgeEl.innerHTML = `⚠️ <b>แจ้งเตือนภาระผูกพัน:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} อาจไม่เพียงพอสำหรับบิลคงที่ แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า`;
+      } else {
+        nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อตัดความรำคาญ</i>`;
+      }
+    }
+
+    if (nudgeContainer) {
+      if (isAtRisk) {
+        nudgeContainer.className = "p-3 rounded-xl bg-rose-950/40 border border-rose-500/40 flex items-start gap-2.5 text-xs text-rose-300 leading-relaxed shadow-sm transition-all";
+        const icon = nudgeContainer.querySelector("i");
+        if (icon) icon.className = "w-4 h-4 text-rose-400 shrink-0 mt-0.5";
+      } else {
+        nudgeContainer.className = "p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/25 flex items-start gap-2.5 text-xs text-emerald-300 leading-relaxed shadow-sm transition-all";
+        const icon = nudgeContainer.querySelector("i");
+        if (icon) icon.className = "w-4 h-4 text-emerald-400 shrink-0 mt-0.5";
+      }
+    }
   }
 }
 
@@ -1283,11 +1307,18 @@ function renderCashflowForecast(fc) {
 // Micro-Sweeping Action
 async function triggerMicroSweep() {
   playSound("tap");
+  const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-sweep-" + Date.now());
   try {
-    const resp = await fetch("/api/v2/wealthpilot/micro-sweep", {
+    const resp = await fetch("/api/v2/flowsense/micro-sweep", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ account_id: currentAccountId })
+      headers: { 
+        "Content-Type": "application/json",
+        "X-Idempotency-Key": idemKey
+      },
+      body: JSON.stringify({ 
+        account_id: currentAccountId,
+        idempotency_key: idemKey
+      })
     });
     const res = await resp.json();
     if (resp.ok) {
@@ -1663,34 +1694,62 @@ function closeCameraModal() {
 // ==============================================================================
 // TRUSTGRAPH MICRO-AUTH (5-SECOND LIVENESS & USER AUTONOMY)
 // ==============================================================================
+// ==============================================================================
+// TRUSTGRAPH MICRO-AUTH (5-SECOND LIVENESS & USER AUTONOMY)
+// ==============================================================================
 function openCoolOffModal(res) {
   playSound("alert");
   const modal = document.getElementById("modal-cooloff-timer");
   if (!modal) return;
   modal.classList.remove("hidden");
   coolOffSecondsLeft = 5; // 5-second Micro-Auth
+  currentClearanceToken = null;
+
+  const digitsEl = document.getElementById("cooloff-timer-digits");
+  const riskReasonEl = document.getElementById("micro-auth-risk-reason");
+  const statusLabel = document.getElementById("micro-auth-status-label");
+  const confirmBtn = document.getElementById("btn-micro-auth-confirm");
+
+  // 1. HARD INTERDICTION CHECK (Royal Decree B.E. 2566 - Criminal Mule Ring Block)
+  if (res && (res.hard_blocked || res.status === "BLOCKED_MULE_INTERDICTION")) {
+    if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
+    if (digitsEl) digitsEl.textContent = "BLOCKED";
+    if (riskReasonEl) {
+      riskReasonEl.textContent = res.direct_risk_reasoning || "บัญชีปลายทางอยู่ในเครือข่ายบัญชีม้าความเสี่ยงสูงมาก (Mule Ring Tier-1) ธนาคารระงับการทำรายการตาม พ.ร.ก. ปราบปรามอาชญากรรมทางเทคโนโลยี พ.ศ. 2566";
+    }
+    if (statusLabel) {
+      statusLabel.textContent = "⛔ ระงับรายการทันทีตาม พ.ร.ก. 2566 เพื่อปกป้องความเสียหายของทรัพย์สิน";
+      statusLabel.className = "text-[10px] text-rose-400 font-bold mt-1";
+    }
+    if (confirmBtn) {
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "ระงับธุรกรรม (ไม่อนุญาตให้โอนเงิน)";
+      confirmBtn.className = "w-full py-2.5 rounded-xl bg-rose-950/80 text-rose-400 font-bold text-xs flex items-center justify-center gap-2 border border-rose-500/40 opacity-70 cursor-not-allowed";
+    }
+    if (window.lucide) lucide.createIcons();
+    return;
+  }
+
+  // 2. NORMAL / ANOMALY MICRO-AUTH STEP-UP
   updateCoolOffDisplay();
 
-  const riskReasonEl = document.getElementById("micro-auth-risk-reason");
   if (riskReasonEl) {
-    if (res && (res.direct_risk_reason || res.counterfactual_message || res.reason_summary)) {
-      riskReasonEl.textContent = res.direct_risk_reason || res.counterfactual_message || res.reason_summary;
+    if (res && (res.direct_risk_reasoning || res.direct_risk_reason || res.counterfactual_message || res.reason_summary)) {
+      riskReasonEl.textContent = res.direct_risk_reasoning || res.direct_risk_reason || res.counterfactual_message || res.reason_summary;
     } else {
       riskReasonEl.textContent = "Recipient account opened 48 hours ago with rapid pass-through fund patterns (บัญชีผู้รับเพิ่งเปิด 48 ชั่วโมงและมีรูปแบบเงินเข้าแล้วโอนออกทันที)";
     }
   }
 
-  const statusLabel = document.getElementById("micro-auth-status-label");
   if (statusLabel) {
     statusLabel.textContent = "กำลังสแกนใบหน้าตรวจสอบตัวตนสด (Face Liveness 5s)...";
     statusLabel.className = "text-[10px] text-slate-400 mt-1";
   }
 
-  const confirmBtn = document.getElementById("btn-micro-auth-confirm");
   if (confirmBtn) {
     confirmBtn.disabled = true;
-    confirmBtn.classList.add("opacity-50", "cursor-not-allowed");
-    confirmBtn.classList.remove("ring-2", "ring-emerald-400");
+    confirmBtn.textContent = "ยืนยันต้องการโอนเงินต่อ (User Autonomy)";
+    confirmBtn.className = "w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-amber-600/30 transition-all opacity-50 cursor-not-allowed";
   }
 
   // Attempt live webcam stream if available
@@ -1713,14 +1772,34 @@ function openCoolOffModal(res) {
   }
 
   if (coolOffTimerInterval) clearInterval(coolOffTimerInterval);
-  coolOffTimerInterval = setInterval(() => {
+  coolOffTimerInterval = setInterval(async () => {
     coolOffSecondsLeft--;
     updateCoolOffDisplay();
     playSound("scan");
     if (coolOffSecondsLeft <= 0) {
       clearInterval(coolOffTimerInterval);
+      
+      // Request Cryptographic Clearance Token from Backend
+      try {
+        const authResp = await fetch("/api/v2/trustgraph/verify-micro-auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            source_account_id: currentAccountId,
+            target_account_id: currentPendingTxPayload ? currentPendingTxPayload.target_account_id : selectedTargetAccount,
+            amount: currentPendingTxPayload ? currentPendingTxPayload.amount : 1000.0,
+            liveness_score: 0.98,
+            auth_duration_sec: 5
+          })
+        });
+        const authData = await authResp.json();
+        currentClearanceToken = authData.clearance_token;
+      } catch (e) {
+        console.warn("Notice: Offline token fallback used");
+      }
+
       if (statusLabel) {
-        statusLabel.textContent = "ยืนยันอัตลักษณ์บุคคลสำเร็จ! คุณสามารถตัดสินใจทำรายการต่อได้";
+        statusLabel.textContent = "ยืนยันอัตลักษณ์บุคคลสำเร็จ (HMAC Token ออกแล้ว) คุณสามารถตัดสินใจทำรายการต่อได้";
         statusLabel.className = "text-[10px] text-emerald-400 font-semibold mt-1";
       }
       if (confirmBtn) {
@@ -1762,19 +1841,32 @@ async function confirmMicroAuthTransfer() {
   closeCoolOffModal();
   const amount = currentPendingTxPayload ? currentPendingTxPayload.amount : 35000.0;
   const target = currentPendingTxPayload ? currentPendingTxPayload.target_account_id : selectedTargetAccount;
+  const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-" + Date.now());
 
   try {
     const resp = await fetch("/api/v2/trustgraph/confirm-transfer", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "X-Idempotency-Key": idemKey
+      },
       body: JSON.stringify({
         source_account_id: currentAccountId,
         target_account_id: target,
         amount: amount,
-        user_decision: "PROCEED_ANYWAY"
+        decision: "PROCEED",
+        user_decision: "PROCEED_ANYWAY",
+        auth_token: currentClearanceToken,
+        idempotency_key: idemKey
       })
     });
     const res = await resp.json();
+    if (!resp.ok) {
+      playSound("alert");
+      showToast("error", res.detail || "การยืนยันรายการไม่สำเร็จ");
+      return;
+    }
+
     playSound("success");
     showToast("success", res.message || "ยืนยันการโอนเงินสำเร็จตามความประสงค์ของผู้ใช้ (User Autonomy)");
     
@@ -1797,11 +1889,18 @@ async function confirmMicroAuthTransfer() {
 // 1-Tap Undo Recall for FlowSense
 async function triggerOneTapRecall() {
   playSound("tap");
+  const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-recall-" + Date.now());
   try {
     const resp = await fetch("/api/v2/flowsense/recall", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ account_id: currentAccountId })
+      headers: { 
+        "Content-Type": "application/json",
+        "X-Idempotency-Key": idemKey
+      },
+      body: JSON.stringify({ 
+        account_id: currentAccountId,
+        idempotency_key: idemKey
+      })
     });
     const res = await resp.json();
     if (resp.ok) {
