@@ -1507,11 +1507,11 @@ async function executeTransferEvaluation() {
         }
       }
 
+      // Refresh entire dashboard, Horizon Status, and real-time cashflow forecast chart immediately
+      await loadAllUserData(currentAccountId);
+
       // Display Official K PLUS E-Slip with spring drop
       showKplusSlipModal(amount, selectedTargetAccount);
-
-      // Refresh entire dashboard, Horizon Status, and real-time cashflow forecast chart
-      await loadAllUserData(currentAccountId);
     } else {
       playSound("alert");
       expandDynamicIsland("TrustGraph Anomaly", "Micro-Auth 5s", 3500);
@@ -1558,6 +1558,7 @@ function closeKplusSlipModal() {
   playSound("tap");
   const modal = document.getElementById("modal-kplus-slip") || document.getElementById("modal-success-slip");
   if (modal) modal.classList.add("hidden");
+  loadAllUserData(currentAccountId);
 }
 
 function closeSuccessSlip() {
