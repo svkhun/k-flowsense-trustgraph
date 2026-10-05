@@ -539,6 +539,18 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
     # ZERO-DELAY BASELINE: Routine / Low-Risk Transfers Execute Immediately
     # --------------------------------------------------------------------------
     if current_risk < 0.45:
+        src_id = payload.source_account_id
+        res_main_balance = None
+        with get_account_lock(src_id):
+            if src_id in LIVE_ACCOUNT_STATES:
+                src_state = LIVE_ACCOUNT_STATES[src_id]
+                if src_state["main_balance"] < payload.amount:
+                    raise HTTPException(status_code=400, detail=f"ยอดเงินในบัญชีหลักไม่เพียงพอ (มี ฿ {src_state['main_balance']:,.2f})")
+                src_state["main_balance"] = round(src_state["main_balance"] - payload.amount, 2)
+                src_state["daily_spent_today"] = round(src_state.get("daily_spent_today", 0.0) + payload.amount, 2)
+                res_main_balance = src_state["main_balance"]
+                audit_log("TRANSFER_EXECUTED_ZERO_DELAY", src_id, {"target": mask_account_id(payload.target_account_id), "amount": payload.amount, "remaining": res_main_balance})
+
         return {
             "status": "APPROVED",
             "risk_tier": "LOW_RISK",
@@ -552,6 +564,8 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
             "counterfactual_message": "Zero-Delay Baseline: บัญชีปลายทางและพฤติกรรมการโอนอยู่ในเกณฑ์ปกติ ดำเนินการโอนทันทีโดยไม่มีขั้นตอนเพิ่ม",
             "reason_summary": "Zero-Delay Baseline verified",
             "actionable_warning": "Zero-Delay Baseline verified. Instant transfer executed.",
+            "new_main_balance": res_main_balance,
+            "amount": payload.amount,
             "target_meta": {
                 "account_id": payload.target_account_id,
                 "account_age_days": account_age_days,
@@ -677,9 +691,10 @@ def confirm_transfer(payload: TransferConfirmRequest, x_idempotency_key: Optiona
     with get_account_lock(src_id):
         state = LIVE_ACCOUNT_STATES.get(src_id, {"main_balance": 24500.0, "vault_balance": 15000.0})
         if state["main_balance"] < payload.amount:
-            raise HTTPException(status_code=400, detail="Insufficient funds in main account.")
+            raise HTTPException(status_code=400, detail=f"ยอดเงินในบัญชีหลักไม่เพียงพอ (มี ฿ {state['main_balance']:,.2f})")
         
-        state["main_balance"] -= payload.amount
+        state["main_balance"] = round(state["main_balance"] - payload.amount, 2)
+        state["daily_spent_today"] = round(state.get("daily_spent_today", 0.0) + payload.amount, 2)
         remaining = round(state["main_balance"], 2)
 
     res = {

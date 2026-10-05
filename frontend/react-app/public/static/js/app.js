@@ -1498,8 +1498,9 @@ async function executeTransferEvaluation() {
       // Deduct from card balance for vivid feedback
       const balanceEl = document.getElementById("card-main-balance");
       if (balanceEl) {
-        let curBal = parseFloat(balanceEl.getAttribute("data-raw-balance") || 24500);
-        curBal = Math.max(0, curBal - amount);
+        let curBal = (res.new_main_balance !== undefined && res.new_main_balance !== null)
+          ? res.new_main_balance
+          : Math.max(0, parseFloat(balanceEl.getAttribute("data-raw-balance") || 24500) - amount);
         balanceEl.setAttribute("data-raw-balance", curBal);
         if (!isBalanceHidden) {
           balanceEl.textContent = `฿ ${curBal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
@@ -1508,6 +1509,9 @@ async function executeTransferEvaluation() {
 
       // Display Official K PLUS E-Slip with spring drop
       showKplusSlipModal(amount, selectedTargetAccount);
+
+      // Refresh entire dashboard, Horizon Status, and real-time cashflow forecast chart
+      await loadAllUserData(currentAccountId);
     } else {
       playSound("alert");
       expandDynamicIsland("TrustGraph Anomaly", "Micro-Auth 5s", 3500);
@@ -1889,14 +1893,18 @@ async function confirmMicroAuthTransfer() {
     // Deduct balance for immediate feedback
     const balanceEl = document.getElementById("card-main-balance");
     if (balanceEl) {
-      let curBal = parseFloat(balanceEl.getAttribute("data-raw-balance") || 24500);
-      curBal = Math.max(0, curBal - amount);
+      let curBal = (res.remaining_balance !== undefined && res.remaining_balance !== null)
+        ? res.remaining_balance
+        : Math.max(0, parseFloat(balanceEl.getAttribute("data-raw-balance") || 24500) - amount);
       balanceEl.setAttribute("data-raw-balance", curBal);
       if (!isBalanceHidden) {
         balanceEl.textContent = `฿ ${curBal.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
       }
     }
     showKplusSlipModal(amount, target);
+
+    // Refresh entire dashboard, Horizon Status, and real-time cashflow forecast chart
+    await loadAllUserData(currentAccountId);
   } catch (err) {
     showToast("error", "Error confirming transfer");
   }
