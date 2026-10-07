@@ -20,7 +20,7 @@ from fastapi.testclient import TestClient
 # 0. PAGE CONFIGURATION & IN-PROCESS API CLIENT
 # ==============================================================================
 st.set_page_config(
-    page_title="K-Sentinel & WealthPilot | K PLUS Enterprise Platform",
+    page_title="FlowSense & TrustGraph | K PLUS Enterprise Platform",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -229,7 +229,7 @@ st.markdown("""
 # ==============================================================================
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Kasikornbank_logo.svg/320px-Kasikornbank_logo.svg.png", width=180)
-    st.markdown("### **K-Sentinel & WealthPilot**")
+    st.markdown("### **FlowSense & TrustGraph**")
     st.caption("KBTG Kampus Hackathon 2026 — Track 2")
 
     nav_selection = st.radio(
@@ -245,9 +245,9 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("##### ⚙️ ระบบ AI & โมเดลที่ทำงาน:")
     st.markdown("""
-    - **WealthPilot:** LightGBM ONNX Time-Series
-    - **K-Sentinel Tier 1:** Relational GCN 16D Embeddings
-    - **K-Sentinel Tier 2:** Real-time Telemetry Classifier
+    - **FlowSense:** LightGBM ONNX Time-Series Cashflow Forecast
+    - **TrustGraph Tier 1:** Relational GCN 16D Embeddings
+    - **TrustGraph Tier 2:** Real-time Context & Telemetry Classifier
     - **Clustering:** GMM / K-Means Personas
     - **Inference Latency:** P99 ~7.29 ms (<80ms)
     """)
@@ -261,7 +261,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
     st.markdown("""
     <div class="k-header">
         <h1>📱 K PLUS: First Jobber Financial Copilot & Scam Shield</h1>
-        <p>นวัตกรรมการบริหารกระแสเงินสดอัตโนมัติ (WealthPilot) และระบบสกัดกั้นบัญชีม้าเรียลไทม์ (K-Sentinel) สำหรับคนเริ่มทำงาน</p>
+        <p>นวัตกรรมการบริหารกระแสเงินสดอัตโนมัติ (FlowSense) และระบบสกัดกั้นบัญชีม้าเรียลไทม์ (TrustGraph) สำหรับคนเริ่มทำงาน</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -279,8 +279,8 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
         )
 
     # Fetch User Profile & Safe-to-Spend from API
-    user_data = api_get(f"/api/v2/wealthpilot/profile/{selected_user}")
-    sts_data = api_get(f"/api/v2/wealthpilot/safe-to-spend/{selected_user}")
+    user_data = api_get(f"/api/v2/flowsense/profile/{selected_user}")
+    sts_data = api_get(f"/api/v2/flowsense/horizon-status/{selected_user}")
 
     with c_persona:
         persona = user_data["persona"]
@@ -317,7 +317,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
         """, unsafe_allow_html=True)
 
         # Tabs in Mobile Screen
-        m_tab1, m_tab2 = st.tabs(["💰 Safe-to-Spend & Vault", "💸 โอนเงิน (K-Sentinel Shield)"])
+        m_tab1, m_tab2 = st.tabs(["💰 Safe-to-Spend & Vault", "💸 โอนเงิน (TrustGraph Shield)"])
 
         with m_tab1:
             st.markdown(f"""
@@ -356,13 +356,13 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
             col_v1, col_v2 = st.columns(2)
             with col_v1:
                 if st.button("🧹 กวาดเงินออม (Micro-Sweep)", use_container_width=True):
-                    sweep_res = api_post("/api/v2/wealthpilot/micro-sweep", {"account_id": selected_user})
+                    sweep_res = api_post("/api/v2/flowsense/micro-sweep", {"account_id": selected_user})
                     st.success(f"✅ {sweep_res['message']}")
                     st.rerun()
             with col_v2:
                 btn_withdraw = st.button("🔓 ถอนเงินจาก Vault", use_container_width=True)
                 if btn_withdraw:
-                    w_res = api_post("/api/v2/wealthpilot/vault/withdraw", {
+                    w_res = api_post("/api/v2/flowsense/recall", {
                         "account_id": selected_user,
                         "amount": 1000.0,
                         "intent_reason": "General expense",
@@ -371,7 +371,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                     f_type = w_res.get('friction_type', '1-Tap Recall')
                     st.warning(f"⚠️ **{f_type}:** {w_res.get('message', 'ถอนเงินสำเร็จ')}")
 
-        # TAB 2: TRANSFER & K-SENTINEL SCREENING
+        # TAB 2: TRANSFER & TRUSTGRAPH SCREENING
         with m_tab2:
             st.markdown("##### 🛡️ จำลองการโอนเงิน (Pre-Transaction Screening)")
             
@@ -407,7 +407,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                     "auth_factor_used": auth_factor
                 }
 
-                eval_result = api_post("/api/v2/sentinel/evaluate-transfer", eval_payload)
+                eval_result = api_post("/api/v2/trustgraph/evaluate-transfer", eval_payload)
                 st.session_state["last_eval"] = eval_result
 
             if "last_eval" in st.session_state:
@@ -446,7 +446,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
                     """, unsafe_allow_html=True)
 
                     if st.button("📸 ทำการสแกนใบหน้าสด (Simulate Biometric Face Liveness)", use_container_width=True):
-                        v_res = api_post("/api/v2/sentinel/verify-face-scan", {
+                        v_res = api_post("/api/v2/trustgraph/verify-micro-auth", {
                             "source_account_id": selected_user,
                             "target_account_id": target_acc,
                             "amount": float(transfer_amount),
@@ -473,7 +473,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
 
     with col_detail:
         # 30-Day Liquidity Forecast Chart
-        forecast_res = api_get(f"/api/v2/wealthpilot/forecast-30d/{selected_user}")
+        forecast_res = api_get(f"/api/v2/flowsense/forecast-30d/{selected_user}")
         
         st.markdown("#### 📊 พยากรณ์กระแสเงินสด 30 วันล่วงหน้า (30-Day Cashflow Runway)")
         st.caption("ขับเคลื่อนด้วยโมเดล Time-Series ONNX LightGBM จำลองพฤติกรรมใช้จ่าย รายจ่ายสุดสัปดาห์ และรอบเงินเดือน")
@@ -512,7 +512,7 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
         b3.metric("⚡ ค่าน้ำ/ไฟ/เน็ต", f"฿ {bk['utilities']:,.2f}")
         b4.metric("🛡️ เงินกันสำรองฉุกเฉิน", f"฿ {bk['emergency_buffer']:,.2f}")
 
-        st.info(f"✨ **WealthPilot Copilot Insight:** {sts_data['nudge_message']}")
+        st.info(f"✨ **FlowSense Copilot Insight:** {sts_data['nudge_message']}")
 
 # ==============================================================================
 # VIEW 2: 🏛️ BANK FRAUD OPERATIONS (SECOPS VIEW)
@@ -651,10 +651,10 @@ elif nav_selection == "📈 CASA Growth & Business Impact":
         st.subheader("💼 การจำลองการเติบโตของเงินฝาก CASA (CASA Growth Simulator)")
         st.markdown("""
         จากเอกสาร Pitch ระบุว่า K PLUS มีผู้ใช้กลุ่ม **First Jobber (อายุ 22–30 ปี) จำนวน 3.2 ล้านคน**
-        ระบบ **Dynamic Micro-Sweeping** ของ WealthPilot จะกวาดเงินส่วนเกินสภาพคล่องเข้าบัญชีเงินฝาก **K-eSavings** โดยอัตโนมัติ
+        ระบบ **Dynamic Micro-Sweeping** ของ FlowSense จะกวาดเงินส่วนเกินสภาพคล่องเข้าบัญชีเงินฝาก **K-eSavings** โดยอัตโนมัติ
         """)
 
-        adoption_rate = st.slider("สัดส่วน First Jobbers ที่เปิดใช้งาน WealthPilot (% Adoption):", 10, 80, 35)
+        adoption_rate = st.slider("สัดส่วน First Jobbers ที่เปิดใช้งาน FlowSense (% Adoption):", 10, 80, 35)
         monthly_sweep_avg = st.slider("ยอดเงินกวาดออมเฉลี่ยต่อคนต่อเดือน (THB/User/Month):", 300, 2500, 1200, step=50)
 
         total_users = 3_200_000
@@ -712,7 +712,7 @@ else:
                       annotation_text="KBTG Banking SLA Target (<80 ms)", annotation_position="top left")
     fig_lat.update_layout(
         template="plotly_dark",
-        title="การกระจายตัวของ Latency ในการตรวจสอบธุรกรรม (K-Sentinel Latency Benchmark)",
+        title="การกระจายตัวของ Latency ในการตรวจสอบธุรกรรม (TrustGraph & FlowSense Latency Benchmark)",
         yaxis_title="Latency (Milliseconds)",
         height=380
     )

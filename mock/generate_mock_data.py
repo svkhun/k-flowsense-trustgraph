@@ -206,9 +206,9 @@ df_cashflow = generate_enhanced_wealthpilot_data()
 
 import os
 out_dir = "data" if os.path.exists("data") else "."
-df_users.to_csv(os.path.join(out_dir, "03_sentinel_users_and_mule_labels.csv"), index=False)
-df_tx.to_csv(os.path.join(out_dir, "04_sentinel_fraud_transactions.csv"), index=False)
+df_users.to_csv(os.path.join(out_dir, "03_trustgraph_users_and_mule_labels.csv"), index=False)
+df_tx.to_csv(os.path.join(out_dir, "04_trustgraph_fraud_transactions.csv"), index=False)
 df_cashflow.to_csv(os.path.join(out_dir, "02_flowsense_cashflow_transactions.csv"), index=False)
 
-print(f"Generated {len(df_users)} users and {len(df_tx)} transactions for K-Sentinel.")
-print(f"Generated {len(df_cashflow)} cashflow logs for WealthPilot.")
+print(f"Generated {len(df_users)} users and {len(df_tx)} transactions for TrustGraph.")
+print(f"Generated {len(df_cashflow)} cashflow logs for FlowSense.")

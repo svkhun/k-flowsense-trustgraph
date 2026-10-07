@@ -105,14 +105,14 @@ export default function DatasetAnalyticsPage() {
     let filename = '';
 
     if (type === 'users') {
-      filename = '03_sentinel_users_and_mule_labels.csv';
+      filename = '03_trustgraph_users_and_mule_labels.csv';
       const headers = ['account_id', 'account_age_days', 'kyc_level', 'is_promptpay_linked', 'avg_inflow_velocity_sec', 'is_mule'];
       const rows = accounts.map(a => 
         [a.accountId, a.accountAgeDays, a.kycLevel, a.isPromptPay ? 1 : 0, a.avgVelocitySec, a.isMule].join(',')
       );
       content = [headers.join(','), ...rows].join('\n');
     } else {
-      filename = '04_sentinel_fraud_transactions.csv';
+      filename = '04_trustgraph_fraud_transactions.csv';
       const headers = ['tx_id', 'source_id', 'target_id', 'amount', 'timestamp', 'session_duration_sec', 'ratio_to_daily_avg', 'auth_factor_used', 'channel', 'is_scam'];
       const rows = transactions.map(t => 
         [t.txId, t.sourceId, t.targetId, t.amount, t.timestamp, t.sessionDurationSec, t.ratioToDailyAvg, t.authFactor, t.channel, t.isScam].join(',')
@@ -160,7 +160,7 @@ export default function DatasetAnalyticsPage() {
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md shadow-lg shadow-emerald-500/10 mb-6">
             <Database className="w-3.5 h-3.5 text-emerald-400" />
-            <span>K-Sentinel Ground Truth Dataset &amp; Model Audit</span>
+            <span>TrustGraph Ground Truth Dataset &amp; Model Audit</span>
           </div>
           
           {/* Headline */}
@@ -174,7 +174,7 @@ export default function DatasetAnalyticsPage() {
 
           {/* Subtitle */}
           <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
-            แพลตฟอร์มตรวจสอบความถูกต้องของข้อมูลจริงและประสิทธิภาพโมเดล K-Sentinel จากชุดข้อมูลมาตรฐาน <strong>03_sentinel_users_and_mule_labels.csv</strong> และ <strong>04_sentinel_fraud_transactions.csv</strong>: พิสูจน์ขีดความสามารถในการแยกแยะระหว่างบัญชีลูกค้าสุจริต (Clean CASA 95%) และเครือข่ายบัญชีม้าฟอกเงิน (AOC Mules 5%)
+            แพลตฟอร์มตรวจสอบความถูกต้องของข้อมูลจริงและประสิทธิภาพโมเดล TrustGraph จากชุดข้อมูลมาตรฐาน <strong>03_trustgraph_users_and_mule_labels.csv</strong> และ <strong>04_trustgraph_fraud_transactions.csv</strong>: พิสูจน์ขีดความสามารถในการแยกแยะระหว่างบัญชีลูกค้าสุจริต (Clean CASA 95%) และเครือข่ายบัญชีม้าฟอกเงิน (AOC Mules 5%)
           </p>
 
           {/* Quick Live Telemetry Ribbon */}
@@ -1080,7 +1080,7 @@ export default function DatasetAnalyticsPage() {
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-emerald-400" />
                   <div>
-                    <h3 className="text-sm font-bold text-white font-mono">03_sentinel_users_and_mule_labels.csv</h3>
+                    <h3 className="text-sm font-bold text-white font-mono">03_trustgraph_users_and_mule_labels.csv</h3>
                     <p className="text-[11px] text-slate-400 font-mono">1,200 rows • 36.0 KB</p>
                   </div>
                 </div>
@@ -1112,13 +1112,13 @@ export default function DatasetAnalyticsPage() {
               </div>
             </div>
 
-            {/* Raw sentinel_transactions_v2.csv preview */}
+            {/* Raw transactions preview */}
             <div className="bento-card rounded-2xl p-6 border border-white/10 bg-[#18191D]/85 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-cyan-400" />
                   <div>
-                    <h3 className="text-sm font-bold text-white font-mono">04_sentinel_fraud_transactions.csv</h3>
+                    <h3 className="text-sm font-bold text-white font-mono">04_trustgraph_fraud_transactions.csv</h3>
                     <p className="text-[11px] text-slate-400 font-mono">6,400 rows • 742.0 KB</p>
                   </div>
                 </div>

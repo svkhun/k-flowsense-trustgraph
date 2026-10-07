@@ -46,7 +46,9 @@ def start_port80_gateway(target_port=8000):
         server.listen(128)
         print("[Gateway] Standard HTTP Port 80 is active! Accessible via:")
         print("          - http://localhost/")
-        print("          - http://k-sentinel.local/ (with domain setup)")
+        print("          - http://flowsense.local/ (with domain setup)")
+        print("          - http://trustgraph.local/ (with domain setup)")
+        print("          - http://k-sentinel.local/ (legacy alias)")
         while True:
             client_sock, _ = server.accept()
             threading.Thread(target=handle_port80_client, args=(client_sock, "127.0.0.1", target_port), daemon=True).start()
@@ -63,7 +65,7 @@ def open_browser(url):
 
 if __name__ == "__main__":
     print("==================================================================")
-    print("  K-Sentinel & WealthPilot | K PLUS Enterprise Platform")
+    print("  FlowSense & TrustGraph | K PLUS Enterprise Platform")
     print("  KBTG Kampus Hackathon 2026 — Track 2: Data Science & Intelligence")
     print("==================================================================")
     

@@ -1,4 +1,4 @@
-# K-Sentinel & WealthPilot — Modern React 18 & React Router 6 Application
+# FlowSense & TrustGraph — Modern React 18 & React Router 6 Application
 
 Frontend พัฒนาด้วย **React 18, React Router v6, Tailwind CSS, Vite, และ Lucide Icons** ตามมาตรฐาน Industrial FinTech Single-Page Application (SPA)
 
@@ -11,10 +11,12 @@ Frontend พัฒนาด้วย **React 18, React Router v6, Tailwind CSS, 
 | Path URL | Component หน้าหลัก | รายละเอียดฟังก์ชัน |
 | :--- | :--- | :--- |
 | `/` | `HomePage.jsx` | หน้าแรก Overview รวบรวม Hero, Modular Navigation Cards, Live Preview ทั้ง 2 โซลูชัน |
-| `/wealthpilot` | `WealthPilotPage.jsx` | เจาะลึกระบบ WealthPilot: Safe-to-Spend Gauge, Micro-Sweeping Vault, 3 กลไกการเงิน |
-| `/sentinel` | `SentinelPage.jsx` | เจาะลึกระบบ K-Sentinel: Scam Shield Card, XAI Counterfactual, Benchmark SLA Table (<80ms) |
+| `/flowsense` | `FlowSensePage.jsx` | เจาะลึกระบบ FlowSense: Status Horizon Bar, Micro-Sweeping Vault, 1-Tap Undo Recall |
+| `/trustgraph` | `TrustGraphPage.jsx` | เจาะลึกระบบ TrustGraph: Micro-Auth 5s Liveness, Zero-Delay Baseline, XAI Direct Risk Reasoning |
 | `/architecture` | `ArchitecturePage.jsx` | สถาปัตยกรรม Two-Tier Low-Latency ML Pipeline (Kafka, PyG RGCN, Redis, ONNX Runtime) |
 | `/personas` | `PersonasPage.jsx` | วิเคราะห์กลุ่มลูกค้า First Jobber 2 กลุ่มหลัก พร้อมสถิติผลกระทบทางธุรกิจ (CASA +1.2-2.0B THB) |
+| `/dataset` | `DatasetAnalyticsPage.jsx` | หน้าตรวจสอบและ Audit ชุดข้อมูล 1,200 บัญชี และธุรกรรม 6,400 รายการ |
+| `/app` | `SimulatorPage.jsx` | K PLUS Mobile Simulator Studio สภาพแวดล้อมจำลองแอปมือถือจริงแบบ Interactive |
 | `*` | `NotFoundPage.jsx` | หน้า 404 สไตล์ Cyber-Fintech พร้อมปุ่มนำทางกลับหน้าแรก |
 
 ---
@@ -29,6 +31,7 @@ frontend/react-app/
 ├── tailwind.config.js           # KBank Theme Colors (#00A950, Emerald, Dark Slate)
 ├── postcss.config.js            # PostCSS Autoprefixer Setup
 ├── public/                      # Static Assets สำหรับ Vite Dev & Production Build
+│   ├── simulator.html           # Full-featured Mobile Simulator
 │   └── static/img/              # 3D Fintech Visuals & Hero Banners
 └── src/
     ├── main.jsx                 # Entry Point พร้อม BrowserRouter
@@ -36,19 +39,21 @@ frontend/react-app/
     ├── index.css                # Glassmorphic Utilities & Tailwind Directives
     ├── pages/                   # หน้าเพจที่ผูกกับ React Router
     │   ├── HomePage.jsx
-    │   ├── WealthPilotPage.jsx
-    │   ├── SentinelPage.jsx
+    │   ├── FlowSensePage.jsx
+    │   ├── TrustGraphPage.jsx
     │   ├── ArchitecturePage.jsx
     │   ├── PersonasPage.jsx
+    │   ├── DatasetAnalyticsPage.jsx
+    │   ├── SimulatorPage.jsx
     │   └── NotFoundPage.jsx
     └── components/              # Reusable UI Components
         ├── Navbar.jsx           # Responsive Header พร้อม NavLink Active State & Mobile Menu
         ├── Hero.jsx             # Hero Section พร้อม Dual CTA & 3D Visual
         ├── ScrollToTop.jsx      # เลื่อนขึ้นบนสุดอัตโนมัติเมื่อเปลี่ยน Route
-        ├── SafeToSpendGauge.jsx # Interactive Gauge คำนวณเงินใช้วันต่อวัน
+        ├── StatusHorizonBar.jsx # Interactive Horizon Bar คำนวณเงินสิ้นเดือน
         ├── MicroSweepVault.jsx  # Toggle กวาดเงินทอนเข้าบัญชีดอกเบี้ยสูง 1.50%
-        ├── ScamShieldCard.jsx   # XAI & Pre-Transaction Screening Card
-        ├── ScamShieldModal.jsx  # Cool-Off Timer & WebRTC Face Liveness Modal
+        ├── TrustGraphCard.jsx   # XAI & Pre-Transaction Screening Card
+        ├── MicroAuthModal.jsx   # 5-Second Face Liveness Check Modal
         ├── ArchitecturePipeline.jsx # Pipeline Diagram
         ├── PersonaComparison.jsx    # Before/After Storyboard
         └── Footer.jsx

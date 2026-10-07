@@ -60,7 +60,10 @@ else:
         "http://localhost:8501",
         "http://127.0.0.1:8501",
         "http://localhost",
+        "http://flowsense.local",
+        "http://trustgraph.local",
         "http://k-sentinel.local",
+        "http://wealthpilot.local",
         "https://k-flowsense-trustgraph.onrender.com"
     ]
     allow_credentials = True
@@ -293,6 +296,8 @@ def serve_favicon():
 # ==============================================================================
 # KBTG SECURITY: Model Integrity Verification (SHA-256 Checksum Validation)
 EXPECTED_MODEL_HASHES = {
+    "models/trustgraph.onnx": "4994d970cd6c9f61da271b4153d1b413fffaa35b2c55fd8ac4423ae2f035eeaf",
+    "models/flowsense.onnx": "1b82c684aec7ee8c67c81cc5ac384533b6b22a1573b268c497a4faefe842443a",
     "models/k_sentinel.onnx": "4994d970cd6c9f61da271b4153d1b413fffaa35b2c55fd8ac4423ae2f035eeaf",
     "models/wealthpilot.onnx": "1b82c684aec7ee8c67c81cc5ac384533b6b22a1573b268c497a4faefe842443a"
 }
@@ -306,18 +311,29 @@ def verify_file_sha256(filepath: str, expected_hash: str) -> bool:
             h.update(chunk)
     return h.hexdigest().lower() == expected_hash.lower()
 
-for model_p, exp_h in EXPECTED_MODEL_HASHES.items():
-    if verify_file_sha256(model_p, exp_h):
+def get_existing_model_path(primary: str, fallback: str) -> str:
+    if os.path.exists(primary):
+        return primary
+    if os.path.exists(fallback):
+        return fallback
+    return primary
+
+trustgraph_model_path = get_existing_model_path("models/trustgraph.onnx", "models/k_sentinel.onnx")
+flowsense_model_path = get_existing_model_path("models/flowsense.onnx", "models/wealthpilot.onnx")
+
+for model_p in [trustgraph_model_path, flowsense_model_path]:
+    exp_h = EXPECTED_MODEL_HASHES.get(model_p)
+    if exp_h and verify_file_sha256(model_p, exp_h):
         print(f"[SecOps Check] Model Integrity Verified: {model_p} (SHA-256 Checksum Match)")
     else:
         print(f"[SecOps Warning] Notice: Checksum mismatch or unverified hash for {model_p}")
 
 print("[Init] Loading ONNX Inference Engines into RAM...")
-sentinel_sess = rt.InferenceSession("models/k_sentinel.onnx")
+sentinel_sess = rt.InferenceSession(trustgraph_model_path)
 sentinel_in_name = sentinel_sess.get_inputs()[0].name
 sentinel_out_prob = sentinel_sess.get_outputs()[1].name
 
-wealth_sess = rt.InferenceSession("models/wealthpilot.onnx")
+wealth_sess = rt.InferenceSession(flowsense_model_path)
 wealth_in_name = wealth_sess.get_inputs()[0].name
 wealth_out_name = wealth_sess.get_outputs()[0].name
 
@@ -332,13 +348,13 @@ def load_data_csv(primary_file: str, fallback_file: str = None) -> pd.DataFrame:
     raise FileNotFoundError(f"Neither {p_primary} nor {fallback_file} could be found.")
 
 print("[Init] Caching In-Memory Feature Store (Redis Simulation)...")
-df_embeddings = load_data_csv("05_sentinel_graph_node_embeddings.csv", "sentinel_node_embeddings.csv").set_index("account_id")
+df_embeddings = load_data_csv("05_trustgraph_graph_node_embeddings.csv", "05_sentinel_graph_node_embeddings.csv").set_index("account_id")
 FEATURE_STORE_CACHE: Dict[str, np.ndarray] = {
     acc_id: df_embeddings.loc[acc_id].values.astype(np.float32)
     for acc_id in df_embeddings.index
 }
 
-df_users_raw = load_data_csv("03_sentinel_users_and_mule_labels.csv", "sentinel_users_v2.csv").set_index("account_id")
+df_users_raw = load_data_csv("03_trustgraph_users_and_mule_labels.csv", "03_sentinel_users_and_mule_labels.csv").set_index("account_id")
 USERS_METADATA_CACHE: Dict[str, Dict[str, Any]] = df_users_raw.to_dict(orient="index")
 
 # Behavioral Profiles
@@ -346,7 +362,7 @@ df_profiles = load_data_csv("01_flowsense_user_profiles.csv", "user_behavioral_p
 BEHAVIORAL_PROFILES_CACHE: Dict[str, Dict[str, Any]] = df_profiles.to_dict(orient="index")
 
 # Transactions for SecOps & Stream simulation
-df_tx = load_data_csv("04_sentinel_fraud_transactions.csv", "sentinel_transactions_v2.csv")
+df_tx = load_data_csv("04_trustgraph_fraud_transactions.csv", "04_sentinel_fraud_transactions.csv")
 TX_CACHE = df_tx.to_dict(orient="records")
 
 # Dynamic In-Memory Vault state store (simulating live banking core account balance)
@@ -1320,7 +1336,10 @@ def health_check():
         "version": "3.0.0",
         "security_framework": "KBTG-Enterprise-CAR-Hardened",
         "model_integrity_verified": True,
-        "onnx_sessions": ["k_sentinel.onnx", "wealthpilot.onnx"],
+        "onnx_sessions": [
+            os.path.basename(trustgraph_model_path),
+            os.path.basename(flowsense_model_path)
+        ],
         "cached_embeddings_count": len(FEATURE_STORE_CACHE),
         "cached_users_count": len(BEHAVIORAL_PROFILES_CACHE),
         "bot_compliance_gate": "ENFORCED_50K_MANDATORY_BIOMETRIC"

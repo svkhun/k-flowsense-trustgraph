@@ -13,8 +13,8 @@ from sklearn.metrics import roc_auc_score, classification_report
 # ==============================================================================
 # TIER 1: HETEROGENEOUS/RELATIONAL GCN FOR NODE EMBEDDINGS
 # ==============================================================================
-users_path = "data/03_sentinel_users_and_mule_labels.csv" if os.path.exists("data/03_sentinel_users_and_mule_labels.csv") else "data/sentinel_users_v2.csv"
-tx_path = "data/04_sentinel_fraud_transactions.csv" if os.path.exists("data/04_sentinel_fraud_transactions.csv") else "data/sentinel_transactions_v2.csv"
+users_path = "data/03_trustgraph_users_and_mule_labels.csv" if os.path.exists("data/03_trustgraph_users_and_mule_labels.csv") else "data/03_sentinel_users_and_mule_labels.csv"
+tx_path = "data/04_trustgraph_fraud_transactions.csv" if os.path.exists("data/04_trustgraph_fraud_transactions.csv") else "data/04_sentinel_fraud_transactions.csv"
 df_users = pd.read_csv(users_path)
 df_tx = pd.read_csv(tx_path)
 
@@ -79,7 +79,7 @@ df_emb = pd.DataFrame(emb_matrix, columns=[f"target_emb_{i}" for i in range(16)]
 df_emb["account_id"] = df_users["account_id"]
 emb_lookup = df_emb.set_index("account_id")
 # บันทึกลงโฟลเดอร์ data/
-df_emb.to_csv("data/05_sentinel_graph_node_embeddings.csv", index=False)
+df_emb.to_csv("data/05_trustgraph_graph_node_embeddings.csv", index=False)
 
 # ==============================================================================
 # TIER 2: REAL-TIME CONTEXT & TELEMETRY CLASSIFIER (LIGHTGBM)
@@ -119,9 +119,9 @@ lgbm_model = lgb.LGBMClassifier(
 lgbm_model.fit(X_train, y_train)
 
 y_pred_proba = lgbm_model.predict_proba(X_test)[:, 1]
-print("=== K-Sentinel Tier 2 Performance ===")
+print("=== TrustGraph Tier 2 Performance ===")
 print("ROC-AUC Score:", roc_auc_score(y_test, y_pred_proba))
 
 # เซฟโมเดลสำหรับ Production Serving
-lgbm_model.booster_.save_model("models/k_sentinel_lgbm.txt")
-print("Saved LightGBM model to models/k_sentinel_lgbm.txt")
+lgbm_model.booster_.save_model("models/trustgraph_lgbm.txt")
+print("Saved LightGBM model to models/trustgraph_lgbm.txt")

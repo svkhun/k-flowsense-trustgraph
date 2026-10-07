@@ -1,5 +1,5 @@
 # 📁 สรุปโครงสร้างและคำอธิบายชุดข้อมูล (Dataset Dictionary)
-**โครงการ: K-Sentinel (TrustGraph) & FlowSense (WealthPilot)**
+**โครงการ: FlowSense & TrustGraph (K PLUS Enterprise Platform)**
 
 โฟลเดอร์นี้จัดเก็บชุดข้อมูลจำลอง (Synthetic Datasets) ทั้งหมด 5 ไฟล์ โดยแบ่งออกเป็น 2 ระบบหลัก:
 
@@ -8,12 +8,12 @@
 ### 📌 ภาพรวมชุดข้อมูลทั้ง 5 ไฟล์
 
 | ลำดับ | ชื่อไฟล์ CSV | ระบบที่ใช้งาน | วัตถุประสงค์และหน้าที่ | จำนวนแถว |
-| :---: | :--- | :---: | :--- | :---: |
+| :---: | :--- | :--- | :--- | :---: |
 | **01** | `01_flowsense_user_profiles.csv` | **FlowSense** | โปรไฟล์ผู้ใช้ 1,200 คน: เงินเดือน, ภาระค่าใช้จ่ายคงที่ (ค่าเช่า, หนี้, ค่าน้ำไฟ), เงินสำรองฉุกเฉิน, ยอดใช้จ่ายปลอดภัย (Safe-to-Spend) และกลุ่มพฤติกรรมทางการเงิน (Persona) | 1,200 |
 | **02** | `02_flowsense_cashflow_transactions.csv` | **FlowSense** | รายการธุรกรรมกระแสเงินสดรายวัน (Bank Statement): รายรับเงินเดือน, จ่ายค่าอาหาร, ค่าเดินทาง, ช้อปปิ้ง, ค่าสาธารณูปโภค พร้อมยอดเงินคงเหลือสะสม (Running Balance) | 18,000+ |
-| **03** | `03_sentinel_users_and_mule_labels.csv` | **K-Sentinel** | บัญชีลูกค้า 1,200 บัญชี พร้อมป้ายกำกับบัญชีปกติ (Clean CASA 95%) กับบัญชีม้าฟอกเงิน (AOC Mules 5%), ประวัติความเร็วเงินเข้า-ออก, สถานะผูก PromptPay | 1,200 |
-| **04** | `04_sentinel_fraud_transactions.csv` | **K-Sentinel** | บันทึกธุรกรรมการโอนเงิน 6,400 รายการสำหรับตรวจจับ Fraud: บัญชีต้นทาง-ปลายทาง, ยอดเงิน, ช่องทาง, ปัจจัยยืนยันตัวตน (PIN/Face Scan), พฤติกรรมการสลับเครื่อง | 6,400 |
-| **05** | `05_sentinel_graph_node_embeddings.csv` | **TrustGraph** | เวกเตอร์คุณลักษณะความสัมพันธ์ของบัญชี (Node Embeddings 16 มิติ) สกัดโดย Graph Neural Network (RGCN) สำหรับตรวจจับเครือข่ายบัญชีม้าแบบเชื่อมโยง | 1,200 |
+| **03** | `03_trustgraph_users_and_mule_labels.csv` | **TrustGraph** | บัญชีลูกค้า 1,200 บัญชี พร้อมป้ายกำกับบัญชีปกติ (Clean CASA 95%) กับบัญชีม้าฟอกเงิน (AOC Mules 5%), ประวัติความเร็วเงินเข้า-ออก, สถานะผูก PromptPay | 1,200 |
+| **04** | `04_trustgraph_fraud_transactions.csv` | **TrustGraph** | บันทึกธุรกรรมการโอนเงิน 6,400 รายการสำหรับตรวจจับ Fraud: บัญชีต้นทาง-ปลายทาง, ยอดเงิน, ช่องทาง, ปัจจัยยืนยันตัวตน (PIN/Face Scan), พฤติกรรมการสลับเครื่อง | 6,400 |
+| **05** | `05_trustgraph_graph_node_embeddings.csv` | **TrustGraph** | เวกเตอร์คุณลักษณะความสัมพันธ์ของบัญชี (Node Embeddings 16 มิติ) สกัดโดย Graph Neural Network (RGCN) สำหรับตรวจจับเครือข่ายบัญชีม้าแบบเชื่อมโยง | 1,200 |
 
 ---
 
@@ -45,7 +45,7 @@
 - `necessity_level` : ระดับความจำเป็น (Essential / Discretionary / Income)
 - `balance` : ยอดเงินคงเหลือสะสมในบัญชีหลังทำรายการ (Running Balance)
 
-#### 3. `03_sentinel_users_and_mule_labels.csv` (ข้อมูลบัญชีและการตรวจจับบัญชีม้า)
+#### 3. `03_trustgraph_users_and_mule_labels.csv` (ข้อมูลบัญชีและการตรวจจับบัญชีม้า)
 - `account_id` : รหัสบัญชี (ACC_0000 - ACC_1199)
 - `account_age_days` : อายุบัญชีตั้งแต่เปิดใช้งาน (วัน)
 - `kyc_level` : ระดับการยืนยันตัวตน (Level 1 / 2 / 3)
@@ -53,7 +53,7 @@
 - `avg_inflow_velocity_sec` : ความเร็วเฉลี่ยในการโอนเงินออกหลังได้รับเงินเข้า (บัญชีม้าจะมี Velocity ต่ำมาก คือเงินเข้าแล้วโอนออกทันที)
 - `is_mule` : ป้ายกำกับความเป็นบัญชีม้า (`0` = ปกติ Clean CASA, `1` = บัญชีม้า AOC Mule)
 
-#### 4. `04_sentinel_fraud_transactions.csv` (ประวัติธุรกรรมตรวจจับการโกง)
+#### 4. `04_trustgraph_fraud_transactions.csv` (ประวัติธุรกรรมตรวจจับการโกง)
 - `tx_id` : รหัสธุรกรรมการโอนเงิน (TX_000000)
 - `source_id` : บัญชีต้นทางผู้โอน
 - `target_id` : บัญชีปลายทางผู้รับโอน
@@ -66,6 +66,6 @@
 - `channel` : ช่องทางทำรายการ (mobile_app / web / atm)
 - `is_scam` : ป้ายกำกับธุรกรรมทุจริต (`1` = ทุจริต/โอนเข้าบัญชีม้า, `0` = ธุรกรรมปกติ)
 
-#### 5. `05_sentinel_graph_node_embeddings.csv` (เวกเตอร์โครงข่ายความสัมพันธ์ TrustGraph)
+#### 5. `05_trustgraph_graph_node_embeddings.csv` (เวกเตอร์โครงข่ายความสัมพันธ์ TrustGraph)
 - `account_id` : รหัสบัญชี
 - `target_emb_0` ถึง `target_emb_15` : เวกเตอร์ 16 มิติที่ได้จากการประมวลผล Relational Graph Convolutional Network (RGCN) เพื่อจับ Pattern การฟอกเงินของแก๊งคอลเซ็นเตอร์และเครือข่ายบัญชีม้า

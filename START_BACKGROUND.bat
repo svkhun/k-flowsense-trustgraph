@@ -1,9 +1,9 @@
 @echo off
-title "K-Sentinel & WealthPilot Background Launcher"
+title "FlowSense & TrustGraph Background Launcher"
 cd /d "%~dp0"
 
 echo ========================================================
-echo   K-Sentinel ^& WealthPilot - Background Service Runner
+echo   FlowSense ^& TrustGraph - Background Service Runner
 echo ========================================================
 echo.
 

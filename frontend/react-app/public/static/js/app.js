@@ -591,18 +591,18 @@ function onUserSelectChange(accId) {
 async function loadAllUserData(accId) {
   try {
     // 1. Profile
-    const profResp = await fetch(`/api/v2/wealthpilot/profile/${accId}`);
+    const profResp = await fetch(`/api/v2/flowsense/profile/${accId}`);
     const prof = await profResp.json();
     currentProfileData = prof;
     updateProfileUI(prof);
 
-    // 2. Safe-to-Spend
-    const stsResp = await fetch(`/api/v2/wealthpilot/safe-to-spend/${accId}`);
+    // 2. Safe-to-Spend / Horizon Status
+    const stsResp = await fetch(`/api/v2/flowsense/horizon-status/${accId}`);
     const sts = await stsResp.json();
     updateSafeToSpendUI(sts);
 
     // 3. 30-Day Forecast
-    const fcResp = await fetch(`/api/v2/wealthpilot/forecast-30d/${accId}`);
+    const fcResp = await fetch(`/api/v2/flowsense/forecast-30d/${accId}`);
     const fc = await fcResp.json();
     renderCashflowForecast(fc);
 
@@ -755,7 +755,7 @@ function runScenario(num) {
 async function resetAccountState() {
   playSound("tap");
   try {
-    const resp = await fetch(`/api/v2/wealthpilot/reset-state/${currentAccountId}`, {
+    const resp = await fetch(`/api/v2/flowsense/reset-state/${currentAccountId}`, {
       method: "POST"
     });
     const res = await resp.json();
@@ -802,7 +802,7 @@ function showFeatureAlert(name) {
 
 function toggleDynamicIslandDetails() {
   playSound("tap");
-  showToast("success", "K-Sentinel Active • เฝ้าระวังบัญชีม้าด้วย Relational Graph sub-80ms");
+  showToast("success", "TrustGraph Active • เฝ้าระวังบัญชีม้าด้วย Relational Graph sub-80ms");
 }
 
 function updateSafeToSpendUI(sts) {
@@ -1384,7 +1384,7 @@ async function triggerMicroSweep() {
   } catch (err) {
     console.error("Micro-sweep error:", err);
     playSound("alert");
-    showToast("error", "Failed to connect to WealthPilot API");
+    showToast("error", "Failed to connect to FlowSense API");
   }
 }
 
@@ -1392,7 +1392,7 @@ async function triggerMicroSweep() {
 async function promptVaultWithdrawal() {
   playSound("tap");
   try {
-    const resp = await fetch("/api/v2/wealthpilot/vault/withdraw", {
+    const resp = await fetch("/api/v2/flowsense/recall", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -1452,7 +1452,7 @@ async function executeTransferEvaluation() {
   playSound("radar");
   const radarEl = document.getElementById("phone-radar-sweep");
   if (radarEl) radarEl.classList.remove("hidden");
-  expandDynamicIsland("K-Sentinel Pre-Screening...", "< 80ms", 2200);
+  expandDynamicIsland("TrustGraph Pre-Screening...", "< 80ms", 2200);
 
   const amount = parseFloat(document.getElementById("tx-input-amount").value);
   const duration = parseInt(document.getElementById("tx-input-duration").value);
@@ -1682,7 +1682,7 @@ async function startFaceLivenessScan() {
 async function simulateFaceScanSuccess() {
   closeCameraModal();
   try {
-    const resp = await fetch("/api/v2/sentinel/verify-face-scan", {
+    const resp = await fetch("/api/v2/trustgraph/verify-micro-auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -2285,7 +2285,7 @@ function initLatencyChart() {
       labels: labels,
       datasets: [
         {
-          label: "ความเร็วจริง K-Sentinel (ms)",
+          label: "ความเร็วจริง TrustGraph (ms)",
           data: latencies,
           borderColor: "#00D068",
           backgroundColor: grad,
@@ -2358,7 +2358,7 @@ function initLatencyChart() {
             label: (item) => {
               if (item.datasetIndex === 0) {
                 const speedup = (80 / item.parsed.y).toFixed(1);
-                return ` • ความเร็ว K-Sentinel: ${item.parsed.y} ms (เร็วกว่าเกณฑ์ ${speedup} เท่า!)`;
+                return ` • ความเร็ว TrustGraph: ${item.parsed.y} ms (เร็วกว่าเกณฑ์ ${speedup} เท่า!)`;
               } else {
                 return ` • เพดานสูงสุดของธนาคาร (SLA): 80.00 ms`;
               }
@@ -2397,7 +2397,7 @@ function updateLatencyHeadroom(p50Val) {
   }
 }
 
-// Live Benchmark Runner: Dispatches 10 real concurrent requests to /api/v2/sentinel/evaluate-transfer
+// Live Benchmark Runner: Dispatches 10 real concurrent requests to /api/v2/trustgraph/evaluate-transfer
 async function runLiveLatencyBenchmark() {
   playSound("tap");
   const btn = document.getElementById("btn-benchmark-run");
@@ -2421,7 +2421,7 @@ async function runLiveLatencyBenchmark() {
   for (let i = 0; i < 10; i++) {
     const t0 = performance.now();
     try {
-      const resp = await fetch("/api/v2/sentinel/evaluate-transfer", {
+      const resp = await fetch("/api/v2/trustgraph/evaluate-transfer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(testPayload)

@@ -41,6 +41,7 @@ cf_model = lgb.LGBMRegressor(n_estimators=100, learning_rate=0.05, max_depth=5, 
 cf_model.fit(X_train, y_train)
 
 preds = cf_model.predict(X_test)
-print("\n=== WealthPilot Cashflow Predictor ===")
+print("\n=== FlowSense Cashflow Predictor ===")
 print("MAE on Daily Expenditure:", round(mean_absolute_error(y_test, preds), 2), "THB")
-cf_model.booster_.save_model("models/wealthpilot_lgbm.txt")
+cf_model.booster_.save_model("models/flowsense_lgbm.txt")
+print("Saved LightGBM model to models/flowsense_lgbm.txt")

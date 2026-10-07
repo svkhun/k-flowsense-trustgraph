@@ -19,7 +19,7 @@ export default function LaunchScreen({ onComplete }) {
     {
       pct: 22,
       label: 'INITIALIZING ONNX INFERENCE ENGINE',
-      detail: 'Loading k_sentinel.onnx & wealthpilot.onnx into memory...',
+      detail: 'Loading trustgraph.onnx & flowsense.onnx into memory...',
       code: 'SYS::INIT_T1'
     },
     {
@@ -127,7 +127,7 @@ export default function LaunchScreen({ onComplete }) {
       <div className="absolute top-6 left-0 right-0 px-6 sm:px-10 flex items-center justify-between text-xs text-slate-400 font-mono z-20">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-emerald-400 font-semibold tracking-wider">K-SENTINEL CORE v3.0</span>
+          <span className="text-emerald-400 font-semibold tracking-wider">TRUSTGRAPH CORE v3.0</span>
           <span className="text-slate-600 hidden sm:inline">|</span>
           <span className="text-slate-400 hidden sm:inline">KBTG HACKATHON 2026</span>
         </div>

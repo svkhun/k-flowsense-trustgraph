@@ -7,7 +7,7 @@ import joblib
 
 def extract_user_behavior():
     cf_path = "data/02_flowsense_cashflow_transactions.csv" if os.path.exists("data/02_flowsense_cashflow_transactions.csv") else "data/wealthpilot_cashflow_v2.csv"
-    users_path = "data/03_sentinel_users_and_mule_labels.csv" if os.path.exists("data/03_sentinel_users_and_mule_labels.csv") else "data/sentinel_users_v2.csv"
+    users_path = "data/03_trustgraph_users_and_mule_labels.csv" if os.path.exists("data/03_trustgraph_users_and_mule_labels.csv") else "data/03_sentinel_users_and_mule_labels.csv"
     df_cf = pd.read_csv(cf_path)
     df_users = pd.read_csv(users_path)
     

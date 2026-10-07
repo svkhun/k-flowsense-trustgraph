@@ -3,11 +3,12 @@ import lightgbm as lgb
 import pandas as pd
 import numpy as np
 
-# โหลดโมเดล K-Sentinel
-bst = lgb.Booster(model_file="models/k_sentinel_lgbm.txt")
+# โหลดโมเดล TrustGraph (เดิม K-Sentinel)
+model_path = "models/trustgraph_lgbm.txt" if os.path.exists("models/trustgraph_lgbm.txt") else "models/k_sentinel_lgbm.txt"
+bst = lgb.Booster(model_file=model_path)
 
 # โหลด Embedding จริงที่เซฟไว้
-emb_path = "data/05_sentinel_graph_node_embeddings.csv" if os.path.exists("data/05_sentinel_graph_node_embeddings.csv") else "data/sentinel_node_embeddings.csv"
+emb_path = "data/05_trustgraph_graph_node_embeddings.csv" if os.path.exists("data/05_trustgraph_graph_node_embeddings.csv") else "data/05_sentinel_graph_node_embeddings.csv"
 df_embeddings = pd.read_csv(emb_path).set_index("account_id")
 
 def generate_counterfactual_advice(tx_payload: dict, target_acc_id: str, threshold=0.5):
@@ -76,7 +77,7 @@ def generate_counterfactual_advice(tx_payload: dict, target_acc_id: str, thresho
     }
 
 if __name__ == "__main__":
-    users_path = "data/03_sentinel_users_and_mule_labels.csv" if os.path.exists("data/03_sentinel_users_and_mule_labels.csv") else "data/sentinel_users_v2.csv"
+    users_path = "data/03_trustgraph_users_and_mule_labels.csv" if os.path.exists("data/03_trustgraph_users_and_mule_labels.csv") else "data/03_sentinel_users_and_mule_labels.csv"
     df_users = pd.read_csv(users_path)
     mule_id = df_users[df_users["is_mule"] == 1].iloc[0]["account_id"]
     normal_id = df_users[df_users["is_mule"] == 0].iloc[0]["account_id"]

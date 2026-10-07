@@ -1,9 +1,11 @@
 @echo off
-title "Setup Local Domain for K-Sentinel & WealthPilot"
+title "Setup Local Domain for FlowSense & TrustGraph"
 echo ====================================================================
 echo   Configuring Local Domain Names:
-echo   - http://k-sentinel.local/
-echo   - http://wealthpilot.local/
+echo   - http://flowsense.local/
+echo   - http://trustgraph.local/
+echo   - http://k-sentinel.local/ (legacy alias)
+echo   - http://wealthpilot.local/ (legacy alias)
 echo ====================================================================
 echo.
 
@@ -18,15 +20,17 @@ if %errorlevel% neq 0 (
 set HOSTS_FILE=%WINDIR%\System32\drivers\etc\hosts
 
 :: Check if already mapped
-findstr /i "k-sentinel.local" "%HOSTS_FILE%" >nul 2>&1
+findstr /i "flowsense.local" "%HOSTS_FILE%" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo [INFO] k-sentinel.local is ALREADY configured in your hosts file!
+    echo [INFO] flowsense.local is ALREADY configured in your hosts file!
 ) else (
     echo. >> "%HOSTS_FILE%"
-    echo # K-Sentinel and WealthPilot Local Domains >> "%HOSTS_FILE%"
+    echo # FlowSense and TrustGraph Local Domains >> "%HOSTS_FILE%"
+    echo 127.0.0.1  flowsense.local >> "%HOSTS_FILE%"
+    echo 127.0.0.1  trustgraph.local >> "%HOSTS_FILE%"
     echo 127.0.0.1  k-sentinel.local >> "%HOSTS_FILE%"
     echo 127.0.0.1  wealthpilot.local >> "%HOSTS_FILE%"
-    echo [OK] Successfully added k-sentinel.local and wealthpilot.local to hosts!
+    echo [OK] Successfully added flowsense.local, trustgraph.local and legacy aliases to hosts!
 )
 
 ipconfig /flushdns >nul
@@ -35,8 +39,9 @@ echo.
 echo ====================================================================
 echo [SUCCESS] Domain setup complete!
 echo You can now access the website directly via:
-echo   - http://k-sentinel.local/        (Home Page)
-echo   - http://k-sentinel.local/app     (Interactive Dashboard)
+echo   - http://flowsense.local/         (Home Page)
+echo   - http://trustgraph.local/        (TrustGraph Anti-Scam)
+echo   - http://flowsense.local/app      (Interactive Dashboard)
 echo   - http://localhost/
 echo ====================================================================
 echo.

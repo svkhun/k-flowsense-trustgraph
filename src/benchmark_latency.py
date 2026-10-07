@@ -10,7 +10,7 @@ from src.app_v2 import app
 
 def run_benchmark():
     print("==========================================================")
-    print("  K-Sentinel & WealthPilot Two-Tier Low-Latency Benchmark")
+    print("  FlowSense & TrustGraph Two-Tier Low-Latency Benchmark   ")
     print("  Track 2: Data Science & Intelligence (Target: < 80ms)  ")
     print("==========================================================")
 
@@ -31,18 +31,18 @@ def run_benchmark():
     # 1. Warm-up
     print("[Warmup] Executing 10 warm-up runs on ONNX sessions...")
     for _ in range(10):
-        client.post("/api/v2/sentinel/evaluate-transfer", json=sentinel_payload)
-        client.get("/api/v2/wealthpilot/safe-to-spend/ACC_0100")
-        client.get("/api/v2/wealthpilot/forecast-30d/ACC_0100")
+        client.post("/api/v2/trustgraph/evaluate-transfer", json=sentinel_payload)
+        client.get("/api/v2/flowsense/horizon-status/ACC_0100")
+        client.get("/api/v2/flowsense/forecast-30d/ACC_0100")
 
-    # 2. Benchmark K-Sentinel Pre-Transaction Screening (Tier 1 Redis Lookup + Tier 2 ONNX Inference)
-    print("\n[Benchmark 1/2] Benchmarking K-Sentinel Pre-Transaction Screening (200 Iterations)...")
+    # 2. Benchmark TrustGraph Pre-Transaction Screening (Tier 1 Redis Lookup + Tier 2 ONNX Inference)
+    print("\n[Benchmark 1/2] Benchmarking TrustGraph Pre-Transaction Screening (200 Iterations)...")
     sentinel_latencies = []
     engine_reported_latencies = []
     
     for _ in range(200):
         t0 = time.perf_counter()
-        resp = client.post("/api/v2/sentinel/evaluate-transfer", json=sentinel_payload)
+        resp = client.post("/api/v2/trustgraph/evaluate-transfer", json=sentinel_payload)
         t1 = time.perf_counter()
         assert resp.status_code == 200, f"Error: {resp.status_code}"
         
@@ -55,23 +55,23 @@ def run_benchmark():
     s_p99 = np.percentile(sentinel_latencies, 99)
     eng_p99 = np.percentile(engine_reported_latencies, 99)
 
-    print("--- K-Sentinel Screening Performance ---")
+    print("--- TrustGraph Screening Performance ---")
     print(f"Total API Latency P50: {s_p50:.2f} ms")
     print(f"Total API Latency P95: {s_p95:.2f} ms")
     print(f"Total API Latency P99: {s_p99:.2f} ms")
     print(f"Core ONNX Engine P99:  {eng_p99:.2f} ms")
     
     if s_p99 < 80.0:
-        print(">>> SUCCESS: K-Sentinel comfortably satisfies sub-80ms banking SLA! <<<")
+        print(">>> SUCCESS: TrustGraph comfortably satisfies sub-80ms banking SLA! <<<")
     else:
         print(">>> WARNING: Exceeded 80ms SLA! <<<")
 
-    # 3. Benchmark WealthPilot 30-Day Forward Forecast
-    print("\n[Benchmark 2/2] Benchmarking WealthPilot 30-Day Liquidity Forecast (100 Iterations)...")
+    # 3. Benchmark FlowSense 30-Day Forward Forecast
+    print("\n[Benchmark 2/2] Benchmarking FlowSense 30-Day Liquidity Forecast (100 Iterations)...")
     wealth_latencies = []
     for _ in range(100):
         t0 = time.perf_counter()
-        resp = client.get("/api/v2/wealthpilot/forecast-30d/ACC_0100")
+        resp = client.get("/api/v2/flowsense/forecast-30d/ACC_0100")
         t1 = time.perf_counter()
         assert resp.status_code == 200
         wealth_latencies.append((t1 - t0) * 1000)
@@ -80,7 +80,7 @@ def run_benchmark():
     w_p95 = np.percentile(wealth_latencies, 95)
     w_p99 = np.percentile(wealth_latencies, 99)
 
-    print("--- WealthPilot Forecast Performance ---")
+    print("--- FlowSense Forecast Performance ---")
     print(f"30-day Forecast P50:   {w_p50:.2f} ms")
     print(f"30-day Forecast P95:   {w_p95:.2f} ms")
     print(f"30-day Forecast P99:   {w_p99:.2f} ms")
