@@ -1424,22 +1424,30 @@ let selectedTargetAccount = "ACC_0105";
 function selectRecipientPreset(type) {
   playSound("tap");
   const btnSafe = document.getElementById("btn-rcp-safe");
+  const btnSuspicious = document.getElementById("btn-rcp-suspicious");
   const btnMule = document.getElementById("btn-rcp-mule");
   const amtInput = document.getElementById("tx-input-amount");
   const durInput = document.getElementById("tx-input-duration");
 
+  if (btnSafe) btnSafe.className = "p-1.5 sm:p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70";
+  if (btnSuspicious) btnSuspicious.className = "p-1.5 sm:p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70";
+  if (btnMule) btnMule.className = "p-1.5 sm:p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70";
+
   if (type === "safe") {
     selectedTargetAccount = "ACC_0105";
-    btnSafe.className = "p-2.5 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all";
-    btnMule.className = "p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70";
-    amtInput.value = "650";
-    durInput.value = "45";
-  } else {
+    if (btnSafe) btnSafe.className = "p-1.5 sm:p-2 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all shadow-md shadow-emerald-500/20";
+    if (amtInput) amtInput.value = "650";
+    if (durInput) durInput.value = "45";
+  } else if (type === "suspicious") {
     selectedTargetAccount = "ACC_0001";
-    btnMule.className = "p-2.5 rounded-xl border border-rose-500/60 bg-rose-950/40 text-left transition-all";
-    btnSafe.className = "p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70";
-    amtInput.value = "35000";
-    durInput.value = "10";
+    if (btnSuspicious) btnSuspicious.className = "p-1.5 sm:p-2 rounded-xl border border-amber-500/60 bg-amber-950/40 text-left transition-all shadow-md shadow-amber-500/20";
+    if (amtInput) amtInput.value = "18500";
+    if (durInput) durInput.value = "12";
+  } else {
+    selectedTargetAccount = "ACC_0000";
+    if (btnMule) btnMule.className = "p-1.5 sm:p-2 rounded-xl border border-rose-500/60 bg-rose-950/40 text-left transition-all shadow-md shadow-rose-500/20";
+    if (amtInput) amtInput.value = "35000";
+    if (durInput) durInput.value = "8";
   }
 }
 
@@ -1462,11 +1470,12 @@ async function executeTransferEvaluation() {
     source_account_id: currentAccountId,
     target_account_id: selectedTargetAccount,
     amount: amount,
-    is_first_time_transfer: selectedTargetAccount === "ACC_0001" ? 1 : 0,
+    is_first_time_transfer: selectedTargetAccount !== "ACC_0105" ? 1 : 0,
     device_switch_last_24h: 0,
     session_duration_sec: duration,
     ratio_to_daily_avg: parseFloat((amount / 650.0).toFixed(2)),
-    auth_factor_used: auth
+    auth_factor_used: auth,
+    scenario_mode: selectedTargetAccount === "ACC_0000" ? "blocked" : (selectedTargetAccount === "ACC_0001" ? "suspicious" : "auto")
   };
 
   currentPendingTxPayload = payload;
@@ -2506,11 +2515,19 @@ function triggerScenarioPreset(type) {
     setTimeout(() => {
       executeTransferEvaluation();
     }, 250);
+  } else if (type === 'suspicious_tx') {
+    switchMobileTab('transfer');
+    selectRecipientPreset('suspicious');
+    setTransferAmount(18500);
+    showToast('warning', 'ตรวจพบบัญชีต้องสงสัย! เปิดการสแกนหน้า Micro-Auth 5 วินาที...');
+    setTimeout(() => {
+      executeTransferEvaluation();
+    }, 250);
   } else if (type === 'mule_tx') {
     switchMobileTab('transfer');
     selectRecipientPreset('mule');
     setTransferAmount(35000);
-    showToast('warning', 'ตรวจพบคำสั่งโอนเงินเข้าบัญชีม้า! ส่งการทดสอบ Micro-Auth...');
+    showToast('error', 'ตรวจพบคำสั่งโอนเงินเข้าบัญชีม้า Blacklist (พ.ร.ก. 2566)...');
     setTimeout(() => {
       executeTransferEvaluation();
     }, 250);

@@ -403,24 +403,36 @@
 
                   <!-- Recipient Selection Cards -->
                   <div class="space-y-1.5">
-                    <label class="text-[10px] text-slate-300 font-semibold block">เลือกบัญชีปลายทาง:</label>
-                    <div class="grid grid-cols-2 gap-2">
-                      <button onclick="selectRecipientPreset('safe')" id="btn-rcp-safe" class="p-2 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all">
-                        <div class="flex items-center gap-1 text-emerald-400 text-[11px] font-bold">
+                    <div class="flex justify-between items-center">
+                      <label class="text-[10px] text-slate-300 font-semibold block">เลือกบัญชีปลายทาง:</label>
+                      <span class="text-[9px] text-amber-400 font-mono">3 ระดับความเสี่ยง</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5">
+                      <button onclick="selectRecipientPreset('safe')" id="btn-rcp-safe" class="p-1.5 sm:p-2 rounded-xl border border-emerald-500/60 bg-emerald-950/40 text-left transition-all">
+                        <div class="flex items-center gap-1 text-emerald-400 text-[10px] font-bold">
                           <i data-lucide="check-circle-2" class="w-3 h-3"></i>
-                          <span>เพื่อนร่วมงาน</span>
+                          <span>1. ปลอดภัย</span>
                         </div>
-                        <div class="text-[10px] text-slate-300 mt-0.5 font-mono">กิตติศักดิ์ ช.</div>
-                        <div class="text-[9px] text-slate-400 font-mono">ACC_0105 (KBank)</div>
+                        <div class="text-[9px] text-slate-300 mt-0.5 font-mono truncate">กิตติศักดิ์ ช.</div>
+                        <div class="text-[8px] text-slate-400 font-mono truncate">ACC_0105</div>
                       </button>
 
-                      <button onclick="selectRecipientPreset('mule')" id="btn-rcp-mule" class="p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70">
-                        <div class="flex items-center gap-1 text-rose-400 text-[11px] font-bold">
-                          <i data-lucide="alert-triangle" class="w-3 h-3"></i>
-                          <span>ม้าต้องสงสัย</span>
+                      <button onclick="selectRecipientPreset('suspicious')" id="btn-rcp-suspicious" class="p-1.5 sm:p-2 rounded-xl border border-amber-500/60 bg-amber-950/40 text-left transition-all shadow-md shadow-amber-500/20">
+                        <div class="flex items-center gap-1 text-amber-400 text-[10px] font-bold">
+                          <i data-lucide="scan-face" class="w-3 h-3"></i>
+                          <span>2. ต้องสงสัย</span>
                         </div>
-                        <div class="text-[10px] text-slate-300 mt-0.5 font-mono">สมชาย (AOC List)</div>
-                        <div class="text-[9px] text-slate-400 font-mono">ACC_0001 (Mule)</div>
+                        <div class="text-[9px] text-amber-200 mt-0.5 font-mono truncate">สแกนหน้า 5s</div>
+                        <div class="text-[8px] text-amber-400/80 font-mono truncate">ACC_0001</div>
+                      </button>
+
+                      <button onclick="selectRecipientPreset('mule')" id="btn-rcp-mule" class="p-1.5 sm:p-2 rounded-xl border border-slate-700 bg-slate-800 text-left transition-all opacity-70">
+                        <div class="flex items-center gap-1 text-rose-400 text-[10px] font-bold">
+                          <i data-lucide="shield-alert" class="w-3 h-3"></i>
+                          <span>3. ม้า พ.ร.ก.</span>
+                        </div>
+                        <div class="text-[9px] text-slate-300 mt-0.5 font-mono truncate">AOC Block</div>
+                        <div class="text-[8px] text-slate-400 font-mono truncate">ACC_0000</div>
                       </button>
                     </div>
                   </div>
@@ -498,34 +510,41 @@
               <span class="text-[10px] text-slate-400 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">1-Click Trigger</span>
             </div>
             <p class="text-xs text-slate-400">กดปุ่มด้านล่างเพื่อสั่งจำลองเหตุการณ์ไปยังหน้าจอโทรศัพท์ K PLUS อัตโนมัติ:</p>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
               <button onclick="triggerScenarioPreset('safe_tx')" class="p-2.5 rounded-xl bg-[#1E2025] hover:bg-emerald-950/50 border border-white/[0.08] hover:border-emerald-500/40 text-left transition-all group">
                 <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   <i data-lucide="zap" class="w-3 h-3 text-emerald-400"></i>
-                  <span>1. โอนเงินปลอดภัย</span>
+                  <span>1. โอนปลอดภัย</span>
                 </div>
                 <div class="text-[10px] text-slate-400 mt-1 font-mono">฿650 (Zero-Delay)</div>
+              </button>
+              <button onclick="triggerScenarioPreset('suspicious_tx')" class="p-2.5 rounded-xl bg-amber-950/30 hover:bg-amber-950/60 border border-amber-500/40 hover:border-amber-400 text-left transition-all group">
+                <div class="text-[11px] font-bold text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <i data-lucide="scan-face" class="w-3 h-3 text-amber-400"></i>
+                  <span>2. เตือนต้องสงสัย</span>
+                </div>
+                <div class="text-[10px] text-amber-300/80 mt-1 font-mono">สแกนหน้า 5s</div>
               </button>
               <button onclick="triggerScenarioPreset('mule_tx')" class="p-2.5 rounded-xl bg-[#1E2025] hover:bg-rose-950/50 border border-white/[0.08] hover:border-rose-500/40 text-left transition-all group">
                 <div class="text-[11px] font-bold text-rose-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   <i data-lucide="shield-alert" class="w-3 h-3 text-rose-400"></i>
-                  <span>2. สกัดบัญชีม้า</span>
+                  <span>3. สกัดม้า พ.ร.ก.</span>
                 </div>
-                <div class="text-[10px] text-slate-400 mt-1 font-mono">฿35k (AOC Scam 5s)</div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">฿35k (AOC Block)</div>
               </button>
               <button onclick="triggerScenarioPreset('micro_sweep')" class="p-2.5 rounded-xl bg-[#1E2025] hover:bg-teal-950/50 border border-white/[0.08] hover:border-teal-500/40 text-left transition-all group">
                 <div class="text-[11px] font-bold text-teal-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   <i data-lucide="sparkles" class="w-3 h-3 text-teal-400"></i>
-                  <span>3. กวาดออมเงิน</span>
+                  <span>4. กวาดออมเงิน</span>
                 </div>
-                <div class="text-[10px] text-slate-400 mt-1 font-mono">Micro-Sweep Vault</div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">Micro-Sweep</div>
               </button>
               <button onclick="triggerScenarioPreset('undo_recall')" class="p-2.5 rounded-xl bg-[#1E2025] hover:bg-emerald-950/50 border border-white/[0.08] hover:border-emerald-500/40 text-left transition-all group">
                 <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   <i data-lucide="rotate-ccw" class="w-3 h-3 text-emerald-400"></i>
-                  <span>4. 1-Tap Undo</span>
+                  <span>5. 1-Tap Undo</span>
                 </div>
-                <div class="text-[10px] text-slate-400 mt-1 font-mono">ดึงเงินคืนเข้า 100%</div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">ดึงเงินคืน 100%</div>
               </button>
             </div>
           </div>
