@@ -202,8 +202,8 @@ export default function TrustGraphCard({ onOpenScamModal, showHeader = true }) {
             {/* 2 Pillars Summary */}
             <div className="grid grid-cols-2 gap-3 text-xs font-mono">
               <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
-                <span className="text-slate-400 block text-[10px]">ZERO ARBITRARY LOCKS:</span>
-                <span className="font-bold text-emerald-400">ไร้การหน่วงเวลา 15 นาที</span>
+                <span className="text-slate-400 block text-[10px]">REAL-TIME LATENCY:</span>
+                <span className="font-bold text-emerald-400">&lt; 12ms (Core SLA &lt; 80ms)</span>
               </div>
               <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
                 <span className="text-slate-400 block text-[10px]">DECISION AUTONOMY:</span>

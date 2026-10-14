@@ -145,7 +145,7 @@ export default function Hero({ onOpenScamModal }) {
 
           {/* Clean Subtitle */}
           <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
-            สถาปัตยกรรม AI จัดการสภาพคล่อง (<strong className="text-white font-semibold">FlowSense</strong>) และสกัดบัญชีม้าแบบเรียลไทม์ (<strong className="text-emerald-400 font-semibold">TrustGraph</strong>) บน K PLUS ตัดปัญหา Alert Fatigue และการล็อคบัญชี 15 นาที ด้วย SLA &lt; 80ms
+            สถาปัตยกรรม AI จัดการสภาพคล่อง (<strong className="text-white font-semibold">FlowSense</strong>) และสกัดบัญชีม้าแบบเรียลไทม์ (<strong className="text-emerald-400 font-semibold">TrustGraph</strong>) บน K PLUS ตัดปัญหา Alert Fatigue และลดการขัดจังหวะที่ไม่จำเป็น ด้วย SLA &lt; 80ms
           </p>
 
           {/* Action CTAs */}

@@ -117,7 +117,7 @@ export default function MicroAuthModal({ isOpen, onClose, onConfirmTransfer }) {
               </div>
               <p className="text-[11px] text-slate-300 mt-0.5 leading-[1.7]">
                 {scanStep === 'passed'
-                  ? 'ยืนยันตัวตนสำเร็จ ไร้การหน่วงเวลา 15 นาทีตามอำเภอใจ'
+                  ? 'ยืนยันตัวตนสำเร็จ ทำรายการได้อย่างปลอดภัย'
                   : 'สแกนใบหน้า 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง'}
               </p>
             </div>

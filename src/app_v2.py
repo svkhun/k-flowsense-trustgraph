@@ -441,7 +441,7 @@ def evaluate_transfer_v2(payload: TransferEvaluationRequest):
     """
     TrustGraph Targeted Anti-Scam Verification:
     - Zero-Delay Baseline: Routine transfers to known or low-risk accounts execute immediately with zero added steps (<80ms SLA).
-    - Micro-Auth for Critical Anomaly: Eliminates arbitrary waiting periods (no 15-minute locks).
+    - Micro-Auth for Critical Anomaly: Rapid dynamic verification.
       Triggers a 5-second face liveness check and displays a single confirmation prompt.
     - Direct Risk Reasoning: Tells the user plainly why a recipient looks suspicious
       (e.g., 'Recipient account opened 48 hours ago with rapid pass-through fund patterns')
@@ -1127,7 +1127,7 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key:
     """
     Micro-Sweep with 1-Tap Undo (Instant Recall):
     If balance runs low, a 1-tap recall returns 100% of the funds to the main account instantly without penalty.
-    Eliminates arbitrary cooling-off locks, 15-minute wait, or 24h delays!
+    Returns 100% of swept funds instantly without lockup or penalty!
     """
     idem_key = x_idempotency_key or payload.idempotency_key
     cached_res = check_idempotency(idem_key)

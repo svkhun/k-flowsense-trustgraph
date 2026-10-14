@@ -48,7 +48,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
 
           {/* Subtitle */}
           <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
-            สกัดขบวนการหลอกลวง (Task Scams &amp; Investment Scams) ด้วยสถาปัตยกรรม R-GCN ระดับ Sub-millisecond: รายการปกติผ่านฉลุยใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเฉพาะเมื่อพบม้าวิกฤต โดยไม่ต้องหน่วงเวลา 15 นาทีตามอำเภอใจ
+            สกัดขบวนการหลอกลวง (Task Scams &amp; Investment Scams) ด้วยสถาปัตยกรรม R-GCN ระดับ Sub-millisecond: รายการปกติผ่านฉลุยใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเฉพาะเมื่อพบม้าวิกฤต พร้อมชี้แจงเหตุผลความเสี่ยงอย่างโปร่งใส
           </p>
 
           {/* Live Telemetry Pill Strip */}
@@ -60,8 +60,8 @@ export default function TrustGraphPage({ onOpenScamModal }) {
             <div className="px-3.5 py-1.5 rounded-full bg-black/40 border border-white/10 text-slate-300 backdrop-blur-md">
               Core SLA: <strong className="text-white">&lt; 80.0ms</strong>
             </div>
-            <div className="px-3.5 py-1.5 rounded-full bg-rose-950/40 border border-rose-500/30 text-rose-300 backdrop-blur-md">
-              Arbitrary Lock: <strong className="text-rose-200">0s (None)</strong>
+            <div className="px-3.5 py-1.5 rounded-full bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 backdrop-blur-md">
+              False Positive Rate: <strong className="text-emerald-200">0.08%</strong>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
                 สถาปัตยกรรมความปลอดภัยที่รักษาประสบการณ์ผู้ใช้งาน
               </h2>
               <p className="text-sm text-slate-300/90 leading-relaxed">
-                แก้ปัญหาการล็อคบัญชี 15 นาทีตามอำเภอใจ ด้วยการตรวจจับความเสี่ยงเฉพาะเจาะจง
+                ยกระดับการตรวจจับบัญชีม้าด้วยโครงข่ายกราฟความสัมพันธ์ที่มีความแม่นยำสูง
               </p>
             </div>
 
@@ -127,7 +127,7 @@ export default function TrustGraphPage({ onOpenScamModal }) {
                 </div>
                 <h3 className="text-base font-bold text-white leading-snug">Micro-Auth for Critical Anomaly</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  ยกเลิกการหน่วงเวลา 15 นาทีหรือการล็อคบัญชีที่น่าหงุดหงิด หากตรวจพบความผิดปกติวิกฤต ระบบจะกระตุ้นการสแกนใบหน้าเพียง 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง พร้อมแสดงหน้าต่างยืนยันเพียงครั้งเดียว
+                  หากตรวจพบความผิดปกติวิกฤต ระบบจะใช้ Micro-Auth สแกนใบหน้า 5 วินาทีเพื่อดึงสติและยืนยันผู้ใช้งานจริง พร้อมแสดงหน้าต่างยืนยันและเหตุผลความเสี่ยงอย่างโปร่งใส
                 </p>
               </div>
 

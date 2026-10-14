@@ -219,7 +219,7 @@ export default function HomePage({ onOpenScamModal }) {
                     TrustGraph: Real-Time Fraud Defense
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                    Zero-Delay Baseline ปล่อยผ่านรายการปกติใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเมื่อพบม้าวิกฤต โดยไม่ต้องหน่วงเวลา 15 นาที
+                    Zero-Delay Baseline ปล่อยผ่านรายการปกติใน 3.8ms และใช้ Micro-Auth สแกนหน้า 5 วินาทีเมื่อพบความเสี่ยงวิกฤต
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-rose-400 group-hover:text-rose-300 mt-5 pt-3 border-t border-white/[0.05]">
@@ -331,7 +331,7 @@ export default function HomePage({ onOpenScamModal }) {
                 <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 tabular-nums">
                   -88%
                 </div>
-                <p className="text-[11px] text-slate-300 font-sans leading-relaxed">ลดการทิ้งแอปจากการหน่วงเวลา 15 นาที</p>
+                <p className="text-[11px] text-slate-300 font-sans leading-relaxed">รักษาความคล่องตัวและลดการสะดุดของการทำธุรกรรม</p>
               </div>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-black/25 border border-white/[0.04] space-y-1.5">

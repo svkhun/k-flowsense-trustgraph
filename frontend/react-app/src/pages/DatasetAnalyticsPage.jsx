@@ -882,7 +882,7 @@ export default function DatasetAnalyticsPage() {
 
               <div className="text-xs text-slate-300 leading-[1.8] space-y-2">
                 <p>
-                  <strong>ข้อจำกัดของระบบกฎเกณฑ์แบบดั้งเดิม (Rule-Based Limitations):</strong> มาตรการระงับธุรกรรมแบบเหมารวม (Hard Block / 15-Minute Freeze) มักสร้างอุปสรรคต่อลูกค้าสุจริต (Customer Friction สูงถึง 42%) ส่งผลให้อัตราความพึงพอใจลดลงและศูนย์บริการลูกค้ามีภาระงานล้นเกิน
+                  <strong>ข้อจำกัดของระบบกฎเกณฑ์แบบดั้งเดิม (Rule-Based Limitations):</strong> การตรวจจับแบบกฎตายตัว (Static Rules) ที่ขาดการวิเคราะห์ความสัมพันธ์ของกราฟ มักนำไปสู่การขัดจังหวะธุรกรรมที่ผิดพลาด (False Positive) ส่งผลให้อัตราความพึงพอใจลดลงและศูนย์บริการลูกค้ามีภาระงานล้นเกิน
                 </p>
                 <div className="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-emerald-300">
                   <strong className="text-white">นวัตกรรม Dynamic Step-Up Verification (5-Second Micro-Auth):</strong> เมื่อระบบประเมินความเสี่ยงอยู่ในระดับเฝ้าระวัง แทนที่จะบล็อกธุรกรรมทันที ระบบจะสั่งยืนยันตัวตนด้วยการสแกนใบหน้าแบบมีชีวิต (Liveness Biometric Prompt) ภายใน 5 วินาที ช่วยลดอัตราข้อร้องเรียนของลูกค้าลง <strong>87%</strong> พร้อมทั้งสกัดกั้นการสั่งโอนเงินผ่านระบบอัตโนมัติ (Automated Bot Injection) ได้อย่างเด็ดขาด
