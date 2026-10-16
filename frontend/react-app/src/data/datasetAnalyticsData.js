@@ -8,12 +8,6 @@ export const datasetAnalyticsData = {
     "totalTransactions": 6400,
     "normalTransactions": 6000,
     "scamTransactions": 400,
-    "p99LatencyMs": 11.6,
-    "targetSlaMs": 80.0,
-    "falsePositiveRate": 0.08,
-    "aucRoc": 0.994,
-    "precisionTop1Pct": 96.8,
-    "recall": 98.4,
     "avgAccountAgeDays": {
       "mule": 20.8,
       "normal": 1045.0

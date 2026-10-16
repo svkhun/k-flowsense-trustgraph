@@ -1,191 +1,41 @@
 import React, { useState } from 'react';
-import StatusHorizonBar from '../components/StatusHorizonBar';
+import { Target, Wallet } from 'lucide-react';
 import MicroSweepVault from '../components/MicroSweepVault';
-import { ArrowRight, Compass, BellOff, Sparkles, TrendingUp, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Velaris from '../components/ui/velaris';
-import ScrollReveal from '../components/ScrollReveal';
+import { PageIntro, Note, SectionHeading, AppLink, TextLink, money } from '../components/ProjectUI';
 
 export default function FlowSensePage() {
-  const [mainBalance, setMainBalance] = useState(24500);
-  const [fixedCommitments, setFixedCommitments] = useState(5650);
-  const [savingsBalance, setSavingsBalance] = useState(15240);
-
-  const scrollToContent = () => {
-    document.getElementById('flowsense-workspace')?.scrollIntoView({ behavior: 'smooth' });
+  const [balance, setBalance] = useState(24500);
+  const [bills, setBills] = useState(5650);
+  const [savings, setSavings] = useState(15240);
+  const [dailyBudget, setDailyBudget] = useState(600);
+  const days = 14;
+  const reserve = 5000;
+  const available = Math.max(0, balance - bills - reserve);
+  const dailyAllowance = available / days;
+  const endBalance = balance - bills - dailyBudget * days;
+  const shortfall = Math.max(0, reserve - endBalance);
+  const changeAmount = setter => event => {
+    const value = Number(event.target.value);
+    if (Number.isFinite(value)) setter(Math.max(0, Math.min(1000000, value)));
   };
-
-  return (
-    <div className="space-y-16 pb-20">
-      
-      {/* ========================================================================= */}
-      {/* 1. EXPANSIVE HERO HEADER (Living WebGL Atmosphere)                        */}
-      {/* ========================================================================= */}
-      <section className="relative min-h-[55vh] sm:min-h-[60vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
-        
-        {/* Full Viewport Velaris WebGL Canvas Background */}
-        <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-          <Velaris
-            bg="#070B12"
-            colors={["#00F59B", "#00A950", "#059669", "#070B12"]}
-            speed={0.9}
-            grain={0.22}
-            height="100%"
-            className="w-full h-full"
-          />
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center py-12">
-          {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md shadow-lg shadow-emerald-500/10 mb-6">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Module A: Flexible Liquidity &amp; Optional Saving</span>
-          </div>
-          
-          {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.25] sm:leading-[1.2] mb-6">
-            FlowSense: <span className="text-gradient-kplus">เห็นเงินที่ออมได้อย่างปลอดภัย</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
-            ช่วยคนเริ่มทำงานมองเห็นภาระก่อนเงินเดือนออก แล้วเสนอจำนวนเงินที่แยกออมได้หลังกันค่าใช้ชีวิต บิล และเงินสำรอง ผู้ใช้เลือกเปิดการออมเอง และถอนเงินออมบางส่วนหรือทั้งหมดกลับเข้าบัญชีหลักได้ตามปกติ
-          </p>
-
-          <button
-            onClick={scrollToContent}
-            className="inline-flex items-center gap-2 text-xs font-mono text-emerald-400 hover:text-emerald-300 transition-colors group cursor-pointer"
-          >
-            <span>สำรวจแถบสถานะและกลไก Micro-Sweep</span>
-            <ChevronDown className="w-4 h-4 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
-          </button>
-        </div>
+  return <div className="page-stack">
+    <PageIntro eyebrow="FlowSense · แผนใช้เงินและออมเงิน" title="ยอดในบัญชี ไม่ใช่เงินที่ใช้ได้ทั้งหมด">ลองกันบิลและเงินสำรองออกก่อน แล้วเปลี่ยนงบรายวันเพื่อดูว่าเงินจะเหลือเท่าไร จากนั้นจึงเลือกแยกเงินออมด้วยตัวเอง</PageIntro>
+    <Note>ตัวอย่างนี้คำนวณในเบราว์เซอร์ ใช้ช่วงสมมติ 14 วันก่อนเงินเดือนออกและเงินสำรอง ฿5,000 ไม่ได้เรียกโมเดลพยากรณ์หรือเปลี่ยนยอดในเว็บแอป</Note>
+    <div className="two-columns">
+      <section className="surface panel" aria-labelledby="budget-title">
+        <div className="surface-title"><div><h2 id="budget-title">ลองวางแผนใช้เงิน</h2><p>อีก 14 วันถึงเงินเดือน · สถานการณ์สมมติ</p></div><span className="icon-box mint"><Target size={21} /></span></div>
+        <label className="field-label" htmlFor="main-balance">เงินในบัญชีหลัก (บาท)</label>
+        <div className="amount-input"><span>฿</span><input id="main-balance" type="number" min="0" max="1000000" step="0.01" value={balance} onChange={changeAmount(setBalance)} inputMode="decimal" /></div>
+        <div className="preset-row">{[[32000, 'เงินเดือนเข้า'], [24500, 'ระหว่างเดือน'], [13000, 'บิลใกล้ถึง']].map(([amount, label]) => <button key={amount} aria-pressed={balance === amount} onClick={() => setBalance(amount)}>{label}</button>)}</div>
+        <div className="field-group"><label className="field-label" htmlFor="fixed-bills">บิลที่ต้องจ่ายก่อนเงินเดือนออก (บาท)</label><div className="amount-input"><span>฿</span><input id="fixed-bills" type="number" min="0" max="1000000" step="0.01" value={bills} onChange={changeAmount(setBills)} inputMode="decimal" /></div></div>
+        <dl className="calculation-list"><div><dt>กันเงินสำรองไว้</dt><dd>฿{money(reserve)}</dd></div><div><dt>เหลือหลังกันบิลและเงินสำรอง</dt><dd>฿{money(available, 2)}</dd></div><div><dt>เฉลี่ยต่อวันสำหรับ 14 วัน</dt><dd>฿{money(dailyAllowance, 2)}</dd></div></dl>
+        <div className="field-group"><label className="field-label" htmlFor="daily-budget">ลองใช้วันละ ฿{money(dailyBudget)}</label><input id="daily-budget" type="range" min="0" max="2000" step="50" value={dailyBudget} onChange={e => setDailyBudget(Number(e.target.value))} /></div>
+        <div className={'budget-result ' + (shortfall > 0 ? 'needs-attention' : '')} aria-live="polite"><span>คาดว่าจะเหลือก่อนเงินเดือนออก</span><strong>฿{money(endBalance, 2)}</strong><p>{shortfall > 0 ? 'ต่ำกว่าเงินสำรองที่ตั้งไว้ ฿' + money(shortfall, 2) + ' ลองลดงบรายวันหรือพักการออมเพิ่ม' : 'ตามสมมติฐานนี้ เงินยังเหลือถึงระดับเงินสำรองที่ตั้งไว้'}</p></div>
+        <p className="small-note">สูตรตัวอย่าง: เงินในบัญชี − บิล − (งบรายวัน × 14) ตัวอย่างนี้ยังไม่รวมรายรับหรือรายจ่ายอื่นที่อาจเกิดขึ้น</p>
       </section>
-
-      {/* ========================================================================= */}
-      {/* 2. MAIN INTERACTIVE COMPONENTS (Revealed on Scroll, Reduced Borders)     */}
-      {/* ========================================================================= */}
-      <section 
-        id="flowsense-workspace" 
-        className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-8"
-      >
-        <ScrollReveal>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-7">
-              <StatusHorizonBar
-                currentBalance={mainBalance}
-                setCurrentBalance={setMainBalance}
-                fixedObligations={fixedCommitments}
-                setFixedObligations={setFixedCommitments}
-              />
-            </div>
-            <div className="lg:col-span-5">
-              <MicroSweepVault
-                mainBalance={mainBalance}
-                setMainBalance={setMainBalance}
-                fixedCommitments={fixedCommitments}
-                subAccountBalance={savingsBalance}
-                setSubAccountBalance={setSavingsBalance}
-              />
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 3. 3 CORE PILLARS (Clean Cards, Reduced Borders)                         */}
-      {/* ========================================================================= */}
-      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-        <ScrollReveal>
-          <div className="space-y-6">
-            <div className="max-w-3xl space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 tech-label text-xs">
-                <Compass className="w-3.5 h-3.5 text-emerald-400" />
-                <span>3 Core FlowSense Innovations</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white leading-[1.4]">
-                สถาปัตยกรรมจัดการสภาพคล่องที่ไม่ทำตัวเป็นผู้ปกครอง
-              </h2>
-              <p className="text-sm text-slate-300/90 leading-relaxed">
-                ออกแบบบนพฤติกรรมจริงของ First Jobbers เพื่อแก้ปัญหา Budget Burnout และรักษาเงินฝาก CASA ให้กับธนาคาร
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {/* Pillar 1 */}
-              <div className="rounded-3xl p-6 sm:p-7 space-y-4 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl hover:border-emerald-500/30 transition-all">
-                <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
-                  <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 01</span>
-                  <Compass className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h3 className="text-base font-bold text-white leading-snug">Status Horizon Bar</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  แถบแสดงสถานะเส้นขอบฟ้าตัวเดียวบนหน้าจอหลักของบัญชี คาดการณ์สภาพคล่องสิ้นเดือนโดยคำนวณจากภาระผูกพันประจำ (ค่าเช่า, บัตรเครดิต, ค่าน้ำไฟ) ช่วยตัดความจำเป็นในการจดงบประมาณรายวันแบบเดิมๆ
-                </p>
-              </div>
-
-              {/* Pillar 2 */}
-              <div className="rounded-3xl p-6 sm:p-7 space-y-4 border border-emerald-500/25 bg-emerald-950/20 backdrop-blur-xl shadow-xl hover:border-emerald-500/40 transition-all">
-                <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
-                  <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 02</span>
-                  <Compass className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h3 className="text-base font-bold text-white leading-snug">Safe-to-Save + Micro-Sweep</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  แสดงยอดที่ยังเหลือหลังประมาณค่าใช้ชีวิต บิล และเงินสำรอง แล้วให้ผู้ใช้เลือกเปิดการแยกเงินออมก้อนเล็ก โดยถอนจากบัญชีออมตามจำนวนที่ต้องการได้ตามปกติ
-                </p>
-              </div>
-
-              {/* Pillar 3 */}
-              <div className="rounded-3xl p-6 sm:p-7 space-y-4 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl hover:border-emerald-500/30 transition-all">
-                <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
-                  <span className="text-[10px] font-mono tracking-wider text-slate-400 font-bold uppercase">PILLAR 03</span>
-                  <BellOff className="w-5 h-5 text-slate-400" />
-                </div>
-                <h3 className="text-base font-bold text-white leading-snug">Commitment Warnings</h3>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  ระงับการแจ้งเตือนช่วงยอดเงินลดลงตามวงจรปกติ (Normal Dips) เพื่อป้องกัน Alert Fatigue และจะส่งสัญญาณเตือนเฉพาะเมื่อภาระผูกพันคงที่ตกอยู่ในความเสี่ยงโดยตรงจากอัตราการใช้จ่ายปัจจุบัน
-                </p>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* 4. DATA SCIENCE ARCHITECTURE & CTA (Revealed on Scroll)                  */}
-      {/* ========================================================================= */}
-      <section className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 space-y-6">
-        <ScrollReveal>
-          <div className="rounded-3xl p-6 sm:p-7 space-y-3.5 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
-              <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">DATA SCIENCE ARCHITECTURE</span>
-              <span className="font-mono text-xs text-slate-400 tabular-nums">30-Day Liquidity Margin</span>
-            </div>
-            <h4 className="text-base sm:text-lg font-bold text-white">LightGBM with Rolling-Window Lag Features &amp; Transaction Seasonality</h4>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              แบบจำลอง Time-Series LightGBM เรียนรู้แบบแผนการรับเงินเดือน การจับจ่ายช่วงวันหยุดสุดสัปดาห์ (Weekend Spikes) และคำนวณ Safe Liquidity Margin ล่วงหน้า 30 วัน เพื่อให้ระบบระงับการแจ้งเตือนพร่ำเพรื่อได้อย่างแม่นยำ
-            </p>
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal delay={100}>
-          <div className="rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/[0.06] bg-[#16181D]/75 backdrop-blur-xl shadow-xl">
-            <div className="space-y-1 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-bold text-white">ต้องการทดสอบการตรวจจับมิจฉาชีพด้วย TrustGraph?</h3>
-              <p className="text-xs text-slate-400">สัมผัสเกราะสกัดบัญชีม้าความเร็วสูงระดับ &lt; 80ms SLA ด้วย R-GCN</p>
-            </div>
-            <Link
-              to="/trustgraph"
-              className="btn-kplus px-6 py-3 rounded-full font-bold text-xs flex items-center gap-2 shrink-0 transition-transform hover:scale-105"
-            >
-              <span>ไปที่หน้า TrustGraph</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </ScrollReveal>
-      </section>
-
+      <MicroSweepVault mainBalance={balance} setMainBalance={setBalance} fixedCommitments={bills} projectedLivingCost={dailyBudget * days} emergencyBuffer={reserve} subAccountBalance={savings} setSubAccountBalance={setSavings} />
     </div>
-  );
+    <section><SectionHeading kicker="จากตัวอย่างคำนวณ ไปสู่เว็บแอป" title="แต่ละส่วนทำหน้าที่ต่างกัน" /><dl className="explanation-list"><div><dt>แผนใช้เงิน</dt><dd>แสดงงบที่ใช้เพิ่มได้วันนี้และให้ลองตั้งงบ ก่อนตัดสินใจจริง การคำนวณงบเป็นกติกาที่อ่านสูตรได้ แยกจากผลคาดการณ์รายจ่ายของโมเดล</dd></div><div><dt>แนวโน้มเงินเข้า–ออก</dt><dd>ในเว็บแอปมีกราฟเงินคงเหลือและบิลล่วงหน้า โดยใช้ผลพยากรณ์จากโมเดลร่วมกับข้อมูลบัญชีสมมติ ผลลัพธ์เป็นค่าประมาณของต้นแบบ</dd></div><div><dt>ออมเงินและถอนเงิน</dt><dd>การเปิดออมอย่างเดียวไม่ย้ายเงิน แต่ละรายการต้องสั่งเองและต้องเหลือเงินตามกติกาที่กำหนด ส่วนการถอนเลือกบางส่วนหรือทั้งหมดได้ เป็นการถอนเงินออม ไม่ใช่การย้อนคืนธุรกรรมโอน</dd></div></dl></section>
+    <div className="button-row"><AppLink>ลองแผนใช้เงินในเว็บแอป</AppLink><TextLink to="/architecture">ดูการคำนวณและโมเดล</TextLink></div>
+  </div>;
 }

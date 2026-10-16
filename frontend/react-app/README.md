@@ -1,84 +1,43 @@
-# FlowSense & TrustGraph — Modern React 18 & React Router 6 Application
+# FlowSense × TrustGraph — เว็บไซต์นำเสนอโครงการ
 
-Frontend พัฒนาด้วย **React 18, React Router v6, Tailwind CSS, Vite, และ Lucide Icons** ตามมาตรฐาน Industrial FinTech Single-Page Application (SPA)
+เว็บไซต์ React สำหรับอธิบายแนวคิด การทำงาน และขอบเขตของต้นแบบ ใช้สี ฟอนต์ และรูปแบบเมนูจาก `k-web-application/src/ui/banking.css` ได้แก่พื้น #f4f7f5, สีหลัก #087653, เมนู #123f32, IBM Plex Sans Thai และ Plus Jakarta Sans สำหรับตัวเลข
 
----
+เว็บแอปที่ใช้ทดลองขั้นตอนเต็มเปิดแยกที่ https://k-web-application.onrender.com/ โดยกำหนด URL ใน `src/components/ProjectUI.jsx`
 
-## 🧭 เส้นทาง URL และ Routing System (React Router 6)
+## หน้าที่เปิดใช้งาน
 
-ระบบจัดการ Routing แบบ Declarative ด้วย `react-router-dom` v6 พร้อมรองรับ Client-Side Navigation, Active Link Highlighting, และ Smooth ScrollToTop:
+| เส้นทาง | เนื้อหา |
+| --- | --- |
+| / | ปัญหา แนวคิด และตัวอย่างภาพรวมบัญชี |
+| /flowsense | สูตรงบรายวัน การออมแบบเปิดเอง และการถอนเงินในเบราว์เซอร์ |
+| /trustgraph | ตัวอย่างผู้รับปกติ ผู้รับที่ควรทบทวน และผู้รับถูกบล็อก |
+| /personas | เมย์ นนท์ แพรว: ตัวละครสมมติชุดเดียวกับเว็บแอป |
+| /architecture | บทบาท React, FastAPI, ONNX Runtime และข้อจำกัดของโมเดล |
+| /dataset | ค้นหา กรอง แบ่งหน้า ดูรายละเอียด และดาวน์โหลดข้อมูลตัวอย่าง |
+| /app | เปิดเว็บแอปปัจจุบัน และลิงก์ simulator เดิมสำหรับเปรียบเทียบ |
 
-| Path URL | Component หน้าหลัก | รายละเอียดฟังก์ชัน |
-| :--- | :--- | :--- |
-| `/` | `HomePage.jsx` | หน้าแรก Overview รวบรวม Hero, Modular Navigation Cards, Live Preview ทั้ง 2 โซลูชัน |
-| `/flowsense` | `FlowSensePage.jsx` | เจาะลึก FlowSense: Status Horizon Bar, ยอดที่แยกออมได้, การเปิดออมด้วยตนเอง และการถอนเงินออมตามปกติ |
-| `/trustgraph` | `TrustGraphPage.jsx` | เจาะลึกระบบ TrustGraph: Micro-Auth 5s Liveness, Zero-Delay Baseline, XAI Direct Risk Reasoning |
-| `/architecture` | `ArchitecturePage.jsx` | สถาปัตยกรรม Two-Tier Low-Latency ML Pipeline (Kafka, PyG RGCN, Redis, ONNX Runtime) |
-| `/personas` | `PersonasPage.jsx` | วิเคราะห์กลุ่มลูกค้า First Jobber 2 กลุ่มหลัก พร้อมสถิติผลกระทบทางธุรกิจ (CASA +1.2-2.0B THB) |
-| `/dataset` | `DatasetAnalyticsPage.jsx` | หน้าตรวจสอบและ Audit ชุดข้อมูล 1,200 บัญชี และธุรกรรม 6,400 รายการ |
-| `/app` | `SimulatorPage.jsx` | K PLUS Mobile Simulator Studio สภาพแวดล้อมจำลองแอปมือถือจริงแบบ Interactive |
-| `*` | `NotFoundPage.jsx` | หน้า 404 สไตล์ Cyber-Fintech พร้อมปุ่มนำทางกลับหน้าแรก |
+เส้นทางเดิม /wealthpilot, /sentinel, /simulator, /data และ /audit ยังส่งต่อไปหน้าที่เกี่ยวข้อง
 
----
+## ขอบเขตข้อมูลและการสาธิต
 
-## 📦 โครงสร้างโปรเจกต์ React (Architecture)
+- ตัวอย่างคำนวณและออมในหน้า /flowsense ใช้สถานะชั่วคราวใน React ไม่เรียก API และไม่ใช้โมเดลพยากรณ์ รีโหลดหรือออกจากหน้าจะคืนค่าเริ่มต้น
+- หน้า /trustgraph แสดงกติกาจากสถานการณ์ที่กำหนดไว้ ไม่สร้างคะแนนเสี่ยงหรืออ้างว่าเป็นการสแกนใบหน้าจริง
+- ข้อมูลตารางฝังมาจาก `datasetAnalyticsData.js`: 200 บัญชี / 50 ธุรกรรม เป็นส่วนที่คัดจากข้อมูลสังเคราะห์ 1,200 บัญชี / 6,400 ธุรกรรม ไม่ใช่กลุ่มตัวอย่างที่ใช้แทนประชากร
+- CSV ดาวน์โหลดเฉพาะตัวอย่างที่ตรงกับตัวกรองทุกหน้า มีคอลัมน์ `dataset_kind=synthetic_sample` และชื่อขึ้นต้น `SYNTHETIC_`
+- ไม่ใช้ latency, SLA, ความแม่นยำ หรือผลกระทบเงินฝากที่ยังไม่มีหลักฐานเป็นตัวเลขขายโครงการ
+- simulator เดิมที่ `public/simulator.html` ยังคงอยู่ แต่ไม่ใช่หน้าทดลองหลัก และมีหน้าตา/กติกาบางส่วนต่างจากเว็บแอปปัจจุบัน
 
-```
-frontend/react-app/
-├── index.html                   # HTML Entry Point พร้อมโหลด Font IBM Plex Sans Thai
-├── package.json                 # React 18, React Router 6, Lucide React, Vite, Tailwind
-├── vite.config.js               # Vite Configuration พร้อม Proxy ไปยัง FastAPI Backend (Port 8000)
-├── tailwind.config.js           # KBank Theme Colors (#00A950, Emerald, Dark Slate)
-├── postcss.config.js            # PostCSS Autoprefixer Setup
-├── public/                      # Static Assets สำหรับ Vite Dev & Production Build
-│   ├── simulator.html           # Full-featured Mobile Simulator
-│   └── static/img/              # 3D Fintech Visuals & Hero Banners
-└── src/
-    ├── main.jsx                 # Entry Point พร้อม BrowserRouter
-    ├── App.jsx                  # Route Declarations & Global Modal State
-    ├── index.css                # Glassmorphic Utilities & Tailwind Directives
-    ├── pages/                   # หน้าเพจที่ผูกกับ React Router
-    │   ├── HomePage.jsx
-    │   ├── FlowSensePage.jsx
-    │   ├── TrustGraphPage.jsx
-    │   ├── ArchitecturePage.jsx
-    │   ├── PersonasPage.jsx
-    │   ├── DatasetAnalyticsPage.jsx
-    │   ├── SimulatorPage.jsx
-    │   └── NotFoundPage.jsx
-    └── components/              # Reusable UI Components
-        ├── Navbar.jsx           # Responsive Header พร้อม NavLink Active State & Mobile Menu
-        ├── Hero.jsx             # Hero Section พร้อม Dual CTA & 3D Visual
-        ├── ScrollToTop.jsx      # เลื่อนขึ้นบนสุดอัตโนมัติเมื่อเปลี่ยน Route
-        ├── StatusHorizonBar.jsx # Interactive Horizon Bar คำนวณเงินสิ้นเดือน
-        ├── MicroSweepVault.jsx  # Toggle กวาดเงินทอนเข้าบัญชีดอกเบี้ยสูง 1.50%
-        ├── TrustGraphCard.jsx   # XAI & Pre-Transaction Screening Card
-        ├── MicroAuthModal.jsx   # 5-Second Face Liveness Check Modal
-        ├── ArchitecturePipeline.jsx # Pipeline Diagram
-        ├── PersonaComparison.jsx    # Before/After Storyboard
-        └── Footer.jsx
-```
+## รันและ build
 
----
-
-## 🚀 วิธีการรันและการ Build
-
-### 1. โหมดทดสอบการพัฒนา (Vite Dev Server with HMR)
-```bash
+```powershell
 cd frontend/react-app
 npm install
 npm run dev
-```
-เปิดบราวเซอร์ที่: **http://localhost:5173**  
-*(Vite Dev Server มีการทำ Proxy คำขอ `/api`, `/predict`, `/forecast` ส่งต่อไปยัง FastAPI Backend ที่พอร์ต 8000 อัตโนมัติ)*
-
-### 2. โหมด Production Build
-```bash
 npm run build
 ```
-ผลลัพธ์การ Build จะถูก Bundle ลงในโฟลเดอร์ `dist/` โดยผ่านการ Minify และ Optimize ขนาดไฟล์เรียบร้อยแล้ว
 
-### 3. ตรวจสอบผลลัพธ์ก่อน Deploy (Preview)
-```bash
-npm run preview
-```
+FastAPI เสิร์ฟ bundle จาก `dist/` ซึ่ง repository นี้ติดตามใน Git จึงต้อง build ใหม่เมื่อแก้หน้าเว็บ โดยมี route สำหรับเปิด /dataset, /data และ /audit ตรงจาก URL ด้วย
+
+## จุดตรวจหลังแก้ UI
+
+ตรวจทุกหน้าที่ desktop และ 390px: เมนู ข้อความไม่ล้นจอ ตารางเลื่อนภายในกรอบ ตัวอย่างออม/ถอน การหยุดออมเมื่อเงินไม่พอ ผลของสถานการณ์ก่อนโอน การค้นหา/กรอง/CSV และ console errors จากนั้นรัน `npm run build` กับ `git diff --check`
