@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Compass, Calendar, AlertCircle, ShieldCheck, Zap, Info, TrendingUp, Sliders } from 'lucide-react';
 
-export default function StatusHorizonBar() {
-  const [currentBalance, setCurrentBalance] = useState(24500);
-  const [fixedObligations, setFixedObligations] = useState(15800);
+export default function StatusHorizonBar({ currentBalance, setCurrentBalance, fixedObligations, setFixedObligations }) {
   const daysUntilPayday = 14;
+  const projectedLivingCost = 8400;
+  const emergencyBuffer = 5000;
 
-  // Calculate Safe-to-Spend runway
-  const safeToSpend = Math.max(0, currentBalance - fixedObligations);
+  // Same illustrative obligations and reserve as the savings card beside it.
+  const safeToSpend = Math.max(0, currentBalance - fixedObligations - emergencyBuffer);
   const dailyBudget = (safeToSpend / daysUntilPayday).toFixed(0);
-  const runwayRatio = Math.min(100, Math.round((currentBalance / (fixedObligations + 10000)) * 100));
+  const runwayRatio = Math.min(100, Math.round((currentBalance / (fixedObligations + projectedLivingCost + emergencyBuffer + 5000)) * 100));
 
   // Determine horizon status
-  const isHealthy = currentBalance > fixedObligations * 1.25;
-  const isWarning = currentBalance >= fixedObligations && !isHealthy;
-  const isCritical = currentBalance < fixedObligations;
+  const isHealthy = currentBalance >= fixedObligations + projectedLivingCost + emergencyBuffer + 2000;
+  const isWarning = currentBalance >= fixedObligations + projectedLivingCost && !isHealthy;
+  const isCritical = currentBalance < fixedObligations + projectedLivingCost;
 
   const setPreset = (bal, obl) => {
     setCurrentBalance(bal);
@@ -29,32 +29,32 @@ export default function StatusHorizonBar() {
         <div>
           <div className="flex items-center gap-2">
             <Compass className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">Status Horizon Bar (LightGBM)</h3>
+            <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">Status Horizon Bar (เดโม)</h3>
             <span className="text-[10px] font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded">
-              30D RUNWAY
+              14D EXAMPLE
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5 font-normal leading-[1.7]">
-            คาดการณ์สภาพคล่องสุทธิถึงวันเงินเดือนออก โดยหักภาระคงที่ล่วงหน้า
+              ตัวอย่างสภาพคล่องถึงวันเงินเดือนออก โดยกันบิลและเงินสำรองล่วงหน้า
           </p>
         </div>
 
         {/* Live Preset Buttons */}
         <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-xl border border-white/5">
           <button
-            onClick={() => setPreset(32000, 15800)}
+            onClick={() => setPreset(32000, 5650)}
             className="px-2.5 py-1 text-[11px] rounded-lg font-mono text-emerald-300 hover:bg-emerald-500/20 transition-colors"
           >
             เงินเดือนเข้า
           </button>
           <button
-            onClick={() => setPreset(19500, 15800)}
+            onClick={() => setPreset(19500, 5650)}
             className="px-2.5 py-1 text-[11px] rounded-lg font-mono text-cyan-300 hover:bg-cyan-500/20 transition-colors"
           >
             กลางเดือน
           </button>
           <button
-            onClick={() => setPreset(14200, 15800)}
+            onClick={() => setPreset(13000, 5650)}
             className="px-2.5 py-1 text-[11px] rounded-lg font-mono text-rose-300 hover:bg-rose-500/20 transition-colors"
           >
             เสี่ยงค่าเช่า
@@ -75,14 +75,14 @@ export default function StatusHorizonBar() {
           </div>
 
           <div className="p-2.5 rounded-xl bg-black/40 border border-white/5 space-y-0.5">
-            <span className="text-slate-400 text-[10px] block">ภาระคงที่ (30D)</span>
+            <span className="text-slate-400 text-[10px] block">บิลก่อนเงินเดือนออก</span>
             <div className="text-base font-bold text-slate-300 font-num">
               -฿{fixedObligations.toLocaleString()}
             </div>
           </div>
 
           <div className="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-0.5">
-            <span className="text-emerald-400 text-[10px] block">Safe-to-Spend</span>
+            <span className="text-emerald-400 text-[10px] block">หลังกันบิลและเงินสำรอง</span>
             <div className="text-base font-bold text-emerald-300 font-num">
               ฿{safeToSpend.toLocaleString()}
             </div>

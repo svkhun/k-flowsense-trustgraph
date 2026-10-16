@@ -37,7 +37,7 @@ Empirical research reveals a dual financial crisis confronting young Thai profes
 ```mermaid
 flowchart TD
     subgraph KPLUS["K PLUS Mobile Experience"]
-        FS_UI["FlowSense: Status Horizon Bar & 1-Tap Undo"]
+        FS_UI["FlowSense: Status Horizon Bar & Safe-to-Save"]
         TG_UI["TrustGraph: Zero-Delay Baseline & Micro-Auth"]
     end
 
@@ -55,7 +55,7 @@ flowchart TD
     subgraph DECISION["Intervention & Autonomy Layer"]
         Horizon["Status Horizon Projection (Healthy vs Deficit Risk)"]
         MicroAuth["5-Second Face Liveness + Direct Risk Reasoning"]
-        Autonomy["User Autonomy: Final Confirmation / 1-Tap Undo Recall"]
+        Autonomy["User Autonomy: Savings Opt-in / Standard Withdrawal"]
     end
 
     KPLUS --> Kafka
@@ -68,9 +68,9 @@ flowchart TD
     Autonomy --> KPLUS
 ```
 
-### Module A: FlowSense (Flexible Liquidity & Autonomous Saving)
+### Module A: FlowSense (Flexible Liquidity & Optional Saving)
 * **Status Horizon Bar:** Single clean indicator projecting month-end liquidity based on recurring commitments, removing daily manual budgets.
-* **Micro-Sweep with 1-Tap Undo:** Sweeps small surplus amounts into high-interest sub-accounts only when cashflow permits. 1-tap recall returns 100% of funds instantly without penalty.
+* **Safe-to-Save + Micro-Sweep:** The demo estimates living costs until payday, recurring bills, and an emergency buffer before offering a small transfer (at most THB 500 per action). The user opts in first and can withdraw a chosen amount or the full savings balance normally. No background sweep scheduler or real bank ledger is connected.
 * **Commitment Warnings:** Alerts **ONLY** when an upcoming fixed debit (e.g., rent, credit card bill) is directly at risk based on current burn rate (suppresses alerts during normal dips).
 
 ### Module B: TrustGraph (Targeted Anti-Scam Verification)
@@ -121,7 +121,7 @@ Built with **React 18 + React Router v6 + Vite + Tailwind CSS**:
 | Route Path | Page Component | Feature & Capabilities |
 | :--- | :--- | :--- |
 | `/` | `HomePage.jsx` | FlowSense & TrustGraph Executive Overview, Value Proposition, Feature Showcase |
-| `/flowsense` | `FlowSensePage.jsx` | Deep dive into Module A: Status Horizon Bar, Commitment Warnings, Micro-Sweep with 1-Tap Undo |
+| `/flowsense` | `FlowSensePage.jsx` | Status Horizon Bar, Commitment Warnings, Safe-to-Save demo, optional Micro-Sweep and normal savings withdrawal |
 | `/trustgraph` | `TrustGraphPage.jsx` | Deep dive into Module B: Zero-Delay Baseline (3.8ms), Micro-Auth (5s), Direct Risk Reasoning |
 | `/architecture` | `ArchitecturePage.jsx` | Complete Pipeline: Kafka, Feast, LightGBM, R-GCN, Triton Inference Server |
 | `/personas` | `PersonasPage.jsx` | Persona Comparison (Month-to-Month vs Active Transactor) and KBank Business Impact |
@@ -133,8 +133,10 @@ Built with **React 18 + React Router v6 + Vite + Tailwind CSS**:
 
 ### FlowSense Endpoints
 * `GET /api/v2/flowsense/horizon-status/{account_id}` — Returns Status Horizon Bar projection, month-end surplus, burn rate, and commitment warnings with alert suppression.
-* `POST /api/v2/flowsense/micro-sweep` — Autonomous micro-sweep into sub-account when cashflow permits.
-* `POST /api/v2/flowsense/recall` — **1-Tap Undo Recall** returning 100% of swept funds instantly without cooldown or penalty.
+* `GET /api/v2/flowsense/profile/{account_id}` — Includes `savings_capacity` and opt-in state for the demo account.
+* `POST /api/v2/flowsense/savings-preference` — Enables or disables the user's savings opt-in.
+* `POST /api/v2/flowsense/micro-sweep` — User-triggered sweep, capped by estimated future liquidity and THB 500 per action.
+* `POST /api/v2/flowsense/vault/withdraw` — Withdraws a user-selected amount from savings. The older `/recall` route remains as an alias.
 * `GET /api/v2/flowsense/forecast-30d/{account_id}` — LightGBM rolling-window 30-day liquidity trajectory.
 
 ### TrustGraph Endpoints
@@ -180,7 +182,7 @@ npm run dev
 ## 10. Summary Checklist vs Pitch Requirements
 
 - [x] **Discretionary Spending & Reserve Trap Solved:** Replaced manual budgeting with the **Status Horizon Bar**, **Commitment Warnings (Proactive Nudges with Alert Suppression during normal dips)**, and autonomous liquidity projection.
-- [x] **Autonomous Saving without Liquidity Fear:** Implemented **Micro-Sweep with 1-Tap Undo** (instant 100% fund recall, zero lockup/penalty) to build emergency reserves effortlessly.
+- [x] **Optional Savings Demo:** Implemented a bill and buffer aware sweep limit with opt-in and normal partial or full withdrawal. Net savings and user value still require testing with real users.
 - [x] **Frictionless Routine Payments:** Routine transactions pass instantly via **Zero-Delay Baseline (0 added steps, 3.8ms)**.
 - [x] **Proactive Pre-Transaction Fraud Defense:** Replaced passive/reactive utility with **TrustGraph Pre-Transaction Screening**, triggering **Micro-Auth (5-second face liveness check)** and **Direct Risk Reasoning** against mule networks, preserving user autonomy.
 - [x] **Industrial Pipeline:** Documented and integrated **Kafka**, **Feast**, **Triton Inference Server**, **LightGBM**, and **R-GCN**.

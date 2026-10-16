@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import StatusHorizonBar from '../components/StatusHorizonBar';
 import MicroSweepVault from '../components/MicroSweepVault';
-import { ArrowRight, Compass, RotateCcw, BellOff, Sparkles, TrendingUp, ChevronDown } from 'lucide-react';
+import { ArrowRight, Compass, BellOff, Sparkles, TrendingUp, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Velaris from '../components/ui/velaris';
 import ScrollReveal from '../components/ScrollReveal';
 
 export default function FlowSensePage() {
+  const [mainBalance, setMainBalance] = useState(24500);
+  const [fixedCommitments, setFixedCommitments] = useState(5650);
+  const [savingsBalance, setSavingsBalance] = useState(15240);
+
   const scrollToContent = () => {
     document.getElementById('flowsense-workspace')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -35,17 +39,17 @@ export default function FlowSensePage() {
           {/* Pill Badge */}
           <div className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-md shadow-lg shadow-emerald-500/10 mb-6">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Module A: Flexible Liquidity &amp; Autonomous Saving</span>
+            <span>Module A: Flexible Liquidity &amp; Optional Saving</span>
           </div>
           
           {/* Headline */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.25] sm:leading-[1.2] mb-6">
-            FlowSense: <span className="text-gradient-kplus">สภาพคล่องยืดหยุ่นและระบบออมเงินอัตโนมัติ</span>
+            FlowSense: <span className="text-gradient-kplus">เห็นเงินที่ออมได้อย่างปลอดภัย</span>
           </h1>
 
           {/* Subtitle */}
           <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300/90 leading-relaxed font-normal mb-8">
-            ตอบโจทย์คนเริ่มทำงาน (First Jobbers รายได้ 18k–35k บาท) ที่ใช้ชีวิตเดือนชนเดือนและต้องการออมเงินแบบ Autopilot โดยไม่ต้องจดบัญชีรายรับรายจ่าย พร้อมคืนความอิสระด้วยฟังก์ชัน <strong className="text-emerald-400 font-semibold">1-Tap Undo</strong> เรียกเงินคืนเข้าบัญชีหลักได้ 100% ทันทีไร้ค่าปรับเมื่อถึงกำหนดจ่ายบิล
+            ช่วยคนเริ่มทำงานมองเห็นภาระก่อนเงินเดือนออก แล้วเสนอจำนวนเงินที่แยกออมได้หลังกันค่าใช้ชีวิต บิล และเงินสำรอง ผู้ใช้เลือกเปิดการออมเอง และถอนเงินออมบางส่วนหรือทั้งหมดกลับเข้าบัญชีหลักได้ตามปกติ
           </p>
 
           <button
@@ -68,10 +72,21 @@ export default function FlowSensePage() {
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             <div className="lg:col-span-7">
-              <StatusHorizonBar />
+              <StatusHorizonBar
+                currentBalance={mainBalance}
+                setCurrentBalance={setMainBalance}
+                fixedObligations={fixedCommitments}
+                setFixedObligations={setFixedCommitments}
+              />
             </div>
             <div className="lg:col-span-5">
-              <MicroSweepVault />
+              <MicroSweepVault
+                mainBalance={mainBalance}
+                setMainBalance={setMainBalance}
+                fixedCommitments={fixedCommitments}
+                subAccountBalance={savingsBalance}
+                setSubAccountBalance={setSavingsBalance}
+              />
             </div>
           </div>
         </ScrollReveal>
@@ -113,11 +128,11 @@ export default function FlowSensePage() {
               <div className="rounded-3xl p-6 sm:p-7 space-y-4 border border-emerald-500/25 bg-emerald-950/20 backdrop-blur-xl shadow-xl hover:border-emerald-500/40 transition-all">
                 <div className="flex items-center justify-between pb-3 border-b border-white/[0.05]">
                   <span className="text-[10px] font-mono tracking-wider text-emerald-400 font-bold uppercase">PILLAR 02</span>
-                  <RotateCcw className="w-5 h-5 text-emerald-400" />
+                  <Compass className="w-5 h-5 text-emerald-400" />
                 </div>
-                <h3 className="text-base font-bold text-white leading-snug">Micro-Sweep with 1-Tap Undo</h3>
+                <h3 className="text-base font-bold text-white leading-snug">Safe-to-Save + Micro-Sweep</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                  กวาดเงินส่วนเกินขนาดเล็กเข้าบัญชีย่อยดอกเบี้ยสูงเฉพาะเมื่อกระแสเงินสดเอื้ออำนวย หากยอดเงินในบัญชีหลักเหลือน้อย ระบบ 1-Tap Recall จะดึงเงินคืนเข้าบัญชีหลัก 100% ทันทีโดยไม่มีค่าธรรมเนียมหรือการรอคอย
+                  แสดงยอดที่ยังเหลือหลังประมาณค่าใช้ชีวิต บิล และเงินสำรอง แล้วให้ผู้ใช้เลือกเปิดการแยกเงินออมก้อนเล็ก โดยถอนจากบัญชีออมตามจำนวนที่ต้องการได้ตามปกติ
                 </p>
               </div>
 

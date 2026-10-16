@@ -45,8 +45,7 @@ def api_post(endpoint: str, payload: dict = None):
     try:
         with httpx.Client(timeout=0.6) as http_c:
             resp = http_c.post(f"http://127.0.0.1:8000{endpoint}", json=payload)
-            if resp.status_code == 200:
-                return resp.json()
+            return resp.json()
     except Exception:
         pass
     # Fallback to in-process TestClient
@@ -320,6 +319,8 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
         m_tab1, m_tab2 = st.tabs(["💰 Safe-to-Spend & Vault", "💸 โอนเงิน (TrustGraph Shield)"])
 
         with m_tab1:
+            if st.session_state.get("savings_notice"):
+                st.success(st.session_state.pop("savings_notice"))
             st.markdown(f"""
             <div class="sts-card">
                 <div class="sts-title">Safe-to-Spend ประจำวัน (Daily Disposable Limit)</div>
@@ -337,39 +338,83 @@ if nav_selection == "📱 K PLUS Mobile App (First Jobber)":
             </div>
             """, unsafe_allow_html=True)
 
-            # Protected Micro-Vault Box
+            # Savings sub-account display
             st.markdown(f"""
             <div class="vault-box">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-weight: 600; color: #60A5FA; font-size: 13px;">🛡️ Protected Vault (เงินออมคุ้มครอง)</span>
-                    <span style="font-size: 11px; background: #1E3A8A; color: #93C5FD; padding: 2px 6px; border-radius: 8px;">ดอกเบี้ย 1.50%</span>
+                    <span style="font-weight: 600; color: #60A5FA; font-size: 13px;">เงินออมแยกบัญชี</span>
+                    <span style="font-size: 11px; background: #1E3A8A; color: #93C5FD; padding: 2px 6px; border-radius: 8px;">ถอนเงินได้ตามปกติ</span>
                 </div>
                 <div style="font-size: 24px; font-weight: 700; color: #F8FAFC; margin-top: 6px;">
                     ฿ {user_data['vault_balance']:,.2f}
                 </div>
                 <div style="font-size: 11px; color: #94A3B8; margin-top: 2px;">
-                    เงินที่สะสมจากการกวาดอัตโนมัติ: ฿ {user_data['total_swept']:,.2f}
+                    เงินที่แยกเก็บสุทธิในเดโม: ฿ {user_data['total_swept']:,.2f}
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
-            col_v1, col_v2 = st.columns(2)
-            with col_v1:
-                if st.button("🧹 กวาดเงินออม (Micro-Sweep)", use_container_width=True):
-                    sweep_res = api_post("/api/v2/flowsense/micro-sweep", {"account_id": selected_user})
-                    st.success(f"✅ {sweep_res['message']}")
+            capacity = user_data["savings_capacity"]
+            st.metric("เงินที่แยกออมได้ในขณะนี้", f"฿ {capacity['safe_to_save']:,.2f}")
+            st.caption(
+                f"กันค่าใช้ชีวิตถึงวันเงินเดือนออก ฿ {capacity['projected_living_cost']:,.2f}, "
+                f"บิล ฿ {capacity['fixed_commitments']:,.2f} และเงินสำรอง ฿ {capacity['emergency_buffer']:,.2f} แล้ว "
+                f"(กวาดได้สูงสุดครั้งละ ฿ {capacity['max_sweep_amount']:,.2f})"
+            )
+            savings_enabled = st.toggle(
+                "เปิดการแยกเงินออมเมื่อยอดเพียงพอ",
+                value=user_data["savings_enabled"],
+                key=f"savings_enabled_{selected_user}",
+            )
+            if savings_enabled != user_data["savings_enabled"]:
+                preference = api_post("/api/v2/flowsense/savings-preference", {
+                    "account_id": selected_user, "enabled": savings_enabled
+                })
+                if "detail" in preference:
+                    st.error(preference["detail"])
+                else:
+                    user_data["savings_enabled"] = savings_enabled
+
+            if st.button(
+                "แยกเงินออมตามยอดที่แนะนำ",
+                width="stretch",
+                disabled=not savings_enabled or capacity["max_sweep_amount"] <= 0,
+            ):
+                sweep_res = api_post("/api/v2/flowsense/micro-sweep", {"account_id": selected_user})
+                if "detail" in sweep_res:
+                    st.error(sweep_res["detail"])
+                else:
+                    st.session_state["savings_notice"] = sweep_res["message"]
                     st.rerun()
-            with col_v2:
-                btn_withdraw = st.button("🔓 ถอนเงินจาก Vault", use_container_width=True)
-                if btn_withdraw:
-                    w_res = api_post("/api/v2/flowsense/recall", {
-                        "account_id": selected_user,
-                        "amount": 1000.0,
-                        "intent_reason": "General expense",
-                        "bypass_cooldown": False
+
+            with st.form(f"withdraw_savings_{selected_user}"):
+                withdraw_all = st.checkbox("ถอนเงินออมทั้งหมด", disabled=user_data["vault_balance"] <= 0)
+                withdrawal_amount = st.number_input(
+                    "จำนวนเงินที่ต้องการถอน (บาท)",
+                    min_value=0.0,
+                    max_value=float(user_data["vault_balance"]),
+                    value=min(1000.0, float(user_data["vault_balance"])),
+                    step=100.0,
+                    disabled=withdraw_all or user_data["vault_balance"] <= 0,
+                )
+                withdraw_submitted = st.form_submit_button(
+                    "ถอนเงินออมเข้าบัญชีหลัก",
+                    width="stretch",
+                    disabled=user_data["vault_balance"] <= 0,
+                )
+            if withdraw_submitted:
+                amount = float(user_data["vault_balance"]) if withdraw_all else float(withdrawal_amount)
+                if amount <= 0:
+                    st.error("กรุณาระบุจำนวนเงินที่ต้องการถอน")
+                else:
+                    withdrawal = api_post("/api/v2/flowsense/vault/withdraw", {
+                        "account_id": selected_user, "amount": amount
                     })
-                    f_type = w_res.get('friction_type', '1-Tap Recall')
-                    st.warning(f"⚠️ **{f_type}:** {w_res.get('message', 'ถอนเงินสำเร็จ')}")
+                    if "detail" in withdrawal:
+                        st.error(withdrawal["detail"])
+                    else:
+                        st.session_state["savings_notice"] = withdrawal["message"]
+                        st.rerun()
 
         # TAB 2: TRANSFER & TRUSTGRAPH SCREENING
         with m_tab2:
@@ -648,38 +693,41 @@ elif nav_selection == "📈 CASA Growth & Business Impact":
     c1, c2 = st.columns([1.2, 1])
 
     with c1:
-        st.subheader("💼 การจำลองการเติบโตของเงินฝาก CASA (CASA Growth Simulator)")
+        st.subheader("💼 ฉากจำลองยอดย้ายและยอดออมที่คงอยู่")
         st.markdown("""
         จากเอกสาร Pitch ระบุว่า K PLUS มีผู้ใช้กลุ่ม **First Jobber (อายุ 22–30 ปี) จำนวน 3.2 ล้านคน**
-        ระบบ **Dynamic Micro-Sweeping** ของ FlowSense จะกวาดเงินส่วนเกินสภาพคล่องเข้าบัญชีเงินฝาก **K-eSavings** โดยอัตโนมัติ
+        แบบจำลองนี้ตั้งสมมติฐานว่าผู้ใช้เลือกเปิดการแยกเงินออม และบางส่วนเก็บยอดออมสุทธิไว้ในบัญชีต่อเนื่อง ยังไม่ใช่ผลจากระบบออมอัตโนมัติที่ทำงานจริง
         """)
 
         adoption_rate = st.slider("สัดส่วน First Jobbers ที่เปิดใช้งาน FlowSense (% Adoption):", 10, 80, 35)
-        monthly_sweep_avg = st.slider("ยอดเงินกวาดออมเฉลี่ยต่อคนต่อเดือน (THB/User/Month):", 300, 2500, 1200, step=50)
+        monthly_sweep_avg = st.slider("ยอดเงินแยกออมเฉลี่ยต่อคนต่อเดือน (บาท):", 300, 2500, 1200, step=50)
+        retained_share = st.slider("สัดส่วนที่ยังคงอยู่หลังการถอน (% สมมติฐาน):", 0, 100, 50)
 
         total_users = 3_200_000
         active_users = total_users * (adoption_rate / 100.0)
-        annual_casa_bthb = (active_users * monthly_sweep_avg * 12) / 1_000_000_000
+        gross_sweep_bthb = (active_users * monthly_sweep_avg * 12) / 1_000_000_000
+        retained_bthb = gross_sweep_bthb * retained_share / 100.0
 
         st.markdown(f"""
         <div style="background: linear-gradient(135deg, #00A950 0%, #005A2B 100%); padding: 22px; border-radius: 18px; color: white; margin-top: 14px;">
-            <div style="font-size: 14px; opacity: 0.9;">มูลค่าเงินฝากต้นทุนต่ำ (Low-Cost CASA Deposits) ที่ดึงดูดได้ต่อปี:</div>
-            <div style="font-size: 36px; font-weight: 800; margin: 6px 0;">฿ {annual_casa_bthb:.2f} พันล้านบาท (Billion THB)</div>
+            <div style="font-size: 14px; opacity: 0.9;">ยอดแยกออมสะสมในฉากจำลองต่อปี (gross transfers):</div>
+            <div style="font-size: 36px; font-weight: 800; margin: 6px 0;">฿ {gross_sweep_bthb:.2f} พันล้านบาท</div>
             <div style="font-size: 13px; opacity: 0.9;">
-                (เป้าหมายใน Pitch: <b>1.2 – 2.0 พันล้านบาท</b> | จำนวนผู้ใช้ที่ออมอัตโนมัติ: {int(active_users):,} คน)
+                คงอยู่หลังถอนตามสมมติฐาน: ฿ {retained_bthb:.2f} พันล้านบาท | ผู้ใช้ที่เปิดการแยกออม: {int(active_users):,} คน
             </div>
         </div>
         """, unsafe_allow_html=True)
+        st.caption("ยอดย้ายเงินระหว่างบัญชีในธนาคารเดียวกันยังไม่ใช่เงินฝากใหม่หรือ CASA ที่เพิ่มขึ้นจริง ต้องวัดยอดคงเหลือเทียบกับกลุ่มฐาน")
 
     with c2:
         st.subheader("🎯 สรุปผลตอบแทนต่อผู้มีส่วนได้ส่วนเสีย (Value Proposition)")
         st.markdown("""
         #### 1. สำหรับ First Jobbers (ลูกค้าบุคคล)
-        - **อัตราการออม 15–20% ต่อเดือน** โดยไม่ต้องเปลี่ยนวิถีชีวิตหรือจดบันทึกรายจ่ายเอง
+        - **เป้าหมายที่ต้องทดสอบ:** เงินออมสุทธิหลังถอนเพิ่มขึ้นโดยไม่กระทบการจ่ายบิล
         - **ความปลอดภัยทางจิตวิทยาเต็มรูปแบบ (Psychological Safety)** สกัดกั้นกลโกงออนไลน์ > 85%
         
         #### 2. สำหรับ KBank & K PLUS (ผลกระทบเชิงธุรกิจ)
-        - **CASA Deposit Growth:** ดึงดูดเงินฝากต้นทุนต่ำเข้าสู่ระบบธนาคาร 1.2B – 2.0B บาท
+        - **ผลต่อเงินฝากที่ต้องพิสูจน์:** วัดยอดออมที่คงอยู่ เทียบกับพฤติกรรมเดิมและเงินฝากใหม่จากภายนอก
         - **Fraud Operational Cost Reduction:** ลดต้นทุนการฟ้องร้องทางกฎหมาย การร้องเรียน และการระงับบัญชีม้าผ่าน AOC 1441
         - **Long-term Retention & LTV:** เพิ่มอัตราการเปิดใช้งานแอปสม่ำเสมอ (DAU) และผูกสัมพันธ์ลูกค้า First Jobber สู่ผลิตภัณฑ์ Wealth อื่นในอนาคต
         """)

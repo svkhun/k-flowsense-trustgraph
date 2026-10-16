@@ -11,7 +11,7 @@ Frontend พัฒนาด้วย **React 18, React Router v6, Tailwind CSS, 
 | Path URL | Component หน้าหลัก | รายละเอียดฟังก์ชัน |
 | :--- | :--- | :--- |
 | `/` | `HomePage.jsx` | หน้าแรก Overview รวบรวม Hero, Modular Navigation Cards, Live Preview ทั้ง 2 โซลูชัน |
-| `/flowsense` | `FlowSensePage.jsx` | เจาะลึกระบบ FlowSense: Status Horizon Bar, Micro-Sweeping Vault, 1-Tap Undo Recall |
+| `/flowsense` | `FlowSensePage.jsx` | เจาะลึก FlowSense: Status Horizon Bar, ยอดที่แยกออมได้, การเปิดออมด้วยตนเอง และการถอนเงินออมตามปกติ |
 | `/trustgraph` | `TrustGraphPage.jsx` | เจาะลึกระบบ TrustGraph: Micro-Auth 5s Liveness, Zero-Delay Baseline, XAI Direct Risk Reasoning |
 | `/architecture` | `ArchitecturePage.jsx` | สถาปัตยกรรม Two-Tier Low-Latency ML Pipeline (Kafka, PyG RGCN, Redis, ONNX Runtime) |
 | `/personas` | `PersonasPage.jsx` | วิเคราะห์กลุ่มลูกค้า First Jobber 2 กลุ่มหลัก พร้อมสถิติผลกระทบทางธุรกิจ (CASA +1.2-2.0B THB) |

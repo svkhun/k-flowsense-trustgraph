@@ -193,10 +193,10 @@ export default function HomePage({ onOpenScamModal }) {
                     <span className="font-mono text-xs text-slate-400">LightGBM 30-Day</span>
                   </div>
                   <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-emerald-300 transition-colors leading-[1.4] pb-0.5">
-                    FlowSense: Liquidity &amp; Autonomous Saving
+                    FlowSense: Liquidity &amp; Optional Saving
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-                    Status Horizon Bar คาดการณ์สภาพคล่องสิ้นเดือน หักภาระคงที่ล่วงหน้า พร้อมระบบ Micro-Sweep และ 1-Tap Undo คืนเงินเข้าบัญชีหลัก 100% ทันที
+                    Status Horizon Bar แสดงภาระล่วงหน้า พร้อมยอดที่แยกออมได้หลังกันค่าใช้ชีวิต บิล และเงินสำรอง ผู้ใช้เลือกเปิดการออมและถอนเงินออมได้ตามปกติ
                   </p>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400 mt-5 pt-3 border-t border-white/[0.05]">
@@ -319,11 +319,11 @@ export default function HomePage({ onOpenScamModal }) {
               </div>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-black/25 border border-white/[0.04] space-y-1.5">
-                <span className="text-slate-400 text-[10px] block uppercase">ANNUAL CASA GROWTH</span>
+                <span className="text-slate-400 text-[10px] block uppercase">SAVINGS OUTCOME</span>
                 <div className="text-xl sm:text-2xl font-extrabold text-white tabular-nums">
-                  +฿1.42B
+                  ต้องทดสอบ
                 </div>
-                <p className="text-[11px] text-slate-300 font-sans leading-relaxed">เงินฝากต้นทุนต่ำจากการกวาดเงินออม</p>
+                <p className="text-[11px] text-slate-300 font-sans leading-relaxed">วัดเงินออมสุทธิหลังถอน เทียบกับวิธีออมเดิม</p>
               </div>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-black/25 border border-white/[0.04] space-y-1.5">

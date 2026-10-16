@@ -18,7 +18,7 @@ import Velaris from './ui/velaris';
 import ScrollReveal from './ScrollReveal';
 
 export default function Hero({ onOpenScamModal }) {
-  const [activeScenario, setActiveScenario] = useState('routine'); // 'routine' | 'commitment' | 'mule' | 'recall'
+  const [activeScenario, setActiveScenario] = useState('routine'); // 'routine' | 'commitment' | 'mule' | 'withdraw'
   const [simFeedback, setSimFeedback] = useState(null);
 
   const scenarios = [
@@ -71,19 +71,19 @@ export default function Hero({ onOpenScamModal }) {
       }
     },
     {
-      id: 'recall',
-      label: '4. 1-Tap Undo (ดึงเงินคืน)',
-      badge: 'INSTANT RECALL (100%)',
+      id: 'withdraw',
+      label: '4. ถอนเงินออมตามปกติ',
+      badge: 'STANDARD SAVINGS WITHDRAWAL',
       badgeColor: 'bg-amber-500/10 text-amber-400',
-      description: 'ดึงเงินออมจาก Sub-account ดอกเบี้ยสูง คืนเข้าบัญชีหลักทันที 100% ไร้ค่าปรับ ไร้เวลารอ',
-      latency: '0.85 ms',
-      status: 'RECALLED ฿15,240 TO MAIN',
+      description: 'ตัวอย่างการเลือกจำนวนเงินจากบัญชีออมแล้วถอนเข้าบัญชีหลักโดยไม่มีขั้นตอนล็อกเพิ่ม',
+      latency: 'DEMO',
+      status: 'WITHDRAW ฿1,000 TO MAIN',
       statusColor: 'text-amber-400',
       telemetry: {
-        stage: 'CORE CASA LEDGER',
-        riskScore: 'Zero Penalty',
-        velocity: 'Single Tap',
-        decision: 'RESTORE 100%'
+        stage: 'SAVINGS ACCOUNT DEMO',
+        riskScore: 'User-selected amount',
+        velocity: 'Normal withdrawal',
+        decision: 'WITHDRAW ฿1,000'
       }
     }
   ];
@@ -94,8 +94,8 @@ export default function Hero({ onOpenScamModal }) {
     setActiveScenario(scenarioId);
     if (scenarioId === 'mule') {
       setSimFeedback('ตรวจพบบัญชีม้าความเสี่ยงสูง! พร้อมเปิด Micro-Auth สแกนหน้า 5 วินาที');
-    } else if (scenarioId === 'recall') {
-      setSimFeedback('1-Tap Undo สำเร็จ! คืนเงิน 100% เข้าบัญชีหลักโดยไม่มีค่าธรรมเนียม');
+    } else if (scenarioId === 'withdraw') {
+      setSimFeedback('ตัวอย่างการถอนเงินออม ฿1,000 เข้าบัญชีหลักตามจำนวนที่เลือก');
     } else {
       setSimFeedback(null);
     }
@@ -255,7 +255,7 @@ export default function Hero({ onOpenScamModal }) {
                 <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
                   <span className="tech-label text-slate-400 text-xs">TRANSACTION TRACE</span>
                   <span className="font-mono text-xs font-bold text-emerald-400">
-                    LATENCY: {currentScenario.latency} &lt; 80ms SLA
+                    {activeScenario === 'withdraw' ? 'WITHDRAWAL: ILLUSTRATIVE DEMO' : <>LATENCY: {currentScenario.latency} &lt; 80ms SLA</>}
                   </span>
                 </div>
 
@@ -316,8 +316,8 @@ export default function Hero({ onOpenScamModal }) {
                   </div>
 
                   <div className="flex justify-between items-center py-1.5 border-b border-white/[0.04]">
-                    <span className="text-slate-400">1-Tap Recall SLA:</span>
-                    <span className="text-emerald-400 font-bold">100% Instant Rollback</span>
+                    <span className="text-slate-400">Savings withdrawal:</span>
+                    <span className="text-emerald-400 font-bold">User-selected amount</span>
                   </div>
 
                   <div className="flex justify-between items-center py-1.5">

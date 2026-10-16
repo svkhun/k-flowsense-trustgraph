@@ -10,6 +10,8 @@ import onnxruntime as rt
 import pandas as pd
 import numpy as np
 import time
+import calendar
+import math
 import os
 import hmac
 import hashlib
@@ -24,7 +26,7 @@ FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
 app = FastAPI(
     title="FlowSense & TrustGraph (Industrial Banking Engine)",
-    description="Backend API powering FlowSense Flexible Liquidity & Autonomous Saving, and TrustGraph Targeted Anti-Scam Verification for K PLUS First Jobbers",
+    description="Backend API powering FlowSense Flexible Liquidity & Optional Saving, and TrustGraph Targeted Anti-Scam Verification for K PLUS First Jobbers",
     version="3.0.0"
 )
 
@@ -372,6 +374,7 @@ for acc_id, prof in BEHAVIORAL_PROFILES_CACHE.items():
         "main_balance": float(prof["monthly_salary"] * 0.65),
         "vault_balance": float(prof["initial_vault_savings"]),
         "total_swept": 0.0,
+        "savings_enabled": False,
         "daily_spent_today": float(prof["avg_daily_spend"] * 0.45),
         "last_sweep_ts": time.time()
     }
@@ -420,16 +423,13 @@ class MicroSweepRequest(BaseModel):
     custom_sweep_amount: Optional[float] = Field(None, gt=0, le=1_000_000.0)
     idempotency_key: Optional[str] = None
 
-class RecallRequest(BaseModel):
+class SavingsPreferenceRequest(BaseModel):
     account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
-    amount: Optional[float] = Field(None, gt=0, le=10_000_000.0)  # None means 100% full recall
-    idempotency_key: Optional[str] = None
+    enabled: bool
 
 class VaultWithdrawalRequest(BaseModel):
     account_id: str = Field(..., pattern=r"^[A-Za-z0-9_]{3,30}$")
-    amount: Optional[float] = Field(None, ge=0, le=10_000_000.0, description="Amount to recall. If None or 0, recalls 100% of swept funds.")
-    intent_reason: Optional[str] = Field("1-Tap Recall", example="1-Tap Recall for emergency liquidity")
-    bypass_cooldown: bool = Field(True)
+    amount: float = Field(..., gt=0, le=10_000_000.0, description="Amount to withdraw from savings.")
     idempotency_key: Optional[str] = None
 
 # ==============================================================================
@@ -727,8 +727,36 @@ def confirm_transfer(payload: TransferConfirmRequest, x_idempotency_key: Optiona
     return res
 
 # ==============================================================================
-# 4. FLOWSENSE SERVICES (FLEXIBLE LIQUIDITY & AUTONOMOUS SAVING)
+# 4. FLOWSENSE SERVICES (FLEXIBLE LIQUIDITY & OPTIONAL SAVING)
 # ==============================================================================
+def get_savings_capacity(state: Dict[str, Any], prof: Dict[str, Any], now: Optional[datetime] = None) -> Dict[str, Any]:
+    """Conservative demo estimate until the next salary date, before moving savings."""
+    now = now or datetime.now()
+    payday = now.replace(day=min(28, calendar.monthrange(now.year, now.month)[1]))
+    if now.date() >= payday.date():
+        next_month = (now.replace(day=1) + timedelta(days=32)).replace(day=1)
+        payday = next_month.replace(day=min(28, calendar.monthrange(next_month.year, next_month.month)[1]))
+    days_to_payday = max(1, (payday.date() - now.date()).days)
+    salary = float(prof["monthly_salary"])
+    fixed_commitments = sum(float(prof.get(key, 0.0)) for key in ("fixed_rent", "fixed_debt", "fixed_utilities"))
+    emergency_buffer = max(500.0, float(prof.get("emergency_buffer", salary * 0.12)))
+    avg_daily_spend = float(prof.get("avg_daily_spend", 600.0))
+    spent_today = float(state.get("daily_spent_today", avg_daily_spend))
+    projected_daily_spend = max(0.0, avg_daily_spend, spent_today)
+    projected_living_cost = round(projected_daily_spend * days_to_payday, 2)
+    projected_end_balance = round(float(state["main_balance"]) - projected_living_cost - fixed_commitments, 2)
+    safe_to_save = max(0.0, round(projected_end_balance - emergency_buffer, 2))
+    return {
+        "days_to_payday": days_to_payday,
+        "payday_date": payday.strftime("%Y-%m-%d"),
+        "projected_living_cost": projected_living_cost,
+        "fixed_commitments": round(fixed_commitments, 2),
+        "emergency_buffer": round(emergency_buffer, 2),
+        "projected_end_balance": projected_end_balance,
+        "safe_to_save": safe_to_save,
+        "max_sweep_amount": min(safe_to_save, 500.0),
+    }
+
 @app.get("/api/v2/flowsense/profile/{account_id}")
 @app.get("/api/v2/wealthpilot/profile/{account_id}")
 def get_flowsense_profile(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30}$", description="Sanitized Banking Account ID")):
@@ -746,6 +774,7 @@ def get_flowsense_profile(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
         "total_swept": 1250.0,
         "daily_spent_today": 280.0
     })
+    savings_capacity = get_savings_capacity(state, prof)
 
     return {
         "account_id": account_id,
@@ -755,6 +784,8 @@ def get_flowsense_profile(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
         "main_balance": round(state["main_balance"], 2),
         "vault_balance": round(state["vault_balance"], 2),
         "total_swept": round(state["total_swept"], 2),
+        "savings_enabled": bool(state.get("savings_enabled", False)),
+        "savings_capacity": savings_capacity,
         "daily_spent_today": round(state["daily_spent_today"], 2),
         "persona": {
             "cluster_id": int(prof["cluster_id"]),
@@ -763,7 +794,7 @@ def get_flowsense_profile(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
             "description": prof.get("persona_desc", "First Jobber บริหารสภาพคล่องด้วย FlowSense และ Protected Vault"),
             "recommended_sweep_pct": prof["recommended_sweep_pct"],
             "scam_vulnerability": prof["scam_vulnerability"],
-            "vault_friction_level": "1_TAP_RECALL_ZERO_PENALTY"
+            "vault_friction_level": "STANDARD_WITHDRAWAL"
         }
     }
 
@@ -789,29 +820,23 @@ def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0
     })
 
     now = datetime.now()
-    payday_day = 28
-    if now.day <= payday_day:
-        days_to_payday = payday_day - now.day
-    else:
-        days_to_payday = (30 - now.day) + payday_day
-    days_to_payday = max(1, days_to_payday)
+    savings_capacity = get_savings_capacity(state, prof, now)
+    days_to_payday = savings_capacity["days_to_payday"]
 
     salary = float(prof["monthly_salary"])
     fixed_rent = float(prof.get("fixed_rent", round(salary * 0.25, 2)))
     fixed_debt_emi = float(prof.get("fixed_debt", round(salary * 0.12, 2)))
     fixed_utilities = float(prof.get("fixed_utilities", round(salary * 0.05, 2)))
-    emergency_buffer = float(prof.get("emergency_buffer", round(salary * 0.12, 2)))
+    emergency_buffer = savings_capacity["emergency_buffer"]
     total_fixed_obligations = round(fixed_rent + fixed_debt_emi + fixed_utilities, 2)
     living_type = str(prof.get("living_type", "ค่าเช่าห้อง/คอนโด"))
     debt_type = str(prof.get("debt_type", "บิลผ่อนชำระ / บัตรเครดิต"))
 
     current_balance = state["main_balance"]
     spent_today = state["daily_spent_today"]
-    avg_daily_spend = float(prof.get("avg_daily_spend", 600.0))
 
     # Burn rate & projected balance at payday
-    projected_daily_burn = (spent_today * 0.5) + (avg_daily_spend * 0.5)
-    projected_end_balance = current_balance - (projected_daily_burn * days_to_payday) - total_fixed_obligations
+    projected_end_balance = savings_capacity["projected_end_balance"]
 
     # Commitment Warning Logic (Pitch: Suppresses alerts during normal dips; fires ONLY when upcoming debit is at risk)
     is_normal_dip = (current_balance < salary * 0.5) and (projected_end_balance >= 1000.0)
@@ -823,7 +848,7 @@ def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0
         alert_suppressed = False
         warning_nudge = (
             f"⚠️ แจ้งเตือนภาระผูกพัน: จากอัตราการใช้จ่ายปัจจุบัน ค่าใช้จ่ายคงที่สิ้นเดือน ฿{total_fixed_obligations:,.2f} "
-            f"({living_type} ฿{fixed_rent:,.0f} • {debt_type} ฿{fixed_debt_emi:,.0f}) อาจไม่เพียงพอในอีก {days_to_payday} วันข้างหน้า แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า"
+            f"({living_type} ฿{fixed_rent:,.0f} • {debt_type} ฿{fixed_debt_emi:,.0f}) อาจไม่เพียงพอในอีก {days_to_payday} วันข้างหน้า สามารถถอนเงินจากบัญชีออมตามจำนวนที่ต้องใช้ได้"
         )
     elif is_normal_dip:
         horizon_state = "NORMAL_DIP_SAFE"
@@ -844,14 +869,15 @@ def get_flowsense_horizon_status(account_id: str = Path(..., pattern=r"^[A-Za-z0
     # Status Horizon Bar Percentage (0-100% indicating month-end liquidity runway health)
     horizon_health_pct = min(100.0, max(15.0, round(((current_balance - total_fixed_obligations) / (current_balance + 1e-5)) * 100, 1)))
     burn_rate_pct = min(100.0, max(10.0, round(100.0 - horizon_health_pct, 1)))
-    daily_safe_limit = max(200.0, round((current_balance - total_fixed_obligations) / days_to_payday, 2))
+    daily_safe_limit = max(0.0, round((current_balance - total_fixed_obligations - emergency_buffer) / days_to_payday, 2))
 
     return {
         "account_id": account_id,
         "masked_account_id": mask_account_id(account_id),
         "days_to_payday": days_to_payday,
-        "payday_date": f"{now.year}-{now.month:02d}-28",
+        "payday_date": savings_capacity["payday_date"],
         "current_balance": round(current_balance, 2),
+        "safe_to_save": savings_capacity["safe_to_save"],
         "horizon_health_pct": horizon_health_pct,
         "burn_rate_pct": burn_rate_pct,
         "horizon_state": horizon_state,
@@ -1059,12 +1085,20 @@ def forecast_cashflow_30d(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,
         "timeline": full_timeline
     }
 
+@app.post("/api/v2/flowsense/savings-preference")
+def set_savings_preference(payload: SavingsPreferenceRequest):
+    if payload.account_id not in LIVE_ACCOUNT_STATES:
+        raise HTTPException(status_code=404, detail="ไม่พบบัญชีนี้")
+    with get_account_lock(payload.account_id):
+        LIVE_ACCOUNT_STATES[payload.account_id]["savings_enabled"] = payload.enabled
+    audit_log("SAVINGS_PREFERENCE_UPDATED", payload.account_id, {"enabled": payload.enabled})
+    return {"account_id": payload.account_id, "savings_enabled": payload.enabled}
+
 @app.post("/api/v2/flowsense/micro-sweep")
 @app.post("/api/v2/wealthpilot/micro-sweep")
 def trigger_micro_sweep(payload: MicroSweepRequest, x_idempotency_key: Optional[str] = Header(None)):
     """
-    Micro-Sweep with 1-Tap Undo:
-    Sweeps small surplus amounts into high-interest sub-accounts only when cashflow permits.
+    Move a small amount to savings only after opt-in and a future-liquidity check.
     """
     idem_key = x_idempotency_key or payload.idempotency_key
     cached_res = check_idempotency(idem_key)
@@ -1073,29 +1107,28 @@ def trigger_micro_sweep(payload: MicroSweepRequest, x_idempotency_key: Optional[
 
     acc_id = payload.account_id
     if acc_id not in LIVE_ACCOUNT_STATES:
-        if acc_id not in BEHAVIORAL_PROFILES_CACHE:
-            acc_id = "ACC_0100"
-        prof = BEHAVIORAL_PROFILES_CACHE.get(acc_id, {"initial_vault_savings": 5000.0, "recommended_sweep_pct": 0.08})
-        LIVE_ACCOUNT_STATES[acc_id] = {
-            "main_balance": 24500.0,
-            "vault_balance": float(prof["initial_vault_savings"]),
-            "total_swept": 0.0,
-            "daily_spent_today": 200.0,
-            "last_sweep_ts": time.time()
-        }
+        raise HTTPException(status_code=404, detail="ไม่พบบัญชีนี้")
 
     with get_account_lock(acc_id):
         state = LIVE_ACCOUNT_STATES[acc_id]
-        prof = BEHAVIORAL_PROFILES_CACHE.get(acc_id, {"recommended_sweep_pct": 0.08})
+        prof = BEHAVIORAL_PROFILES_CACHE[acc_id]
+        if not state.get("savings_enabled", False):
+            raise HTTPException(status_code=400, detail="กรุณาเปิดการแยกเงินออมก่อน")
+        capacity = get_savings_capacity(state, prof)
+        max_sweep = capacity["max_sweep_amount"]
+        if max_sweep <= 0:
+            raise HTTPException(status_code=400, detail="ยังไม่มีเงินที่แยกออมได้หลังกันค่าใช้จ่าย บิล และเงินสำรอง")
 
         sweep_amount = payload.custom_sweep_amount
-        if sweep_amount is None or sweep_amount <= 0:
+        if sweep_amount is None:
             sweep_rate = float(prof.get("recommended_sweep_pct", 0.08))
             sweep_amount = round(state["main_balance"] * sweep_rate * 0.15, 2)
-            sweep_amount = min(sweep_amount, 500.0)
+            sweep_amount = min(sweep_amount, max_sweep)
+        if not math.isfinite(sweep_amount) or sweep_amount <= 0 or round(sweep_amount, 2) != sweep_amount:
+            raise HTTPException(status_code=400, detail="จำนวนเงินออมต้องไม่ละเอียดเกินสตางค์")
 
-        if state["main_balance"] - sweep_amount < 500.0:
-            raise HTTPException(status_code=400, detail="ไม่สามารถกวาดเงินออมได้: ยอดคงเหลือในบัญชีหลักต้องไม่ต่ำกว่าเกณฑ์สภาพคล่องปลอดภัย ฿ 500.00")
+        if sweep_amount > max_sweep:
+            raise HTTPException(status_code=400, detail=f"แยกออมได้ไม่เกิน ฿ {max_sweep:,.2f} ในขณะนี้")
 
         state["main_balance"] = round(state["main_balance"] - sweep_amount, 2)
         state["vault_balance"] = round(state["vault_balance"] + sweep_amount, 2)
@@ -1114,20 +1147,19 @@ def trigger_micro_sweep(payload: MicroSweepRequest, x_idempotency_key: Optional[
         "new_subaccount_balance": res_vault,
         "new_vault_balance": res_vault,
         "total_accumulated_swept": res_total,
-        "one_tap_undo_available": True,
-        "message": f"กวาดเงินส่วนเกิน ฿ {sweep_amount:,.2f} เข้าบัญชีย่อยดอกเบี้ยสูง 1.50% เรียบร้อยแล้ว (สามารถกด 1-Tap Undo เรียกคืนได้ทันที 100% ไร้ค่าปรับ)"
+        "safe_to_save_before_sweep": capacity["safe_to_save"],
+        "message": f"แยกเงินออม ฿ {sweep_amount:,.2f} เข้าบัญชีย่อยแล้ว คุณถอนเงินออมตามจำนวนที่ต้องการได้ตามปกติ"
     }
     audit_log("MICRO_SWEEP_EXECUTED", acc_id, {"swept": sweep_amount, "new_main": res_main, "new_vault": res_vault})
     store_idempotency(idem_key, res)
     return res
 
+@app.post("/api/v2/flowsense/vault/withdraw")
 @app.post("/api/v2/flowsense/recall")
 @app.post("/api/v2/wealthpilot/vault/withdraw")
-def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key: Optional[str] = Header(None)):
+def withdraw_savings(payload: VaultWithdrawalRequest, x_idempotency_key: Optional[str] = Header(None)):
     """
-    Micro-Sweep with 1-Tap Undo (Instant Recall):
-    If balance runs low, a 1-tap recall returns 100% of the funds to the main account instantly without penalty.
-    Returns 100% of swept funds instantly without lockup or penalty!
+    Ordinary withdrawal of a user-selected amount from the demo savings balance.
     """
     idem_key = x_idempotency_key or payload.idempotency_key
     cached_res = check_idempotency(idem_key)
@@ -1136,49 +1168,35 @@ def recall_micro_sweep_funds(payload: VaultWithdrawalRequest, x_idempotency_key:
 
     acc_id = payload.account_id
     if acc_id not in LIVE_ACCOUNT_STATES:
-        acc_id = "ACC_0100"
-        LIVE_ACCOUNT_STATES[acc_id] = {"main_balance": 24500.0, "vault_balance": 15000.0, "total_swept": 1500.0, "daily_spent_today": 0.0}
+        raise HTTPException(status_code=404, detail="ไม่พบบัญชีนี้")
 
     with get_account_lock(acc_id):
         state = LIVE_ACCOUNT_STATES[acc_id]
-        recall_amount = payload.amount
-        if recall_amount is None or recall_amount <= 0:
-            # 1-Tap Undo (100% full recall of swept funds or sub-account balance)
-            if state.get("total_swept", 0.0) > 0:
-                recall_amount = state["total_swept"]
-            else:
-                recall_amount = state.get("vault_balance", 0.0)
-            recall_amount = min(recall_amount, state.get("vault_balance", 0.0))
-
-        if recall_amount <= 0:
-            raise HTTPException(status_code=400, detail="ไม่มีเงินในบัญชีย่อยที่สามารถดึงคืนได้ในขณะนี้")
-
-        if recall_amount > state["vault_balance"]:
+        withdrawal_amount = payload.amount
+        if not math.isfinite(withdrawal_amount) or round(withdrawal_amount, 2) != withdrawal_amount:
+            raise HTTPException(status_code=400, detail="จำนวนเงินที่ถอนต้องไม่ละเอียดเกินสตางค์")
+        if withdrawal_amount > state["vault_balance"]:
             raise HTTPException(status_code=400, detail=f"ยอดเงินในบัญชีย่อยไม่เพียงพอ (มี ฿ {state['vault_balance']:,.2f})")
 
-        # Instant 1-tap return without penalty or waiting period!
-        state["vault_balance"] = round(state["vault_balance"] - recall_amount, 2)
-        state["main_balance"] = round(state["main_balance"] + recall_amount, 2)
-        state["total_swept"] = max(0.0, round(state.get("total_swept", 0.0) - recall_amount, 2))
+        state["vault_balance"] = round(state["vault_balance"] - withdrawal_amount, 2)
+        state["main_balance"] = round(state["main_balance"] + withdrawal_amount, 2)
+        state["total_swept"] = max(0.0, round(state.get("total_swept", 0.0) - withdrawal_amount, 2))
 
         res_main = round(state["main_balance"], 2)
         res_vault = round(state["vault_balance"], 2)
         res_total = round(state["total_swept"], 2)
 
     res = {
-        "status": "RECALL_SUCCESS",
+        "status": "WITHDRAWAL_SUCCESS",
         "account_id": acc_id,
-        "recalled_amount": round(recall_amount, 2),
-        "friction_type": "1_TAP_RECALL_ZERO_PENALTY",
-        "penalty_fee": 0.0,
-        "waiting_time_sec": 0,
+        "withdrawn_amount": round(withdrawal_amount, 2),
         "new_main_balance": res_main,
         "new_subaccount_balance": res_vault,
         "new_vault_balance": res_vault,
         "total_accumulated_swept": res_total,
-        "message": f"1-Tap Undo สำเร็จ! ดึงเงิน ฿ {recall_amount:,.2f} คืนเข้าบัญชีหลักเรียบร้อยแล้วทันที 100% ไร้ค่าปรับ"
+        "message": f"ถอนเงินออม ฿ {withdrawal_amount:,.2f} เข้าบัญชีหลักเรียบร้อยแล้ว"
     }
-    audit_log("RECALL_EXECUTED", acc_id, {"recalled": recall_amount, "new_main": res_main, "new_vault": res_vault})
+    audit_log("SAVINGS_WITHDRAWAL", acc_id, {"withdrawn": withdrawal_amount, "new_main": res_main, "new_vault": res_vault})
     store_idempotency(idem_key, res)
     return res
 
@@ -1196,6 +1214,7 @@ def reset_account_state(account_id: str = Path(..., pattern=r"^[A-Za-z0-9_]{3,30
         "main_balance": float(prof["monthly_salary"] * 0.65),
         "vault_balance": float(prof["initial_vault_savings"]),
         "total_swept": 0.0,
+        "savings_enabled": False,
         "daily_spent_today": float(prof["avg_daily_spend"] * 0.45),
         "last_sweep_ts": time.time()
     }

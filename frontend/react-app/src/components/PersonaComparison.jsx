@@ -81,9 +81,9 @@ export default function PersonaComparison() {
                 </div>
 
                 <div className="space-y-1">
-                  <div className="font-bold text-emerald-200">Micro-Sweep with 1-Tap Undo (สร้างเงินสำรองไร้แรงต้าน):</div>
+                  <div className="font-bold text-emerald-200">Safe-to-Save และการถอนเงินออมตามปกติ:</div>
                   <p className="text-slate-300 leading-[1.8] font-normal">
-                    กวาดเศษเงินส่วนเกินสะสมเป็น Emergency Reserves ดอกเบี้ยสูงอัตโนมัติ โดยไม่สูญเสียสภาพคล่อง ด้วยปุ่ม 1-Tap Undo ดึงเงินคืนเข้าบัญชีหลักได้ 100% ทันที ไร้ค่าปรับ
+                    เสนอให้แยกเงินออมก้อนเล็กเฉพาะส่วนที่เหลือหลังกันภาระและเงินสำรอง ผู้ใช้เลือกเปิดเองและถอนบางส่วนหรือทั้งหมดได้ตามปกติ
                   </p>
                 </div>
 
@@ -117,10 +117,10 @@ export default function PersonaComparison() {
               </div>
               <h4 className="text-base sm:text-lg font-bold text-white leading-[1.4]">มนุษย์เงินเดือนชนเดือน (Living Month-to-Month)</h4>
               <p className="text-xs sm:text-sm text-slate-300 leading-[1.8] font-normal">
-                ต้องการระบบออมเงินแบบ Autopilot โดยไม่ต้องจดบันทึกรายรับรายจ่ายด้วยตนเอง แต่ต้องการสิทธิ์การเข้าถึงเงินทุกบาททุกสตางค์ทันที (Instant Access) เมื่อถึงกำหนดจ่ายค่าเช่าห้องหรือบิลหนี้
+                อาจต้องการเห็นยอดที่แยกออมได้หลังกันค่าเช่าและบิล และยังถอนเงินออมได้เมื่อจำเป็น สมมติฐานนี้ต้องทดสอบกับผู้ใช้จริง
               </p>
               <div className="pt-2 text-xs text-emerald-400 font-mono font-medium">
-                → รองรับด้วย FlowSense: Status Horizon Bar + 1-Tap Undo
+                → ทดลองด้วย FlowSense: Status Horizon Bar + Safe-to-Save
               </div>
             </div>
 
@@ -161,9 +161,9 @@ export default function PersonaComparison() {
 
             <div className="bento-card rounded-2xl p-6 space-y-2.5 border border-emerald-500/30 bg-emerald-950/15 backdrop-blur-xl">
               <div className="text-[10px] font-mono tracking-wider text-emerald-400 uppercase font-bold">PILLAR 02</div>
-              <h4 className="text-base font-bold text-white leading-[1.4]">Stable Deposit Base (+฿1.4B CASA)</h4>
+              <h4 className="text-base font-bold text-white leading-[1.4]">เงินออมสุทธิที่คงอยู่</h4>
               <p className="text-xs text-slate-300 leading-[1.8] font-normal">
-                การกวาดเงินออมอัตโนมัติ (Micro-Sweeps) ช่วยระดมเงินฝากต้นทุนต่ำเข้าสู่ธนาคารอย่างต่อเนื่องและมั่นคง โดยไม่สร้างความตระหนกด้านสภาพคล่องให้ลูกค้า
+                ต้องวัดยอดออมที่ยังคงอยู่หลังหักการถอน เทียบกับวิธีออมเดิมก่อนอ้างผลต่อฐานเงินฝากของธนาคาร
               </p>
             </div>
 

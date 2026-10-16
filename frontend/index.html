@@ -301,11 +301,11 @@
                     </div>
                     <span class="text-[9.5px] font-semibold text-slate-300">กวาดออม</span>
                   </div>
-                  <div class="kplus-action-btn" onclick="triggerOneTapRecall()">
+                  <div class="kplus-action-btn" onclick="promptVaultWithdrawal()">
                     <div class="kplus-action-icon">
                       <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-teal-400"></i>
                     </div>
-                    <span class="text-[9.5px] font-semibold text-slate-300">1-Tap Undo</span>
+                    <span class="text-[9.5px] font-semibold text-slate-300">ถอนเงินออม</span>
                   </div>
                   <div class="kplus-action-btn" onclick="showFeatureAlert('QR Scan')">
                     <div class="kplus-action-icon">
@@ -325,7 +325,7 @@
                   </button>
                 </div>
 
-                <!-- SUB-TAB 1: FlowSense (Status Horizon Bar & Sub-Account with 1-Tap Undo) -->
+                <!-- SUB-TAB 1: FlowSense (Status Horizon Bar & optional savings) -->
                 <div id="mobile-tab-sts" class="space-y-2">
                   
                   <!-- Card 1: FlowSense Liquidity Runway (Clean, Airy & Focused) -->
@@ -377,7 +377,7 @@
                   </div>
 
                   <!-- Card 2: FlowSense Sub-Account Vault (Sleek Pocket Style) -->
-                  <div class="bg-[#1E2025]/90 p-2.5 px-3 rounded-2xl border border-teal-500/25 relative overflow-hidden shadow-sm flex items-center justify-between cursor-pointer hover:border-teal-500/50 hover:bg-[#16233d] transition-all group" onclick="triggerMicroSweep()" title="แตะเพื่อกวาดออมส่วนเกิน">
+                  <div class="bg-[#1E2025]/90 p-2.5 px-3 rounded-2xl border border-teal-500/25 relative overflow-hidden shadow-sm flex items-center justify-between group">
                     <div class="flex items-center gap-2.5">
                       <div class="w-7 h-7 rounded-xl bg-teal-500/15 border border-teal-500/30 text-teal-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <i data-lucide="piggy-bank" class="w-3.5 h-3.5"></i>
@@ -385,21 +385,23 @@
                       <div>
                         <div class="flex items-center gap-1.5">
                           <span class="text-[10.5px] font-bold text-white tracking-wide">FlowSense Sub-Account</span>
-                          <span class="text-[8.5px] text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded font-mono font-semibold">1.5%</span>
                         </div>
                         <div class="text-[8.5px] text-slate-400 mt-0.5 flex items-center gap-1">
-                          <span class="text-emerald-400 font-medium">✓ 1-Tap Undo</span>
-                          <span>• ดึงเงินคืน 100% ไร้ค่าปรับ</span>
+                           <span class="text-emerald-400 font-medium">ถอนบางส่วนหรือทั้งหมดได้</span>
                         </div>
                       </div>
                     </div>
                     <div class="text-right shrink-0">
                       <div class="text-xs font-black text-white font-mono tracking-tight" id="disp-vault-balance">฿ 15,240.00</div>
                       <div class="text-[8px] text-teal-400/80 font-medium flex items-center justify-end gap-1">
-                        <span>กวาดออม</span>
+                         <span>เงินออม</span>
                         <i data-lucide="sparkles" class="w-2.5 h-2.5"></i>
                       </div>
                     </div>
+                  </div>
+                  <div class="text-[10px] text-slate-300 px-2">
+                    แยกออมได้หลังกันภาระ: <b id="safe-to-save-amount">฿ 0.00</b>
+                    <label class="ml-2"><input id="savings-opt-in" type="checkbox" onchange="setSavingsEnabled(this.checked)"> เปิดการแยกเงินออม</label>
                   </div>
 
                 </div>
@@ -530,14 +532,14 @@
               <button onclick="triggerScenarioPreset('undo_recall')" class="p-2.5 rounded-xl bg-[#1E2025] hover:bg-emerald-950/50 border border-white/[0.08] hover:border-emerald-500/40 text-left transition-all group">
                 <div class="text-[11px] font-bold text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   <i data-lucide="rotate-ccw" class="w-3 h-3 text-emerald-400"></i>
-                  <span>4. 1-Tap Undo</span>
+                  <span>4. ถอนเงินออม</span>
                 </div>
-                <div class="text-[10px] text-slate-400 mt-1 font-mono">ดึงเงินคืนเข้า 100%</div>
+                <div class="text-[10px] text-slate-400 mt-1 font-mono">เลือกจำนวนเงินที่ต้องการถอน</div>
               </button>
             </div>
           </div>
 
-          <!-- STORY CARD 1: FlowSense — Flexible Liquidity & Autonomous Saving -->
+          <!-- STORY CARD 1: FlowSense — Flexible Liquidity & Optional Saving -->
           <div class="fintech-panel p-5 sm:p-6 space-y-5">
             <div class="flex items-center justify-between border-b border-white/[0.08] pb-4">
               <div class="flex items-center gap-3">
@@ -555,7 +557,7 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-base font-bold text-white">1. FlowSense — Flexible Liquidity &amp; Autonomous Saving</h3>
+                  <h3 class="text-base font-bold text-white">1. FlowSense — Flexible Liquidity &amp; Optional Saving</h3>
                   <p class="text-xs text-slate-400">แก้ปัญหา Budget Burnout ด้วย Status Horizon Bar ฉายภาพสภาพคล่องสิ้นเดือน ไม่ต้องจดบัญชีรายวัน</p>
                 </div>
               </div>
@@ -1075,7 +1077,7 @@
                   <span class="font-bold text-white font-mono">1.2 – 2.0 พันล้านบาท</span>
                 </div>
                 <div class="flex items-center justify-between bg-white/[0.03] px-3.5 py-2.5 rounded-xl border border-white/[0.04]">
-                  <span class="text-slate-400">ผู้ใช้ออมอัตโนมัติ:</span>
+                  <span class="text-slate-400">ผู้ใช้ที่เลือกเปิดการออม (สมมติฐาน):</span>
                   <span class="font-bold text-emerald-400 font-mono"><b id="calc-result-users">1,120,000</b> คน</span>
                 </div>
               </div>

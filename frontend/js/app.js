@@ -595,6 +595,10 @@ async function loadAllUserData(accId) {
     const prof = await profResp.json();
     currentProfileData = prof;
     updateProfileUI(prof);
+    const savingsToggle = document.getElementById("savings-opt-in");
+    if (savingsToggle) savingsToggle.checked = Boolean(prof.savings_enabled);
+    const capacityEl = document.getElementById("safe-to-save-amount");
+    if (capacityEl) capacityEl.textContent = `฿ ${(prof.savings_capacity?.safe_to_save || 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
 
     // 2. Safe-to-Spend / Horizon Status
     const stsResp = await fetch(`/api/v2/flowsense/horizon-status/${accId}`);
@@ -733,7 +737,7 @@ function runScenario(num) {
     if (activeBtn) activeBtn.classList.add("ring-2", "ring-sky-500", "bg-[#1E2C4A]");
     if (activeInd) activeInd.classList.remove("hidden");
 
-    showToast("success", "จำลอง: FlowSense กวาดเงินส่วนเกินเข้า Sub-Account (1.50% p.a.) พร้อม 1-Tap Undo คืน 100%...");
+    showToast("success", "ตัวอย่างการแยกเงินออมหลังกันค่าใช้ชีวิต บิล และเงินสำรอง");
     switchMobileTab('sts');
 
     setTimeout(() => {
@@ -743,11 +747,11 @@ function runScenario(num) {
     if (activeBtn) activeBtn.classList.add("ring-2", "ring-emerald-500", "bg-[#1E2C4A]");
     if (activeInd) activeInd.classList.remove("hidden");
 
-    showToast("success", "จำลอง: 1-Tap Undo ดึงเงินคืนเข้าบัญชีหลัก 100% ทันทีไร้ค่าปรับ...");
+    showToast("success", "เลือกจำนวนเงินที่ต้องการถอนจากบัญชีออม");
     switchMobileTab('sts');
 
     setTimeout(() => {
-      triggerOneTapRecall();
+      promptVaultWithdrawal();
     }, 500);
   }
 }
@@ -926,7 +930,7 @@ function updateSafeToSpendUI(sts) {
         ? sts.projected_month_end_liquidity 
         : (sts.projected_month_end_surplus !== undefined ? sts.projected_month_end_surplus : 8433.75);
       if (isAtRisk) {
-        nudgeEl.innerHTML = `⚠️ <b>แจ้งเตือนภาระผูกพัน:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} อาจไม่เพียงพอสำหรับบิลคงที่ แนะนำใช้ 1-Tap Recall ดึงเงินออมกลับมาล่วงหน้า`;
+        nudgeEl.innerHTML = `⚠️ <b>แจ้งเตือนภาระผูกพัน:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} อาจไม่เพียงพอสำหรับบิลคงที่ สามารถถอนเงินออมตามจำนวนที่ต้องใช้ได้`;
       } else {
         nudgeEl.innerHTML = `<b>Status Horizon Bar:</b> คาดการณ์สภาพคล่องสิ้นเดือน ฿ ${proj.toLocaleString('en-US', {minimumFractionDigits: 2})} • <i>ระบบซ่อนการแจ้งเตือนช่วงเงินแกว่งปกติ (Alert Suppression) เพื่อตัดความรำคาญ</i>`;
       }
@@ -1320,9 +1324,30 @@ function renderCashflowForecast(fc) {
   });
 }
 
+async function setSavingsEnabled(enabled) {
+  try {
+    const response = await fetch("/api/v2/flowsense/savings-preference", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ account_id: currentAccountId, enabled })
+    });
+    if (!response.ok) throw new Error("Could not update savings preference");
+    if (currentProfileData) currentProfileData.savings_enabled = enabled;
+    showToast("success", enabled ? "เปิดการแยกเงินออมแล้ว" : "ปิดการแยกเงินออมแล้ว");
+  } catch (error) {
+    const toggle = document.getElementById("savings-opt-in");
+    if (toggle) toggle.checked = !enabled;
+    showToast("error", "ไม่สามารถเปลี่ยนการตั้งค่าการออมได้");
+  }
+}
+
 // Micro-Sweeping Action
 async function triggerMicroSweep() {
   playSound("tap");
+  if (!currentProfileData?.savings_enabled) {
+    showToast("error", "กรุณาเปิดการแยกเงินออมก่อน");
+    return;
+  }
   const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-sweep-" + Date.now());
   try {
     const resp = await fetch("/api/v2/flowsense/micro-sweep", {
@@ -1342,7 +1367,7 @@ async function triggerMicroSweep() {
       const vaultBal = (res.new_vault_balance !== undefined)
         ? res.new_vault_balance
         : (res.new_subaccount_balance !== undefined ? res.new_subaccount_balance : 0);
-      const sweptAmt = res.swept_amount || 120;
+      const sweptAmt = res.swept_amount;
 
       showToast("success", `${res.message} (ยอด Vault: ฿ ${vaultBal.toLocaleString('en-US', {minimumFractionDigits: 2})})`);
       
@@ -1356,7 +1381,7 @@ async function triggerMicroSweep() {
         originY = rect.top + rect.height / 2;
       }
       triggerCoinBurst(originX, originY);
-      expandDynamicIsland(`กวาดเงินออม +฿${sweptAmt.toLocaleString('en-US', {minimumFractionDigits: 2})} -> Vault`, "1.50% p.a.", 3000);
+      expandDynamicIsland(`แยกเงินออม +฿${sweptAmt.toLocaleString('en-US', {minimumFractionDigits: 2})}`, "หลังกันภาระแล้ว", 3000);
 
       // Update displayed balance on the card
       const balanceEl = document.getElementById("card-main-balance");
@@ -1391,25 +1416,34 @@ async function triggerMicroSweep() {
 // Protected Vault Withdrawal
 async function promptVaultWithdrawal() {
   playSound("tap");
+  const available = Number(currentProfileData?.vault_balance || 0);
+  if (available <= 0) {
+    showToast("error", "ไม่มีเงินออมที่ถอนได้");
+    return;
+  }
+  const answer = window.prompt(`จำนวนเงินที่ต้องการถอน (สูงสุด ฿${available.toLocaleString()})`, String(Math.min(1000, available)));
+  if (answer === null) return;
+  const amount = Number(answer);
+  if (!Number.isFinite(amount) || amount <= 0 || amount > available || Math.abs(amount * 100 - Math.round(amount * 100)) > 1e-7) {
+    showToast("error", "กรุณาระบุจำนวนเงินที่ถอนได้");
+    return;
+  }
   try {
-    const resp = await fetch("/api/v2/flowsense/recall", {
+    const resp = await fetch("/api/v2/flowsense/vault/withdraw", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         account_id: currentAccountId,
-        amount: 1000.0,
-        intent_reason: "Emergency expenditure",
-        bypass_cooldown: false
+        amount
       })
     });
     const res = await resp.json();
-    if (res.status === "FRICTION_CHALLENGE_REQUIRED") {
-      playSound("alert");
-      alert(`[Protected Vault Protocol]\n\n${res.message}\n\nมาตรการนี้ป้องกันไม่ให้ First Jobber ถูกเร่งรัดถอนเงินไปให้มิจฉาชีพ`);
-    } else {
+    if (resp.ok) {
       playSound("success");
       showToast("success", res.message);
       loadAllUserData(currentAccountId);
+    } else {
+      showToast("error", res.detail || "ไม่สามารถถอนเงินออมได้");
     }
   } catch (err) {
     showToast("error", "Error connecting to Vault API");
@@ -1920,47 +1954,9 @@ async function confirmMicroAuthTransfer() {
   }
 }
 
-// 1-Tap Undo Recall for FlowSense
+// Legacy scenario entry point; use the same ordinary withdrawal flow.
 async function triggerOneTapRecall() {
-  playSound("tap");
-  const idemKey = (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : ("idemp-recall-" + Date.now());
-  try {
-    const resp = await fetch("/api/v2/flowsense/recall", {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json",
-        "X-Idempotency-Key": idemKey
-      },
-      body: JSON.stringify({ 
-        account_id: currentAccountId,
-        idempotency_key: idemKey
-      })
-    });
-    const res = await resp.json();
-    if (resp.ok) {
-      playSound("coin");
-      showToast("success", `${res.message} (ดึงเงินคืน 100% ทันทีไร้ค่าปรับ)`);
-      expandDynamicIsland("1-Tap Recall คืน 100%", "ทันที", 3000);
-      
-      let originX = window.innerWidth / 2;
-      let originY = window.innerHeight / 2;
-      const vEl = document.getElementById("disp-vault-balance") || document.getElementById("interactive-kplus-card");
-      if (vEl) {
-        const rect = vEl.getBoundingClientRect();
-        originX = rect.left + rect.width / 2;
-        originY = rect.top + rect.height / 2;
-      }
-      triggerCoinBurst(originX, originY);
-      await loadAllUserData(currentAccountId);
-    } else {
-      playSound("alert");
-      const errMsg = typeof res.detail === 'string' ? res.detail : (Array.isArray(res.detail) ? res.detail[0]?.msg : null);
-      showToast("error", errMsg || "ไม่สามารถดึงเงินคืนได้");
-    }
-  } catch (err) {
-    console.error("Recall error:", err);
-    showToast("error", "Error connecting to FlowSense recall API");
-  }
+  return promptVaultWithdrawal();
 }
 
 // ==============================================================================

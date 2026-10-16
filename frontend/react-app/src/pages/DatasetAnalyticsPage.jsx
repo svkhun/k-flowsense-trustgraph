@@ -920,7 +920,7 @@ export default function DatasetAnalyticsPage() {
                   <li className="p-3 rounded-xl bg-black/40 border border-white/5 flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <div>
-                      <strong className="text-white">การเชื่อมโยงระบบนิเวศความปลอดภัยและเงินฝาก (Security-to-CASA Ecosystem):</strong> บัญชีที่ผ่านการคัดกรองความปลอดภัยจะถูกปลดล็อกเข้าสู่กลไกบริหารความมั่งคั่ง FlowSense (Safe-to-Spend &amp; Micro-Sweep) อย่างราบรื่น เปลี่ยนระบบรักษาความปลอดภัยจากการเป็นต้นทุน ให้กลายเป็นตัวขับเคลื่อนการเติบโตของเงินฝากออมทรัพย์กระแสรายวัน (CASA Growth)
+                      <strong className="text-white">สมมติฐานด้านเงินออม:</strong> FlowSense เสนอให้ผู้ใช้แยกเงินออมเฉพาะยอดที่เหลือหลังกันภาระและเงินสำรอง ผลต่อเงินออมสุทธิหรือฐานเงินฝากของธนาคารต้องวัดหลังหักการถอนและเทียบกับพฤติกรรมเดิม
                     </div>
                   </li>
                 </ul>
