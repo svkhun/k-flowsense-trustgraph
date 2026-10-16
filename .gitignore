@@ -4,6 +4,11 @@ env/
 venv/
 ENV/
 
+# Local environment files can contain credentials.
+.env
+.env.*
+!.env.example
+
 # Byte-compiled / optimized files
 __pycache__/
 *.py[cod]

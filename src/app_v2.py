@@ -74,7 +74,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=allow_credentials,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "HEAD", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -129,6 +129,7 @@ if not _env_secret:
         HMAC_SECRET = "kbtg-kplus-sentinel-trustgraph-hmac-secret-2026"
 else:
     HMAC_SECRET = _env_secret
+    print("[Config] HMAC signing key loaded from KBTG_JWT_SECRET.")
 
 ACCOUNT_LOCKS: Dict[str, threading.Lock] = {}
 ACCOUNT_LOCKS_GUARD = threading.Lock()
@@ -255,6 +256,7 @@ def get_spa_or_landing_response():
         return FileResponse(landing_path)
     return {"status": "Frontend not found"}
 
+@app.head("/", response_class=FileResponse, include_in_schema=False)
 @app.get("/", response_class=FileResponse)
 @app.get("/home", response_class=FileResponse)
 @app.get("/landing", response_class=FileResponse)

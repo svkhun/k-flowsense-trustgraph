@@ -179,7 +179,17 @@ npm run dev
 
 ---
 
-## 10. Summary Checklist vs Pitch Requirements
+## 10. Render Deployment Configuration
+
+- Set `KBTG_JWT_SECRET` in the service's **Environment Variables** using Render's **Generate** button. Keep this value in Render, never in source control. The startup log confirms that the configured key was loaded without printing its value.
+- `render.yaml` declares `generateValue: true` for Blueprint-managed services. An existing service created directly from the Dashboard still needs its environment variable set there; pushing this YAML alone does not configure that service.
+- Save environment changes before deploying the updated code. Without a configured key, the current fallback generates a new signing key for each process and logs a warning; this warning does not mean deployment failed.
+- `HEAD /` is supported for platform probes, returning the homepage headers without a response body. `GET /` continues to serve the React application.
+- Verify with `.venv/Scripts/python.exe -m unittest discover -s tests -q`, then check live `GET /`, `HEAD /`, and `/api/v2/health` after deployment.
+
+Reference: [Render environment variables and secrets](https://render.com/docs/configure-environment-variables).
+
+## 11. Summary Checklist vs Pitch Requirements
 
 - [x] **Discretionary Spending & Reserve Trap Solved:** Replaced manual budgeting with the **Status Horizon Bar**, **Commitment Warnings (Proactive Nudges with Alert Suppression during normal dips)**, and autonomous liquidity projection.
 - [x] **Optional Savings Demo:** Implemented a bill and buffer aware sweep limit with opt-in and normal partial or full withdrawal. Net savings and user value still require testing with real users.
