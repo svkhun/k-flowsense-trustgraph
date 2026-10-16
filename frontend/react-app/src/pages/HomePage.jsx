@@ -10,6 +10,9 @@ import { ArrowRight, Compass, ShieldAlert, Cpu, Users, Smartphone, Sparkles, Che
 
 export default function HomePage({ onOpenScamModal }) {
   const [activeEngineTab, setActiveEngineTab] = useState('flowsense'); // 'flowsense' | 'trustgraph' | 'simulator' | 'velaris'
+  const [mainBalance, setMainBalance] = useState(24500);
+  const [fixedCommitments, setFixedCommitments] = useState(5650);
+  const [savingsBalance, setSavingsBalance] = useState(15240);
 
   return (
     <div className="space-y-16 pb-16">
@@ -92,10 +95,21 @@ export default function HomePage({ onOpenScamModal }) {
         {activeEngineTab === 'flowsense' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             <div className="lg:col-span-7">
-              <StatusHorizonBar />
+              <StatusHorizonBar
+                currentBalance={mainBalance}
+                setCurrentBalance={setMainBalance}
+                fixedObligations={fixedCommitments}
+                setFixedObligations={setFixedCommitments}
+              />
             </div>
             <div className="lg:col-span-5">
-              <MicroSweepVault />
+              <MicroSweepVault
+                mainBalance={mainBalance}
+                setMainBalance={setMainBalance}
+                fixedCommitments={fixedCommitments}
+                subAccountBalance={savingsBalance}
+                setSubAccountBalance={setSavingsBalance}
+              />
             </div>
           </div>
         )}
