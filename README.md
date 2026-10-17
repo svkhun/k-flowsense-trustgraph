@@ -1,34 +1,38 @@
 # FlowSense & TrustGraph: Frictionless Cashflow & Target-Specific Fraud Defense for K PLUS
 
 > **KBTG KAMPUS HACKATHON 2026 | TRACK 2: DATA SCIENCE & INTELLIGENCE**  
-> *Frictionless Cashflow & Target-Specific Fraud Defense for K PLUS*
+> *Frictionless Cashflow & Target-Specific Fraud Defense for K PLUS First Jobbers (Aged 22–30)*
 
-[![Live Cloud Demo](https://img.shields.io/badge/Live_Cloud_Demo-Render.com-46E3B7?style=for-the-badge&logo=render)](https://k-flowsense-trustgraph.onrender.com/)
-[![Latency SLA](https://img.shields.io/badge/Latency_SLA-P99_%3C_11.62ms_(Target_%3C_80ms)-00A950?style=for-the-badge&logo=fastapi)](https://k-flowsense-trustgraph.onrender.com/)
-[![Inference Engine](https://img.shields.io/badge/Serving_Engine-Triton_Inference_Server-blue?style=for-the-badge&logo=nvidia)](https://developer.nvidia.com/triton-inference-server)
-[![Graph Neural Network](https://img.shields.io/badge/Graph_Model-PyG_Relational_GCN-orange?style=for-the-badge&logo=pytorch)](https://pyg.org/)
-[![Frontend Architecture](https://img.shields.io/badge/Frontend-React_18_%7C_React_Router_6_%7C_Vite-61DAFB?style=for-the-badge&logo=react)](https://k-flowsense-trustgraph.onrender.com/)
-[![Styling](https://img.shields.io/badge/UI_System-Tailwind_CSS_%7C_Bento_Grid-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
-
----
-
-## 1. Problem Statement
-
-Empirical research reveals a dual financial crisis confronting young Thai professionals (First Jobbers, aged 20–30):
-
-1. **Discretionary Spending Trap & Lack of Emergency Reserves:**
-   Empirical data from the Puey Ungphakorn Institute for Economic Research (**PIER**) and the Stock Exchange of Thailand (**SET**) indicate that over **60–68% of young Thai professionals maintain less than 3 months of emergency buffer** and live paycheck-to-paycheck due to impulsive/discretionary spending, lacking an automated tool to manage daily liquidity without tedious manual tracking.
-2. **Prime Targets for Modern Financial Scams:**
-   Reports from the National Cyber Crime Bureau and **AOC 1441** reveal that **over 45% of cyber scam victims are aged 20–30**, heavily targeted by fraudulent task scams and high-yield investment schemes (Ponzi schemes), generating **over 2.0 billion THB in annual losses**.
-3. **Reactive Limitations of Mobile Banking:**
-   K PLUS currently functions primarily as a **transactional utility** (a passive payment and transfer tool) rather than an **intelligent financial partner**. It lacks proactive behavioral nudges to curb liquidity deficits and lacks real-time pre-transaction screening to intercept mule account transactions before losses occur.
+[![Live Web Prototype](https://img.shields.io/badge/Render-Live_Web_Prototype-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://k-web-application.onrender.com)
+[![Showcase Portal](https://img.shields.io/badge/Render-Showcase_Portal-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://k-flowsense-trustgraph.onrender.com)
+[![FastAPI](https://img.shields.io/badge/FastAPI-4.0.0-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![ONNX Runtime](https://img.shields.io/badge/ONNX_Runtime-1.30-005CED?style=for-the-badge&logo=onnx&logoColor=white)](https://onnxruntime.ai)
+[![License](https://img.shields.io/badge/Status-Independent_Prototype-green?style=for-the-badge)](#disclaimer--prototype-boundaries)
 
 ---
 
-## 2. Target Users
+## 1. Executive Summary & Live Endpoints
 
-* **Primary (18k–35k THB Income):** Month-to-month, needs savings on autopilot without manual spreadsheets, demands instant access to every baht when rent/bills are due.
-* **Secondary (Active Mobile Transactors):** High digital transfer frequency, wants reliable background scam detection without pop-ups interrupting daily payments.
+**FlowSense & TrustGraph** is an independent, next-generation financial intelligence prototype tailored for modern mobile banking experiences (inspired by K+ / MAKE by KBank). It directly addresses the dual challenges faced by young Thai professionals (**First Jobbers, aged 22–30**):
+1. **Discretionary Spending Trap & Liquidity Friction:** Managing month-to-month cashflow, anticipating fixed commitments (rent, bills, debt), building an emergency reserve, and saving surplus effortlessly without tedious spreadsheets or fear of locking away funds.
+2. **Targeted Social Engineering & Mule Account Scams:** Pre-transfer fraud interdiction that protects users against scams (e.g., fraudulent task scams, fake investments, urgent transfer pressure) through pre-transfer cashflow preview, explainable AI (XAI) risk reasoning, and adaptive risk verification.
+
+### Live Deployments
+- **Interactive Web Prototype (Full K+ Experience):** [https://k-web-application.onrender.com](https://k-web-application.onrender.com)
+  - *API Health Check:* [https://k-web-application.onrender.com/api/v2/health](https://k-web-application.onrender.com/api/v2/health)
+- **Showcase & Research Portal (Project Showcase & Dataset Lab):** [https://k-flowsense-trustgraph.onrender.com](https://k-flowsense-trustgraph.onrender.com)
+  - *API Health Check:* [https://k-flowsense-trustgraph.onrender.com/api/v2/health](https://k-flowsense-trustgraph.onrender.com/api/v2/health)
+
+---
+
+## 2. Target Users & Behavioral Personas
+
+* **Primary Audience (First Jobbers, aged 22–30, monthly income 18k–35k THB):** Transitioning into financial independence, living paycheck-to-paycheck, balancing daily living costs against fixed bills, and seeking safe automated savings alongside non-intrusive fraud protection.
+* **Three Behavioral Personas:**
+  - **May (Early Career):** Stable entry-level salary, predictable living expenses, focused on knowing how much more can be spent today (*"วันนี้ใช้เพิ่มได้อีก"*).
+  - **Non (Multiple Commitments):** Multiple recurring obligations (rent, debt installments, utility bills), needs to see reserved bills before considering micro-savings.
+  - **Praew (Reserve Builder):** Actively building an emergency cushion, diligent in reviewing recipient details and scam indicators before confirming transfers.
 
 ---
 
@@ -36,67 +40,89 @@ Empirical research reveals a dual financial crisis confronting young Thai profes
 
 ```mermaid
 flowchart TD
-    subgraph KPLUS["K PLUS Mobile Experience"]
-        FS_UI["FlowSense: Status Horizon Bar & Safe-to-Save"]
-        TG_UI["TrustGraph: Zero-Delay Baseline & Micro-Auth"]
+    subgraph KPLUS["K PLUS Mobile Experience (Teal Shell & Task Sheets)"]
+        FS_UI["FlowSense: Daily Spending Plan, Budget Simulator & Micro-Sweep"]
+        TG_UI["TrustGraph: Plan Before Transfer, Risk XAI & Step-Up Micro-Auth"]
     end
 
-    subgraph INGEST["Event Stream & Feature Store"]
+    subgraph INGEST["Event Stream & Feature Store (Target Architecture)"]
         Kafka["Kafka Event Stream (Real-Time Ingestion)"]
         Feast["Feast Feature Store (Low-Latency Cache)"]
     end
 
     subgraph ENGINE["Core AI & Inference Engine (< 80ms)"]
-        Triton["Triton Inference Server"]
-        LGBM["LightGBM: 30-Day Liquidity Forecasting & Alert Suppression"]
-        RGCN["R-GCN: Relational Graph Convolutional Network (Mule Detection)"]
+        Triton["ONNX Runtime / Triton Inference Server"]
+        LGBM["LightGBM: 30-Day Liquidity Forecasting & Normal-Dip Suppression"]
+        RGCN["R-GCN + LightGBM: 16D Graph Embeddings & Mule Classification"]
     end
 
     subgraph DECISION["Intervention & Autonomy Layer"]
-        Horizon["Status Horizon Projection (Healthy vs Deficit Risk)"]
-        MicroAuth["5-Second Face Liveness + Direct Risk Reasoning"]
-        Autonomy["User Autonomy: Savings Opt-in / Standard Withdrawal"]
+        PlanPreview["Plan Before Transfer: Daily Allocation Impact & Bill Matching"]
+        Cooldown["Risky Transfer Review: 15-Min Enforced Cooldown & Bank Contact"]
+        MicroAuth["5-Second Face Liveness (HMAC-SHA256 Token)"]
+        Autonomy["User Autonomy: Reserve Preference, Opt-in Sweep & Standard Withdrawal"]
     end
 
     KPLUS --> Kafka
     Kafka --> Feast
     Feast --> Triton
     Triton --> LGBM & RGCN
-    LGBM --> Horizon
-    RGCN --> MicroAuth
-    Horizon & MicroAuth --> Autonomy
+    LGBM --> PlanPreview
+    RGCN --> Cooldown & MicroAuth
+    PlanPreview & Cooldown & MicroAuth --> Autonomy
     Autonomy --> KPLUS
 ```
 
-### Module A: FlowSense (Flexible Liquidity & Optional Saving)
-* **Status Horizon Bar:** Single clean indicator projecting month-end liquidity based on recurring commitments, removing daily manual budgets.
-* **Safe-to-Save + Micro-Sweep:** The demo estimates living costs until payday, recurring bills, and an emergency buffer before offering a small transfer (at most THB 500 per action). The user opts in first and can withdraw a chosen amount or the full savings balance normally. No background sweep scheduler or real bank ledger is connected.
-* **Commitment Warnings:** Alerts **ONLY** when an upcoming fixed debit (e.g., rent, credit card bill) is directly at risk based on current burn rate (suppresses alerts during normal dips).
+---
 
-### Module B: TrustGraph (Targeted Anti-Scam Verification)
-* **Zero-Delay Baseline:** Routine transfers to known/low-risk accounts execute immediately with 0 added steps (3.8ms).
-* **Micro-Auth for Critical Anomaly:** Eliminates arbitrary waiting periods. Triggers a 5-second face liveness check and displays a single confirmation prompt.
-* **Direct Risk Reasoning:** Tells user plainly why recipient looks suspicious (*"Recipient account opened 48 hours ago with rapid pass-through fund patterns"*) and leaves final transfer decision to user.
+## 4. Key Capabilities & System Innovations
+
+### Module A: FlowSense — Flexible Liquidity & Money Planning
+- **Daily Spending Plan ("วันนี้ใช้เพิ่มได้อีก"):** The home screen clearly separates total account balance from what is genuinely safe to spend today. It transparently calculates the daily allowance by reserving unpaid obligations and an emergency buffer until payday (28th of the month), completely independent of machine-learning spending predictions.
+- **Budget Simulator:** Visitors can adjust their simulated daily spending budget and instantly see the projected balance before payday, reserve shortfall risk, and commitment safety without moving money.
+- **User-Configured Planning Reserve (เงินสำรองที่ผู้ใช้เลือก):** Users can preview (`POST /api/v2/flowsense/reserve-preview`) and confirm (`POST /api/v2/flowsense/reserve-preference`) their chosen emergency buffer (THB 500 to THB 10,000,000). The configured reserve consistently adjusts the daily spending allowance, savings capacity, and pre-transfer impact calculations.
+- **Liquidity Guidance (3 Actionable Options):** When cashflow is tight, the interface explains three clear options:
+  1. *Reduce future spending:* E.g., simulate reducing spending by THB 50/day until payday.
+  2. *Withdraw existing savings:* Transfer accumulated savings back to the main balance without friction.
+  3. *Save only surplus:* Pause micro-savings when funds are tight; never sweep required bill reserves.
+- **30-Day Liquidity Forecast:** High-resolution trajectory across **30 future days, today, and 7 synthetic historical days** powered by ONNX inference (`flowsense.onnx`).
+- **Normal-Dip Suppression:** Suppresses noisy alerts during routine mid-month balance dips, alerting only when an upcoming fixed commitment (rent, debt, utilities) is at direct risk.
+- **Safe-to-Save & Optional Micro-Sweep:** Disabled by default; opt-in per visitor/persona. Enabling never moves funds automatically. Each sweep is user-requested, strictly limited to available capacity and THB 500 per action, ensuring living costs, all profile bills, and the emergency buffer remain intact.
+- **Standard Savings Withdrawals:** Users can withdraw an explicit positive amount or select the full savings balance at any time, even while new saving is disabled.
+
+### Module B: TrustGraph — Pre-Transfer Fraud & Mule Interdiction
+- **Plan Before Transfer (ก่อนโอน เห็นผลต่อแผนเงิน):** Every transfer evaluation previews the cashflow impact before debiting. The review shows the remaining average daily allocation before and after the transfer, outstanding bills, emergency reserve, and any reserve shortfall. Routine transfers require explicit confirmation (no artificial delay or biometric step).
+- **Match a Reserved Bill (จ่ายบิลที่กันไว้):** Users can explicitly match a payment to an unpaid bill before payday (`rent:YYYY-MM-DD`, etc.). A confirmed bill payment debits the balance and marks the bill as settled, reducing reserved commitments in the daily plan and forecast without double-counting as discretionary spending. Bill matching does not alter fraud risk scores.
+- **Fresh Plan Snapshot at Confirmation:** Before executing any transfer, the server verifies the plan snapshot (balance, paid bills, and date). If a transaction or bill altered the baseline during review, the server refuses the stale plan with HTTP 409 `PLAN_CHANGED`, requiring re-evaluation. Separate signed review tokens (`review`) and step-up tokens (`micro_auth`) prevent privilege escalation.
+- **Risky Transfer Review Period (15-Minute Cooldown):** Enabled by default for suspicious transfers (`CRITICAL_ANOMALY`). A server-enforced 15-minute reflection pause gives users time to reconsider and independently verify the recipient. A visible settings card allows users to disable or re-enable cooldown for future risky transactions. Cancellation ends the transaction and immediately terminates the timer. Accessible modal dialog supports full keyboard navigation (Tab wrapping, Escape).
+- **Official Bank Contact from Risk Warnings:** Risky and blocked dialogs keep official KBank contact actions accessible (K-Contact Center 02-888-8888, 24-hour service, fraud menu 00) directly within the modal.
+- **Explainable AI (XAI) Risk Factors:** Clear, natural Thai/English risk reasoning (e.g., *"Recipient account opened 48 hours ago with rapid pass-through velocity within 24 seconds"*).
+- **Context & Sequence Guidance:** Contextual guidance for task/job scams, withdrawal-fee advance-fee scams, and changed recipient accounts, with cumulative transfer counts and totals sent to the same recipient today.
+- **Simulated Micro-Auth (5s Step-Up):** 5-second simulated facial liveness verification gate issuing an HMAC-SHA256 clearance token (120s TTL) strictly bound to source, destination, amount, and session.
+- **Blocked Mule Interdiction & E-Slip:** Absolute transfer prevention for confirmed mule accounts; downloadable text demo receipt.
+
+### Module C: K+ Alignment & Behavioral Experience
+- **K+ Visual & Interaction Language:** Designed according to the user-supplied K+ visual reference: dark teal shell (`#087653`, `#123f32`), circular action buttons, geometric account cards, and light task sheets.
+- **Strategic K+ Feature Placement Plan:**
+  - *Home Screen:* Prominent *"เรื่องสำคัญวันนี้"* (Daily Spending Plan card) + *"ดูแลก่อนโอน"* (TrustGraph entry).
+  - *Transactions:* Direct shortcut to *"การเงินของฉัน"* under account cards + *"จ่ายบิล"* with bill matching.
+  - *Profile:* Permanent entry to *"การเงินของฉัน"* (overview of cashflow, bills, and savings).
+- **Try-First Walkthrough:** 3 concrete guided experiences on the home screen:
+  1. *ลองเปลี่ยนงบรายวัน (Try Daily Budget Simulator)*
+  2. *ลองตรวจผู้รับก่อนโอน (Try Recipient Risk Check)*
+  3. *ลองปรับเงินสำรอง (Try Planning Reserve Preview)*  
+  Visitors can complete all three actions and inspect real-time results without transferring or moving money.
 
 ---
 
-## 4. Business & User Impact
-
-| Dimension | Mechanism | Strategic Impact on KBank & K PLUS |
-| :--- | :--- | :--- |
-| **User Retention** | Removes daily budgeting chores & heavy-handed transaction freezes | Keeps young users engaged inside K PLUS rather than defecting to competitor apps |
-| **Stable Deposit Base (CASA)** | Autonomous micro-sweeps into high-interest sub-accounts | Accumulates stickier, higher-quality balances than forced savings lockups (**1.2B – 2.0B THB projected CASA influx**) |
-| **High-Precision Fraud Interruption** | Targeted friction on critical anomalies | Stops real social engineering scams without degrading everyday payment experience (**>85% scam mitigation**) |
-
----
-
-## 5. Data Science & Implementation
+## 5. Machine Learning & Serving Architecture
 
 | Component | Architecture | Responsibility & Functionality |
 | :--- | :--- | :--- |
-| **Cashflow Forecasting** | **LightGBM** with rolling-window lag features & transaction seasonality | Forecasts safe liquidity margins 30 days ahead; suppresses alerts during normal dips to eliminate alert fatigue. |
-| **Mule Account Graph** | **Relational Graph Convolutional Networks (R-GCN)** | Detects mule accounts through graph topology and transaction velocity, even without prior blacklisting. |
-| **Serving & Latency** | **Kafka** event stream, **Feast** Feature Store, **Triton** Inference Server | Sub-80ms core banking SLA (<12ms P99 measured), enabling real-time pre-transaction evaluation. |
+| **Cashflow Forecasting** | **LightGBM** (ONNX Runtime) | Forecasts daily discretionary spending across 30 future days based on calendar lags and fixed commitment schedules; suppresses alerts during normal balance dips. |
+| **Graph Neural Network (Tier 1)** | **Relational GCN (PyG)** | Extracts 16-dimensional node embeddings from graph topology (fan-in, fan-out, pass-through velocity) to identify mule patterns. |
+| **Fraud Classifier (Tier 2)** | **LightGBM** (ONNX Runtime) | Evaluates 24 features (telemetry, authentication factors, 16D graph embeddings) in real time (< 4ms). |
+| **Serving & Latency Engine** | **FastAPI + Uvicorn + ONNX Runtime** | In-memory Redis simulation, CPU ONNX execution with sub-80ms SLA compliance (< 12ms P99 measured). |
 
 ---
 
@@ -114,64 +140,53 @@ Empirically verified over 200 consecutive pre-transaction evaluation cycles:
 
 ---
 
-## 7. Frontend Multi-Page Application Architecture
-
-Built with **React 18 + React Router v6 + Vite + Tailwind CSS**:
-
-| Route Path | Page Component | Feature & Capabilities |
-| :--- | :--- | :--- |
-| `/` | `HomePage.jsx` | FlowSense & TrustGraph Executive Overview, Value Proposition, Feature Showcase |
-| `/flowsense` | `FlowSensePage.jsx` | Status Horizon Bar, Commitment Warnings, Safe-to-Save demo, optional Micro-Sweep and normal savings withdrawal |
-| `/trustgraph` | `TrustGraphPage.jsx` | Deep dive into Module B: Zero-Delay Baseline (3.8ms), Micro-Auth (5s), Direct Risk Reasoning |
-| `/architecture` | `ArchitecturePage.jsx` | Complete Pipeline: Kafka, Feast, LightGBM, R-GCN, Triton Inference Server |
-| `/personas` | `PersonasPage.jsx` | Persona Comparison (Month-to-Month vs Active Transactor) and KBank Business Impact |
-| `/app` | `SimulatorPage.jsx` | Interactive K PLUS Mobile Simulator (iPhone 16 Pro) & Bank SecOps Mule Graph |
-
----
-
-## 8. API Specification (FastAPI Engine)
+## 7. API Specification (FastAPI Engine)
 
 ### FlowSense Endpoints
-* `GET /api/v2/flowsense/horizon-status/{account_id}` — Returns Status Horizon Bar projection, month-end surplus, burn rate, and commitment warnings with alert suppression.
-* `GET /api/v2/flowsense/profile/{account_id}` — Includes `savings_capacity` and opt-in state for the demo account.
-* `POST /api/v2/flowsense/savings-preference` — Enables or disables the user's savings opt-in.
+* `GET /api/v2/flowsense/horizon-status/{account_id}` — Returns Status Horizon projection, month-end surplus, burn rate, and commitment warnings.
+* `GET /api/v2/flowsense/profile/{account_id}` — Returns persona profile, `savings_capacity`, planning reserve, and opt-in state.
+* `POST /api/v2/flowsense/reserve-preview` — Calculates before/after effect of an emergency reserve amount on daily allowance and savings capacity without saving.
+* `POST /api/v2/flowsense/reserve-preference` — Persists user-confirmed planning reserve (THB 500 to THB 10,000,000).
+* `POST /api/v2/flowsense/savings-preference` — Enables or disables user savings opt-in.
 * `POST /api/v2/flowsense/micro-sweep` — User-triggered sweep, capped by estimated future liquidity and THB 500 per action.
-* `POST /api/v2/flowsense/vault/withdraw` — Withdraws a user-selected amount from savings. The older `/recall` route remains as an alias.
-* `GET /api/v2/flowsense/forecast-30d/{account_id}` — LightGBM rolling-window 30-day liquidity trajectory.
+* `POST /api/v2/flowsense/vault/withdraw` — Standard savings withdrawal (partial amount or full balance). Older `/recall` route remains as an alias.
+* `GET /api/v2/flowsense/forecast-30d/{account_id}` — 30 future days + today + 7 historical days liquidity trajectory.
 
 ### TrustGraph Endpoints
-* `POST /api/v2/trustgraph/evaluate-transfer` — Evaluates transfer via R-GCN in <12ms. Returns `APPROVED` (Zero-Delay Baseline) or `MICRO_AUTH_REQUIRED` with `direct_risk_reason`.
-* `POST /api/v2/trustgraph/verify-micro-auth` — Verifies 5-second face liveness check.
-* `POST /api/v2/trustgraph/confirm-transfer` — Records user autonomous transfer confirmation or cancellation.
-
-*(Legacy `/api/v2/wealthpilot/...` and `/api/v2/sentinel/...` routes are fully aliased for backward compatibility.)*
+* `POST /api/v2/trustgraph/evaluate-transfer` — Preview-only evaluation in < 12ms. Returns `TRANSFER_REVIEW` with `review_token`, or `CRITICAL_ANOMALY` / `BLOCKED_MULE_INTERDICTION`. Shows pre-transfer impact on daily allocation, outstanding bills, and reserve shortfall.
+* `POST /api/v2/trustgraph/cooldown-preference` — Toggles the optional 15-minute review period for new risky transfers.
+* `POST /api/v2/trustgraph/verify-micro-auth` — Verifies 5-second face liveness check and issues HMAC-SHA256 clearance token.
+* `POST /api/v2/trustgraph/confirm-transfer` — Executes transfer after checking plan snapshot freshness (HTTP 409 `PLAN_CHANGED` on stale plan) and atomically settles matched bills.
 
 ---
 
-## 9. Quick Start Guide
+## 8. Quick Start Guide
 
 ### Prerequisites
-* **Python**: 3.10+ (Recommended: Python 3.11 – 3.13)
-* **Node.js**: 18.0+
+* **Python:** 3.10+ (Recommended: Python 3.11 – 3.13)
+* **Node.js:** 18.0+ (Recommended: Node 20 or 22)
 
-### Clone Repository
-```bash
-git clone https://github.com/svkhun/k-flowsense-trustgraph.git
-cd k-flowsense-trustgraph
-```
+### 1. Run Full-Stack Server
+```powershell
+# Create and activate virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 
-### Option 1: Full-Stack Production Server (FastAPI + React)
-```bash
+# Install dependencies
+pip install -r requirements.txt
+
 # Run server
 python run.py
 ```
 Open in browser:
-* **Web Portal:** [http://localhost:8000/](http://localhost:8000/)
-* **K PLUS Interactive Simulator:** [http://localhost:8000/app](http://localhost:8000/app)
-* **Interactive OpenAPI Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
+* **Web Portal & Showcase:** [http://localhost:8000/](http://localhost:8000/)
+* **FlowSense Money Planning:** [http://localhost:8000/flowsense](http://localhost:8000/flowsense)
+* **TrustGraph Anti-Scam:** [http://localhost:8000/trustgraph](http://localhost:8000/trustgraph)
+* **Dataset & Security Analytics:** [http://localhost:8000/dataset](http://localhost:8000/dataset)
+* **OpenAPI Documentation:** [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### Option 2: React Development Server (Vite HMR)
-```bash
+### 2. Frontend React Development Server (Vite HMR)
+```powershell
 cd frontend/react-app
 npm install
 npm run dev
@@ -179,20 +194,24 @@ npm run dev
 
 ---
 
-## 10. Render Deployment Configuration
+## 9. Testing & Verification
 
-- Set `KBTG_JWT_SECRET` in the service's **Environment Variables** using Render's **Generate** button. Keep this value in Render, never in source control. The startup log confirms that the configured key was loaded without printing its value.
-- `render.yaml` declares `generateValue: true` for Blueprint-managed services. An existing service created directly from the Dashboard still needs its environment variable set there; pushing this YAML alone does not configure that service.
-- Save environment changes before deploying the updated code. Without a configured key, the current fallback generates a new signing key for each process and logs a warning; this warning does not mean deployment failed.
-- `HEAD /` is supported for platform probes, returning the homepage headers without a response body. `GET /` continues to serve the React application.
-- Verify with `.venv/Scripts/python.exe -m unittest discover -s tests -q`, then check live `GET /`, `HEAD /`, and `/api/v2/health` after deployment.
+```powershell
+# Run backend regressions
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 
-Reference: [Render environment variables and secrets](https://render.com/docs/configure-environment-variables).
+# Run frontend internationalization & logic tests
+cd frontend/react-app
+npm run test:i18n
+npm run build
+```
 
-## 11. Summary Checklist vs Pitch Requirements
+---
 
-- [x] **Discretionary Spending & Reserve Trap Solved:** Replaced manual budgeting with the **Status Horizon Bar**, **Commitment Warnings (Proactive Nudges with Alert Suppression during normal dips)**, and autonomous liquidity projection.
-- [x] **Optional Savings Demo:** Implemented a bill and buffer aware sweep limit with opt-in and normal partial or full withdrawal. Net savings and user value still require testing with real users.
-- [x] **Frictionless Routine Payments:** Routine transactions pass instantly via **Zero-Delay Baseline (0 added steps, 3.8ms)**.
-- [x] **Proactive Pre-Transaction Fraud Defense:** Replaced passive/reactive utility with **TrustGraph Pre-Transaction Screening**, triggering **Micro-Auth (5-second face liveness check)** and **Direct Risk Reasoning** against mule networks, preserving user autonomy.
-- [x] **Industrial Pipeline:** Documented and integrated **Kafka**, **Feast**, **Triton Inference Server**, **LightGBM**, and **R-GCN**.
+## 10. Disclaimer & Prototype Boundaries
+
+1. **Independent UX Prototype:** This project is an independent conceptual research prototype created for UX exploration and hackathon demonstration. It is not affiliated with, endorsed by, or connected to KASIKORNBANK (KBank), KBTG, K PLUS, or MAKE by KBank.
+2. **100% Synthetic Data:** All accounts, balances, transaction histories, risk labels, and biometric verification checks are completely synthetic and simulated.
+3. **No Real Banking Connectivity:** There is no integration with live banking cores, payment networks, or biometric hardware.
+4. **Volatile In-Memory Storage:** Session balances and history expire 1 hour after session creation or upon container restart/redeployment.
+5. **Decision Support, Not Automated Advice:** Financial projections and risk reasons are decision aids for exploration, not certified financial recommendations or guaranteed fraud interdictions.

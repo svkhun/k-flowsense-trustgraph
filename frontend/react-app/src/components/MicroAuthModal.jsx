@@ -23,6 +23,7 @@ export default function MicroAuthModal({
     <div className="dialog-content"><div className="dialog-title"><div><span className="section-kicker">{t("ตัวอย่างหน้าทบทวนรายการ")}</span><h2 id="review-title">{t("ก่อนตัดสินใจโอนต่อ")}</h2></div><button className="icon-button" onClick={onClose} aria-label={t("ปิดหน้าทบทวน")}><X size={20} /></button></div>
       <p>{t("บัญชีผู้รับในสถานการณ์นี้เปิดใหม่และมีเงินเข้าแล้วโอนออกเร็ว ควรตรวจชื่อผู้รับและติดต่อผ่านช่องทางที่เชื่อถือได้ก่อน")}</p>
       <div className="context-note warm"><p>{t("ในเว็บแอป รายการเสี่ยงมีช่วงทบทวนตามการตั้งค่าและการยืนยันตัวตนจำลอง การรอครบเวลาไม่ได้ทำให้รายการปลอดภัยและไม่ส่งเงินให้อัตโนมัติ")}</p></div>
+      <div className="context-note"><p>{t("ติดต่อ KBank: K-Contact Center 02-888-8888 ตลอด 24 ชม. (เมนู 00 แจ้งเหตุภัยทางการเงิน)")}</p></div>
       <p className="small-note">{t("หน้านี้แสดงขั้นตอนการตัดสินใจเท่านั้น ไม่มีการเปิดกล้อง สแกนใบหน้า หรือส่งคำสั่งโอนเงิน")}</p>
       <div className="button-row"><button className="primary-button" onClick={() => decide('CANCEL')}>{t("ยกเลิกตัวอย่างรายการ")}</button><button className="secondary-button" onClick={() => decide('PROCEED')}>{t("จบการดูตัวอย่าง")}</button></div>
     </div>

@@ -329,5 +329,8 @@ export default {
   "ลองโอนในเว็บแอปต้นแบบ": "Try a transfer in the prototype",
   "อ่านข้อจำกัดของข้อมูลและโมเดล": "Read data and model limitations",
   "แยกเงินสมมติ ฿{amount} เข้าบัญชีออมแล้ว": "Moved ฿{amount} in demo funds to savings.",
-  "ถอนเงินสมมติ ฿{amount} กลับบัญชีหลักแล้ว": "Withdrew ฿{amount} in demo funds to the main account."
+  "ถอนเงินสมมติ ฿{amount} กลับบัญชีหลักแล้ว": "Withdrew ฿{amount} in demo funds to the main account.",
+  "เงินสำรองเผื่อฉุกเฉิน (บาท)": "Emergency planning reserve (THB)",
+  "3 ทางเลือกเมื่อสภาพคล่องตึงตัว: 1) ลดรายจ่าย เช่น ลองลดงบลงวันละ ฿50 ถึงวันเงินเดือนออก 2) ถอนเงินออมสะสมกลับบัญชีหลัก 3) ออมเฉพาะส่วนเกิน (Surplus Only) และพักการออมเมื่อเงินตึง": "3 liquidity options: 1) Reduce future spending (e.g. -฿50/day until payday), 2) Withdraw saved funds back to main account, 3) Save surplus only and pause savings when tight.",
+  "ติดต่อ KBank: K-Contact Center 02-888-8888 ตลอด 24 ชม. (เมนู 00 แจ้งเหตุภัยทางการเงิน)": "Contact KBank: K-Contact Center 02-888-8888 24/7 (Menu 00 for financial fraud report)"
 };

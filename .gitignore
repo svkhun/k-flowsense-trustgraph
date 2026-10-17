@@ -27,6 +27,7 @@ Thumbs.db
 # Logs and temporary files
 *.log
 scratch/
+tmp/
 
 # Node / Frontend dependencies & build artifacts
 node_modules/

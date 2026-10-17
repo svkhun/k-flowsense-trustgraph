@@ -12,7 +12,7 @@ export default function FlowSensePage() {
   const [savings, setSavings] = useState(15240);
   const [dailyBudget, setDailyBudget] = useState(600);
   const days = 14;
-  const reserve = 5000;
+  const [reserve, setReserve] = useState(5000);
   const available = Math.max(0, balance - bills - reserve);
   const dailyAllowance = available / days;
   const endBalance = balance - bills - dailyBudget * days;
@@ -31,6 +31,7 @@ export default function FlowSensePage() {
         <div className="amount-input"><span>฿</span><input id="main-balance" type="number" min="0" max="1000000" step="0.01" value={balance} onChange={changeAmount(setBalance)} inputMode="decimal" /></div>
         <div className="preset-row">{[[32000, t("เงินเดือนเข้า")], [24500, t("ระหว่างเดือน")], [13000, t("บิลใกล้ถึง")]].map(([amount, label]) => <button key={amount} aria-pressed={balance === amount} onClick={() => setBalance(amount)}>{t(label)}</button>)}</div>
         <div className="field-group"><label className="field-label" htmlFor="fixed-bills">{t("บิลที่ต้องจ่ายก่อนเงินเดือนออก (บาท)")}</label><div className="amount-input"><span>฿</span><input id="fixed-bills" type="number" min="0" max="1000000" step="0.01" value={bills} onChange={changeAmount(setBills)} inputMode="decimal" /></div></div>
+        <div className="field-group"><label className="field-label" htmlFor="reserve-input">{t("เงินสำรองเผื่อฉุกเฉิน (บาท)")}</label><div className="amount-input"><span>฿</span><input id="reserve-input" type="number" min="500" max="1000000" step="100" value={reserve} onChange={changeAmount(setReserve)} inputMode="decimal" /></div><div className="preset-row">{[[500, '500'], [3000, '3000'], [5000, '5000'], [10000, '10000']].map(([amount, label]) => <button key={amount} type="button" aria-pressed={reserve === amount} onClick={() => setReserve(amount)}>฿{money(amount)}</button>)}</div></div>
         <dl className="calculation-list"><div><dt>{t("กันเงินสำรองไว้")}</dt><dd>฿{money(reserve)}</dd></div><div><dt>{t("เหลือหลังกันบิลและเงินสำรอง")}</dt><dd>฿{money(available, 2)}</dd></div><div><dt>{t("เฉลี่ยต่อวันสำหรับ 14 วัน")}</dt><dd>฿{money(dailyAllowance, 2)}</dd></div></dl>
         <div className="field-group"><label className="field-label" htmlFor="daily-budget">{t("ลองใช้วันละ ฿")}{money(dailyBudget)}</label><input id="daily-budget" type="range" min="0" max="2000" step="50" value={dailyBudget} onChange={e => setDailyBudget(Number(e.target.value))} /></div>
         <div className={'budget-result ' + (shortfall > 0 ? 'needs-attention' : '')} aria-live="polite"><span>{t("คาดว่าจะเหลือก่อนเงินเดือนออก")}</span><strong>฿{money(endBalance, 2)}</strong><p>{shortfall > 0 ? t("ต่ำกว่าเงินสำรองที่ตั้งไว้ ฿") + money(shortfall, 2) + t(" ลองลดงบรายวันหรือพักการออมเพิ่ม") : t("ตามสมมติฐานนี้ เงินยังเหลือถึงระดับเงินสำรองที่ตั้งไว้")}</p></div>
@@ -38,6 +39,7 @@ export default function FlowSensePage() {
       </section>
       <MicroSweepVault mainBalance={balance} setMainBalance={setBalance} fixedCommitments={bills} projectedLivingCost={dailyBudget * days} emergencyBuffer={reserve} subAccountBalance={savings} setSubAccountBalance={setSavings} />
     </div>
+    <Note>{t("3 ทางเลือกเมื่อสภาพคล่องตึงตัว: 1) ลดรายจ่าย เช่น ลองลดงบลงวันละ ฿50 ถึงวันเงินเดือนออก 2) ถอนเงินออมสะสมกลับบัญชีหลัก 3) ออมเฉพาะส่วนเกิน (Surplus Only) และพักการออมเมื่อเงินตึง")}</Note>
     <section><SectionHeading kicker={t("จากตัวอย่างคำนวณ ไปสู่เว็บแอป")} title={t("แต่ละส่วนทำหน้าที่ต่างกัน")} /><dl className="explanation-list"><div><dt>{t("แผนใช้เงิน")}</dt><dd>{t("แสดงงบที่ใช้เพิ่มได้วันนี้และให้ลองตั้งงบ ก่อนตัดสินใจจริง การคำนวณงบเป็นกติกาที่อ่านสูตรได้ แยกจากผลคาดการณ์รายจ่ายของโมเดล")}</dd></div><div><dt>{t("แนวโน้มเงินเข้า–ออก")}</dt><dd>{t("ในเว็บแอปมีกราฟเงินคงเหลือและบิลล่วงหน้า โดยใช้ผลพยากรณ์จากโมเดลร่วมกับข้อมูลบัญชีสมมติ ผลลัพธ์เป็นค่าประมาณของต้นแบบ")}</dd></div><div><dt>{t("ออมเงินและถอนเงิน")}</dt><dd>{t("การเปิดออมอย่างเดียวไม่ย้ายเงิน แต่ละรายการต้องสั่งเองและต้องเหลือเงินตามกติกาที่กำหนด ส่วนการถอนเลือกบางส่วนหรือทั้งหมดได้ เป็นการถอนเงินออม ไม่ใช่การย้อนคืนธุรกรรมโอน")}</dd></div></dl></section>
     <div className="button-row"><AppLink>{t("ลองแผนใช้เงินในเว็บแอป")}</AppLink><TextLink to="/architecture">{t("ดูการคำนวณและโมเดล")}</TextLink></div>
   </div>;
